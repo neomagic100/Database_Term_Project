@@ -60,7 +60,7 @@ CREATE TABLE Events (
     PRIMARY KEY(event_id)
 );
 -- Location table
-CREATE TABLE location (
+CREATE TABLE Location (
 	lid INTEGER audo_increment NOT NULL,
 	lname VARCHAR(255),
 	latitude REAL,
