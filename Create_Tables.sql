@@ -59,3 +59,11 @@ CREATE TABLE Events (
     descrip VARCHAR(1023),
     PRIMARY KEY(event_id)
 );
+-- Location table
+CREATE TABLE location (
+	lid INTEGER audo_increment NOT NULL,
+	lname VARCHAR(255),
+	latitude REAL,
+	longitude REAL,
+	PRIMARY KEY(lid)
+);
