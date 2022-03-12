@@ -49,6 +49,15 @@ CREATE TABLE RSOs (
     PRIMARY KEY(rso_id)
 );
 
+-- Location table
+CREATE TABLE Location (
+	lid INTEGER auto_increment NOT NULL,
+	lname VARCHAR(255),
+	latitude REAL,
+	longitude REAL,
+	PRIMARY KEY(lid)
+);
+
 -- Public Events table
 CREATE TABLE PublicEvents (
 	event_id INTEGER auto_increment NOT NULL,
@@ -58,8 +67,9 @@ CREATE TABLE PublicEvents (
     descrip VARCHAR(1023),
     lid INTEGER NOT NULL,
     PRIMARY KEY(event_id),
-    FOREIGN KEY (lid) REFERENCES Location
+    FOREIGN KEY (lid) REFERENCES Location(lid)
 		ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 -- Private Events table
@@ -67,15 +77,11 @@ CREATE TABLE PrivateEvents (
 	event_id INTEGER auto_increment NOT NULL,
     event_name VARCHAR(255),
     event_category VARCHAR(255),
-    uni_id INTEGER NOT NULL,
     is_published BIT,
     descrip VARCHAR(1023),
     lid INTEGER NOT NULL,
     PRIMARY KEY(event_id),
-    FOREIGN KEY (lid) REFERENCES Location
-		ON DELETE CASCADE
-        ON UPDATE CASCADE,
-	FOREIGN KEY(uni_id) REFERENCES University
+    FOREIGN KEY (lid) REFERENCES Location(lid)
 		ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -85,28 +91,13 @@ CREATE TABLE RSOEvents (
 	event_id INTEGER auto_increment NOT NULL,
     event_name VARCHAR(255),
     event_category VARCHAR(255),
-    uni_id INTEGER NOT NULL,
-    rso_id INTEGER NOT NULL,
     is_published BIT,
     descrip VARCHAR(1023),
     lid INTEGER NOT NULL,
     PRIMARY KEY(event_id),
-    FOREIGN KEY (lid) REFERENCES Location
-		ON DELETE CASCADE
-        ON UPDATE CASCADE,
-	FOREIGN KEY(uni_id) REFERENCES University
-		ON DELETE CASCADE
-        ON UPDATE CASCADE,
-	FOREIGN KEY(rso_id) REFERENCES RSOs
+    FOREIGN KEY (lid) REFERENCES Location(lid)
 		ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
--- Location table
-CREATE TABLE Location (
-	lid INTEGER auto_increment NOT NULL,
-	lname VARCHAR(255),
-	latitude REAL,
-	longitude REAL,
-	PRIMARY KEY(lid)
-);
+
