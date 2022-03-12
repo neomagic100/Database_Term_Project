@@ -59,7 +59,8 @@ CREATE TABLE Events (
     descrip VARCHAR(1023),
     lid INTEGER NOT NULL,
     PRIMARY KEY(event_id),
-    FOREIGN KEY (lid) REFERENCES Location
+    FOREIGN KEY (lid) REFERENCES Location,
+    ON DELETE CASCADE
 );
 -- Location table
 CREATE TABLE Location (
