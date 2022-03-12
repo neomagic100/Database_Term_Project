@@ -1,7 +1,7 @@
 USE UniversityEvents;
 
 -- University Table
-CREATE TABLE University (
+CREATE TABLE IF NOT EXISTS University (
 	uni_id INTEGER auto_increment NOT NULL,
     uni_name VARCHAR(255),
     location VARCHAR(255),
@@ -11,7 +11,7 @@ CREATE TABLE University (
 );
 
 -- Users superclass
-CREATE TABLE Users (
+CREATE TABLE IF NOT EXISTS Users (
 	uid INTEGER auto_increment NOT NULL,
     user_id VARCHAR(255),
     user_pass VARCHAR(255),
@@ -19,7 +19,7 @@ CREATE TABLE Users (
 );
 
 -- Admins subclass of Users
-CREATE TABLE Admins (
+CREATE TABLE IF NOT EXISTS Admins (
 	uid INTEGER NOT NULL,
     user_id VARCHAR(255),
     user_pass VARCHAR(255),
@@ -30,7 +30,7 @@ CREATE TABLE Admins (
 );
 
 -- Admins subclass of Users
-CREATE TABLE Superusers (
+CREATE TABLE IF NOT EXISTS Superusers (
 	uid INTEGER NOT NULL,
     user_id VARCHAR(255),
     user_pass VARCHAR(255),
@@ -41,7 +41,7 @@ CREATE TABLE Superusers (
 );
 
 -- RSO table, have primary key as autoincrementing integer
-CREATE TABLE RSOs (
+CREATE TABLE IF NOT EXISTS RSOs (
 	rso_id INTEGER auto_increment NOT NULL,
     rname VARCHAR(255),
     rtype VARCHAR(255),
@@ -50,7 +50,7 @@ CREATE TABLE RSOs (
 );
 
 -- Location table
-CREATE TABLE Location (
+CREATE TABLE IF NOT EXISTS Location (
 	lid INTEGER auto_increment NOT NULL,
 	lname VARCHAR(255),
 	latitude REAL,
@@ -59,7 +59,7 @@ CREATE TABLE Location (
 );
 
 -- Public Events table
-CREATE TABLE PublicEvents (
+CREATE TABLE IF NOT EXISTS PublicEvents (
 	event_id INTEGER auto_increment NOT NULL,
     event_name VARCHAR(255),
     event_category VARCHAR(255),
@@ -73,7 +73,7 @@ CREATE TABLE PublicEvents (
 );
 
 -- Private Events table
-CREATE TABLE PrivateEvents (
+CREATE TABLE IF NOT EXISTS PrivateEvents (
 	event_id INTEGER auto_increment NOT NULL,
     event_name VARCHAR(255),
     event_category VARCHAR(255),
@@ -87,7 +87,7 @@ CREATE TABLE PrivateEvents (
 );
 
 -- RSO Events table
-CREATE TABLE RSOEvents (
+CREATE TABLE IF NOT EXISTS RSOEvents (
 	event_id INTEGER auto_increment NOT NULL,
     event_name VARCHAR(255),
     event_category VARCHAR(255),

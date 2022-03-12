@@ -1,5 +1,5 @@
 -- User or Admin Affiliated with University
-CREATE TABLE Affilated_with (
+CREATE TABLE IF NOT EXISTS Affilated_with (
     uni_id INTEGER,
     uid INTEGER,
     PRIMARY KEY (uni_id, uid),
@@ -12,7 +12,7 @@ CREATE TABLE Affilated_with (
 );
 
 -- User member of RSO
-CREATE TABLE Member_of (
+CREATE TABLE IF NOT EXISTS Member_of (
 	uid INTEGER,
     rso_id INTEGER,
     PRIMARY KEY (uid, rso_id),
@@ -25,7 +25,7 @@ CREATE TABLE Member_of (
 );
 
 -- Admin Owns RSO
-CREATE TABLE Owns (
+CREATE TABLE IF NOT EXISTS Owns (
 	uid INTEGER,
     rso_id INTEGER,
     PRIMARY KEY (uid, rso_id),
@@ -38,7 +38,7 @@ CREATE TABLE Owns (
 );
 
 -- Admin creates RSO Event
-CREATE TABLE Creates_RSOEvent (
+CREATE TABLE IF NOT EXISTS Creates_RSOEvent (
     rso_id INTEGER,
     event_id INTEGER,
     PRIMARY KEY (rso_id, event_id),
@@ -51,12 +51,11 @@ CREATE TABLE Creates_RSOEvent (
 );
 
 -- create private event
-CREATE TABLE Creates_PrivateEvent(
-	uid INTEGER,
+CREATE TABLE IF NOT EXISTS Creates_PrivateEvent (
+	uid INTEGER NOT NULL,
     event_id INTEGER,
     PRIMARY KEY (uid, event_id),
     FOREIGN KEY (uid) REFERENCES Admins(uid)
-		ON DELETE SET NULL
         ON UPDATE CASCADE,
 	FOREIGN KEY (event_id) REFERENCES PrivateEvents(event_id)
 		ON DELETE CASCADE
@@ -64,12 +63,11 @@ CREATE TABLE Creates_PrivateEvent(
 );
 
 -- create public event
-CREATE TABLE Creates_PublicEvent(
+CREATE TABLE IF NOT EXISTS Creates_PublicEvent (
 	uid INTEGER,
     event_id INTEGER,
 	PRIMARY KEY (uid, event_id),
     FOREIGN KEY (uid) REFERENCES Superusers(uid)
-		ON DELETE SET NULL
         ON UPDATE CASCADE,
 	FOREIGN KEY (event_id) REFERENCES PublicEvents(event_id)
 		ON DELETE CASCADE
@@ -77,7 +75,7 @@ CREATE TABLE Creates_PublicEvent(
 );
 
 -- User comments on Event
-CREATE TABLE Comments (
+CREATE TABLE IF NOT EXISTS Comments (
 	uid INTEGER,
     event_id INTEGER,
     timestmp TIMESTAMP NOT NULL,
@@ -85,7 +83,6 @@ CREATE TABLE Comments (
     rating INTEGER,
     PRIMARY KEY (uid, event_id),
     FOREIGN KEY (uid) REFERENCES Users(uid)
-		ON DELETE SET NULL
         ON UPDATE CASCADE,
     FOREIGN KEY (event_id) REFERENCES RSOEvents(event_id)
 		ON DELETE CASCADE
@@ -93,12 +90,11 @@ CREATE TABLE Comments (
 );
 
 -- creates uni profile
-CREATE TABLE Creates_Profile(
+CREATE TABLE IF NOT EXISTS Creates_Profile (
 	uid INTEGER,
     uni_id INTEGER,
     PRIMARY KEY (uid, uni_id),
     FOREIGN KEY (uid) REFERENCES Superusers(uid)
-		ON DELETE SET NULL
         ON UPDATE CASCADE,
     FOREIGN KEY (uni_id) REFERENCES University(uni_id)
 		ON DELETE CASCADE
