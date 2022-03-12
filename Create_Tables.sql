@@ -57,7 +57,9 @@ CREATE TABLE Events (
     view_type VARCHAR(255),
     is_published VARBINARY(3),
     descrip VARCHAR(1023),
-    PRIMARY KEY(event_id)
+    lid INTEGER NOT NULL,
+    PRIMARY KEY(event_id),
+    FOREIGN KEY (lid) REFERENCES Location
 );
 -- Location table
 CREATE TABLE Location (
