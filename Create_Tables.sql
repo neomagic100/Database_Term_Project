@@ -45,7 +45,7 @@ CREATE TABLE RSOs (
 	rso_id INTEGER auto_increment NOT NULL,
     rname VARCHAR(255),
     rtype VARCHAR(255),
-    is_active VARBINARY(3),
+    is_active BIT,
     PRIMARY KEY(rso_id)
 );
 
@@ -55,16 +55,16 @@ CREATE TABLE Events (
     event_name VARCHAR(255),
     event_category VARCHAR(255),
     view_type VARCHAR(255),
-    is_published VARBINARY(3),
+    is_published BIT,
     descrip VARCHAR(1023),
     lid INTEGER NOT NULL,
     PRIMARY KEY(event_id),
-    FOREIGN KEY (lid) REFERENCES Location,
-    ON DELETE CASCADE
+    FOREIGN KEY (lid) REFERENCES Location
+		ON DELETE CASCADE
 );
 -- Location table
 CREATE TABLE Location (
-	lid INTEGER audo_increment NOT NULL,
+	lid INTEGER auto_increment NOT NULL,
 	lname VARCHAR(255),
 	latitude REAL,
 	longitude REAL,
