@@ -49,12 +49,11 @@ CREATE TABLE RSOs (
     PRIMARY KEY(rso_id)
 );
 
--- Events table
-CREATE TABLE Events (
+-- Public Events table
+CREATE TABLE PublicEvents (
 	event_id INTEGER auto_increment NOT NULL,
     event_name VARCHAR(255),
     event_category VARCHAR(255),
-    view_type VARCHAR(255),
     is_published BIT,
     descrip VARCHAR(1023),
     lid INTEGER NOT NULL,
@@ -62,6 +61,47 @@ CREATE TABLE Events (
     FOREIGN KEY (lid) REFERENCES Location
 		ON DELETE CASCADE
 );
+
+-- Private Events table
+CREATE TABLE PrivateEvents (
+	event_id INTEGER auto_increment NOT NULL,
+    event_name VARCHAR(255),
+    event_category VARCHAR(255),
+    uni_id INTEGER NOT NULL,
+    is_published BIT,
+    descrip VARCHAR(1023),
+    lid INTEGER NOT NULL,
+    PRIMARY KEY(event_id),
+    FOREIGN KEY (lid) REFERENCES Location
+		ON DELETE CASCADE
+        ON UPDATE CASCADE,
+	FOREIGN KEY(uni_id) REFERENCES University
+		ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- RSO Events table
+CREATE TABLE RSOEvents (
+	event_id INTEGER auto_increment NOT NULL,
+    event_name VARCHAR(255),
+    event_category VARCHAR(255),
+    uni_id INTEGER NOT NULL,
+    rso_id INTEGER NOT NULL,
+    is_published BIT,
+    descrip VARCHAR(1023),
+    lid INTEGER NOT NULL,
+    PRIMARY KEY(event_id),
+    FOREIGN KEY (lid) REFERENCES Location
+		ON DELETE CASCADE
+        ON UPDATE CASCADE,
+	FOREIGN KEY(uni_id) REFERENCES University
+		ON DELETE CASCADE
+        ON UPDATE CASCADE,
+	FOREIGN KEY(rso_id) REFERENCES RSOs
+		ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
 -- Location table
 CREATE TABLE Location (
 	lid INTEGER auto_increment NOT NULL,
