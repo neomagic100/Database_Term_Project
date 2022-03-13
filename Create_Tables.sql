@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS RSOs (
 	rso_id INTEGER auto_increment NOT NULL,
     rname VARCHAR(255),
     rtype VARCHAR(255),
-    is_active BIT,
+    is_active BIT NOT NULL DEFAULT 0,
     PRIMARY KEY(rso_id)
 );
 
