@@ -5,6 +5,19 @@ USE UniversityEvents;
 
 DELIMITER $$
 
+CREATE TRIGGER UserDelinRSO
+	BEFORE DELETE ON Users
+FOR EACH ROW
+	BEGIN
+    IF (SELECT uid
+		FROM Member_of
+        WHERE Member_of.uid = OLD.uid)
+	THEN
+		DELETE FROM Member_of
+		WHERE Member_of.uid = OLD.uid;
+	END IF;
+END$$
+
 CREATE TRIGGER RSOStatusUpdateAdd
 	AFTER INSERT ON Member_of
 FOR EACH ROW 
