@@ -100,3 +100,17 @@ CREATE TABLE IF NOT EXISTS Creates_Profile (
 		ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+-- Located at table for events (public, private, rso)
+CREATE TABLE IF NOT EXISTS Located_at (
+	event_id INTEGER,
+    lid INTEGER,
+    event_type VARCHAR(10),
+    PRIMARY KEY (event_id, lid, event_type),
+    FOREIGN KEY (event_id) REFERENCES Events (eid)
+		ON DELETE CASCADE
+        ON UPDATE CASCADE,
+	FOREIGN KEY (lid) REFERENCES Location (lid)
+		ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
