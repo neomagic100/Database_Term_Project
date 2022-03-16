@@ -2,8 +2,24 @@ USE UniversityEvents;
 
 -- Works when directly Adding or deleting from member_of table
 -- But not when deleting from users
-
 DELIMITER $$
+
+CREATE TRIGGER Event_Time_Check
+	BEFORE INSERT ON Events
+FOR EACH ROW
+	BEGIN
+	IF (EXISTS (
+		SELECT *
+        FROM Events E
+        WHERE (E.lid = NEW.lid) AND (E.event_date = NEW.event_date) AND
+			((NEW.event_end - E.event_start) > 0) AND ((E.event_end - NEW.event_start > 0))
+		)
+	)
+    THEN
+		SIGNAL sqlstate '45000';
+    END IF;
+END$$
+    
 
 CREATE TRIGGER UserDelinRSO
 	BEFORE DELETE ON Users

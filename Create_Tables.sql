@@ -64,16 +64,11 @@ CREATE TABLE IF NOT EXISTS Events (
     event_date DATE,
     event_start TIME,
     event_end TIME,
-    lid INTEGER NOT NULL,
+    lid INTEGER,
     PRIMARY KEY (eid),
     FOREIGN KEY (lid) REFERENCES Location(lid)
 	 	ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CHECK (NOT EXISTS (
-		SELECT * FROM Events E WHERE
-			(E.lid = lid) AND (E.event_date = event_date) AND
-            ((event_end - E.event_start) > 0) AND ((E.event_end - event_start) > 0))
-		)
+        ON UPDATE CASCADE
 );
 
 -- Public Events table
@@ -83,15 +78,11 @@ CREATE TABLE IF NOT EXISTS PublicEvents (
     event_category VARCHAR(255),
     is_published BIT,
     descrip VARCHAR(1023),
-    -- lid INTEGER NOT NULL,
     PRIMARY KEY(event_id),
     INDEX par_ind (event_id),
     FOREIGN KEY (event_id) REFERENCES Events(eid)
 		ON UPDATE CASCADE
-        ON DELETE CASCADE,
-   -- FOREIGN KEY (lid) REFERENCES Location(lid)
-	-- 	ON DELETE CASCADE
-   --     ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 -- Private Events table
@@ -101,15 +92,11 @@ CREATE TABLE IF NOT EXISTS PrivateEvents (
     event_category VARCHAR(255),
     is_published BIT,
     descrip VARCHAR(1023),
-    -- lid INTEGER NOT NULL,
     PRIMARY KEY(event_id),
     INDEX par_ind (event_id),
     FOREIGN KEY (event_id) REFERENCES Events(eid)
 		ON UPDATE CASCADE
-        ON DELETE CASCADE,
-   -- FOREIGN KEY (lid) REFERENCES Location(lid)
-	-- 	ON DELETE CASCADE
-     --   ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 -- RSO Events table
@@ -119,13 +106,9 @@ CREATE TABLE IF NOT EXISTS RSOEvents (
     event_category VARCHAR(255),
     is_published BIT,
     descrip VARCHAR(1023),
-    -- lid INTEGER NOT NULL,
     PRIMARY KEY(event_id),
     INDEX par_ind (event_id),
     FOREIGN KEY (event_id) REFERENCES Events(eid)
 		ON UPDATE CASCADE
-        ON DELETE CASCADE,
-    -- FOREIGN KEY (lid) REFERENCES Location(lid)
-	 -- 	ON DELETE CASCADE
-      --   ON UPDATE CASCADE
+        ON DELETE CASCADE
 );

@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS Creates_PublicEvent (
 CREATE TABLE IF NOT EXISTS Comments (
 	uid INTEGER,
     event_id INTEGER,
-    timestmp TIMESTAMP NOT NULL,
+    timestmp TIMESTAMP DEFAULT NOW(),
     cmnt VARCHAR(1023),
     rating INTEGER,
     PRIMARY KEY (uid, event_id),
