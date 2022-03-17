@@ -102,6 +102,7 @@ CREATE TABLE IF NOT EXISTS Creates_Profile (
 );
 
 -- Located at table for events (public, private, rso)
+-- May not be used
 CREATE TABLE IF NOT EXISTS Located_at (
 	event_id INTEGER,
     lid INTEGER,

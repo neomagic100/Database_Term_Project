@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS Events (
     event_date DATE,
     event_start TIME,
     event_end TIME,
-    lid INTEGER,
+    lid INTEGER NOT NULL,
     PRIMARY KEY (eid),
     FOREIGN KEY (lid) REFERENCES Location(lid)
 	 	ON DELETE CASCADE
