@@ -1,5 +1,5 @@
 -- User or Admin Affiliated with University
-CREATE TABLE IF NOT EXISTS Affilated_with (
+CREATE TABLE IF NOT EXISTS Affiliated_with (
     uni_id INTEGER,
     uid INTEGER,
     PRIMARY KEY (uni_id, uid),
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS Located_at (
     lid INTEGER,
     event_type VARCHAR(10),
     PRIMARY KEY (event_id, lid, event_type),
-    FOREIGN KEY (event_id) REFERENCES Events (eid)
+    FOREIGN KEY (event_id) REFERENCES Events (event_id)
 		ON DELETE CASCADE
         ON UPDATE CASCADE,
 	FOREIGN KEY (lid) REFERENCES Location (lid)
