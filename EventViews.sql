@@ -1,3 +1,5 @@
+-- Templates of Views
+
 USE UniversityEvents;
 
 CREATE VIEW PublicEventView AS

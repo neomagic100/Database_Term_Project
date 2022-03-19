@@ -1,9 +1,7 @@
 USE UniversityEvents;
-
--- Works when directly Adding or deleting from member_of table
--- But not when deleting from users
 DELIMITER $$
 
+-- Trigger to ensure times of events don't conflict
 CREATE TRIGGER Event_Time_Check
 	BEFORE INSERT ON Events
 FOR EACH ROW
@@ -20,7 +18,7 @@ FOR EACH ROW
     END IF;
 END$$
     
-
+-- Trigger to delete a user in Member_of relation if the user is deleted
 CREATE TRIGGER UserDelinRSO
 	BEFORE DELETE ON Users
 FOR EACH ROW
@@ -34,6 +32,7 @@ FOR EACH ROW
 	END IF;
 END$$
 
+-- Trigger to update an RSO when a user is added to Member_of
 CREATE TRIGGER RSOStatusUpdateAdd
 	AFTER INSERT ON Member_of
 FOR EACH ROW 
@@ -56,6 +55,7 @@ FOR EACH ROW
 	END IF;
 END$$ 
 
+-- Trigger to update an RSO when a user is deleted from Member_of
 CREATE TRIGGER RSOStatusUpdateDel
 	AFTER DELETE ON Member_of
 FOR EACH ROW 

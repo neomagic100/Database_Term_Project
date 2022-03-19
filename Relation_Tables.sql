@@ -106,8 +106,7 @@ CREATE TABLE IF NOT EXISTS Creates_Profile (
 CREATE TABLE IF NOT EXISTS Located_at (
 	event_id INTEGER,
     lid INTEGER,
-    event_type VARCHAR(10),
-    PRIMARY KEY (event_id, lid, event_type),
+    PRIMARY KEY (event_id, lid),
     FOREIGN KEY (event_id) REFERENCES Events (event_id)
 		ON DELETE CASCADE
         ON UPDATE CASCADE,

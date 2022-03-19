@@ -1,3 +1,5 @@
+-- Template to delete all Tables from the DB
+
 USE UniversityEvents;
 
 SET FOREIGN_KEY_CHECKS = 0;

@@ -13,9 +13,10 @@ CREATE TABLE IF NOT EXISTS University (
 -- Users superclass
 CREATE TABLE IF NOT EXISTS Users (
 	uid INTEGER auto_increment NOT NULL,
-    user_id VARCHAR(255),
-    user_pass VARCHAR(255),
-    PRIMARY KEY(uid)
+    user_id VARCHAR(255) NOT NULL,
+    user_pass VARCHAR(255) NOT NULL,
+    PRIMARY KEY(uid),
+    UNIQUE KEY (user_id)
 );
 
 -- Admins subclass of Users
@@ -55,7 +56,8 @@ CREATE TABLE IF NOT EXISTS Location (
 	lname VARCHAR(255),
 	latitude REAL,
 	longitude REAL,
-	PRIMARY KEY(lid)
+	PRIMARY KEY(lid),
+    UNIQUE KEY (latitude, longitude)
 );
 
 -- Event parent table
