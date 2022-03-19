@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS University (
 );
 
 -- Users superclass
+-- Store passwords as MD5('[password]')
+--      i.e. INSERT INTO Users (user_id, user_pass) values ('michael', MD5('qwerty'));
 CREATE TABLE IF NOT EXISTS Users (
 	uid INTEGER auto_increment NOT NULL,
     user_id VARCHAR(255) NOT NULL,
