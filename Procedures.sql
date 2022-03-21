@@ -35,7 +35,7 @@ CREATE PROCEDURE addSuperuser (IN user_id VARCHAR(255), IN user_pass VARCHAR(255
 -- Out: event_id
 CREATE PROCEDURE addEvent (IN edate DATE, IN estart TIME, IN eend TIME, IN lid INTEGER, OUT id INTEGER)
 	BEGIN
-		INSERT INTO Events values (0, edate, estart, eend, lid);
+		INSERT INTO Events (edate, estart, eend, lid, established) values (edate, estart, eend, lid, NOW());
         SELECT LAST_INSERT_ID() INTO id;
 	END$$
 

@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS RSOs (
     rname VARCHAR(255),
     rtype VARCHAR(255),
     is_active BIT NOT NULL DEFAULT 0,
+    established DATETIME NOT NULL,
     PRIMARY KEY(rso_id)
 );
 
@@ -75,6 +76,7 @@ CREATE TABLE IF NOT EXISTS Events (
     event_start TIME,
     event_end TIME,
     lid INTEGER NOT NULL,
+    established DATETIME NOT NULL,
     PRIMARY KEY (event_id),
     FOREIGN KEY (lid) REFERENCES Location(lid)
 	 	ON DELETE CASCADE
