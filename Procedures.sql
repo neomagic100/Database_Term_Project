@@ -4,26 +4,30 @@ DELIMITER $$
 -- Add a User to Users table
 -- IN: user_name, user_pass
 -- OUT: uid (auto)
-CREATE PROCEDURE addUser (IN user_id VARCHAR(255), IN user_pass VARCHAR(255), OUT id INTEGER)
+CREATE PROCEDURE addUser (IN user_id VARCHAR(255), IN user_pass VARCHAR(255), 
+	IN user_name VARCHAR(255), IN email VARCHAR(255), OUT id INTEGER)
 	BEGIN
-		INSERT INTO Users values (0, user_id, user_pass);
+		INSERT INTO Users (user_id, user_pass, user_name, email) values 
+			(user_id, user_pass, user_name, email);
         SELECT LAST_INSERT_ID() INTO id;
 	END$$
 
 -- Add an Admin to Admins table
 -- IN: user_name, user_pass
-CREATE PROCEDURE addAdmin (IN user_id VARCHAR(255), IN user_pass VARCHAR(255))
+CREATE PROCEDURE addAdmin (IN user_id VARCHAR(255), IN user_pass VARCHAR(255), 
+		IN user_name VARCHAR(255), IN email VARCHAR(255))
 	BEGIN
 		CALL addUser(user_id, user_pass, @temp_id);
-        INSERT INTO Admins values (@temp_id, user_id, user_pass);
+        INSERT INTO Admins values (@temp_id, user_id, user_pass, user_name, email);
     END$$
 
 -- Add a Superuser to Superusers table
 -- IN: user_name, user_pass
-CREATE PROCEDURE addSuperuser (IN user_id VARCHAR(255), IN user_pass VARCHAR(255))
+CREATE PROCEDURE addSuperuser (IN user_id VARCHAR(255), IN user_pass VARCHAR(255), 
+		IN user_name VARCHAR(255), IN email VARCHAR(255))
 	BEGIN
 		CALL addUser(user_id, user_pass, @temp_id);
-        INSERT INTO Superusers values (@temp_id, user_id, user_pass);
+        INSERT INTO Superusers values (@temp_id, user_id, user_pass, user_name, email);
     END$$
 
 -- Add an Event to Event Super Table
