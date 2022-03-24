@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS Users (
 	uid INTEGER auto_increment NOT NULL,
     user_id VARCHAR(255) NOT NULL,
     user_pass VARCHAR(255) NOT NULL,
-    user_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    user_name VARCHAR(255),
+    email VARCHAR(255),
     PRIMARY KEY(uid),
     UNIQUE KEY (user_id)
 );
@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS Admins (
 	uid INTEGER NOT NULL,
     user_id VARCHAR(255),
     user_pass VARCHAR(255),
-    user_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    user_name VARCHAR(255),
+    email VARCHAR(255),
     PRIMARY KEY(uid),
     FOREIGN KEY(uid) REFERENCES Users(uid)
 		ON DELETE CASCADE
@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS Superusers (
 	uid INTEGER NOT NULL,
     user_id VARCHAR(255),
     user_pass VARCHAR(255),
-    user_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    user_name VARCHAR(255),
+    email VARCHAR(255),
     PRIMARY KEY(uid),
     FOREIGN KEY(uid) REFERENCES Users(uid)
 		ON DELETE CASCADE
@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS Location (
 	lname VARCHAR(255),
 	latitude REAL,
 	longitude REAL,
+    address VARCHAR(255),
 	PRIMARY KEY(lid),
     UNIQUE KEY (latitude, longitude)
 );
