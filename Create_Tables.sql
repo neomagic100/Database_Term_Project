@@ -15,8 +15,9 @@ CREATE TABLE IF NOT EXISTS University (
 --      i.e. INSERT INTO Users (user_id, user_pass) values ('michael', MD5('qwerty'));
 CREATE TABLE IF NOT EXISTS Users (
 	uid INTEGER auto_increment NOT NULL,
-    user_id VARCHAR(255) NOT NULL,
-    user_pass VARCHAR(255) NOT NULL,
+    user_id VARCHAR(24) NOT NULL,
+    user_pass VARCHAR(260) NOT NULL,
+    salt VARCHAR(16) NOT NULL,
     user_name VARCHAR(255),
     email VARCHAR(255),
     PRIMARY KEY(uid),
@@ -26,8 +27,9 @@ CREATE TABLE IF NOT EXISTS Users (
 -- Admins subclass of Users
 CREATE TABLE IF NOT EXISTS Admins (
 	uid INTEGER NOT NULL,
-    user_id VARCHAR(255),
-    user_pass VARCHAR(255),
+    user_id VARCHAR(24) NOT NULL,
+    user_pass VARCHAR(260) NOT NULL,
+    salt VARCHAR(16) NOT NULL,
     user_name VARCHAR(255),
     email VARCHAR(255),
     PRIMARY KEY(uid),
@@ -39,8 +41,9 @@ CREATE TABLE IF NOT EXISTS Admins (
 -- Admins subclass of Users
 CREATE TABLE IF NOT EXISTS Superusers (
 	uid INTEGER NOT NULL,
-    user_id VARCHAR(255),
-    user_pass VARCHAR(255),
+    user_id VARCHAR(24) NOT NULL,
+    user_pass VARCHAR(260) NOT NULL,
+    salt VARCHAR(16) NOT NULL,
     user_name VARCHAR(255),
     email VARCHAR(255),
     PRIMARY KEY(uid),
