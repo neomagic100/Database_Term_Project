@@ -6,7 +6,6 @@
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
 
 $inData = getRequestInfo();
-$salt = '';
 
 
 # $conn = new mysqli("db-mysql-nyc3-02487-do-user-11025506-0.b.db.ondigitalocean.com", "guest", "puHHXEqnnVzpGawRj", "UniversityEvents", 25060);
@@ -55,11 +54,12 @@ function returnWithError( $err )
 {
     $retValue = '{"error":"' . $err . '"}';
     sendResultInfoAsJson( $retValue );
+    exit();
 }
 
 function returnWithInfo( $user_id, $user_name)
 {
-    $retValue = '{"id":' . $user_id . ',"Name":"' . $user_name . '"}';
+    $retValue = '{"id":"' . $user_id . '","Name":"' . $user_name . '","error":""}';
     sendResultInfoAsJson( $retValue );
 }
 
