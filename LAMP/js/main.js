@@ -1,7 +1,13 @@
 var urlBase = 'https://www.goldenknights.systems/API';
 var extension = 'php';
-
-document.getElementById("Name").innerHTML=localStorage.getItem("Name");
+function getName()
+{
+	document.getElementById("Name").innerHTML=localStorage.getItem("Name");
+}
+function goToPublic()
+{
+	window.location.href= "publicEvents.html";
+}
 function doLogin()
 {
 	userId = 0;
@@ -27,8 +33,9 @@ function doLogin()
 				{
 					user_id = jsonObject.id;
 					user_name = jsonObject.Name;
+					uid = jsonObject.uid;
 					localStorage.setItem("Name", user_name);
-
+					localStorage.setItem("uid", uid);
 		
 					window.location.href = "success.html";
 				} else {
@@ -80,6 +87,48 @@ function doLogin()
 	{
 		document.getElementById("result").innerHTML = err.message;
 	}
+}
+function returnPublicEvent()
+{
+	var tmp = {Search:srch,UserID:userId};
+
+	var url = urlBase + '/publicView.' + extension;
+	var list = "";
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				var jsonObject = JSON.parse( xhr.responseText );
+				if(jsonObject.error == "")
+				{
+					for(var i = 0 ; i < jsonObject.results.length; i++)
+					{
+						list += "<tr>";
+						list += `<td>${jsonObject[i].EventName}</td>`;
+						list += `<td>${jsonObject[i].Description}</td>`;
+						list += `<td>${jsonObject[i].EventDate}</td>`;
+						list += `<td>${jsonObject[i].EventStart}</td>`;
+						list += `<td>${jsonObject[i].EventEnd}</td>`;
+						list += "</tr>";
+					}
+					document.getElementById("publicView").innerHTML += list;
+				}
+
+				}
+				else
+				{
+					document.getElementById('hider').style.display='none';
+					document.getElementById("List").innerHTML = "";
+				}				
+			};
+			xhr.send(null);
+		}catch(err)
+		{}
 }
 
 

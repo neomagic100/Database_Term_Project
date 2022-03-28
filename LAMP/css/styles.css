@@ -55,6 +55,29 @@ input[type="edit_text"]{
     color:rgb(0, 0, 0);
     text-align: center; 
 }
+.viewTable{
+    border:none;
+    margin: auto;
+}
+.buttons
+{
+    border-radius: 15px;
+    font-size: 23px;
+    width: 10%;
+    height:50px;
+    margin: 0 auto;
+    display:block;
+    border: 0;
+    padding: 0;
+    transition: 0.3s;
+    background-color: rgb(0, 0, 0);
+    color: #ffffff;
+}
+
+.buttons:hover{
+    background-color: #ffc904;
+    color: #ffffff
+}
 
 .buttons4
 {
