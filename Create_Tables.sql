@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS Users (
 	uid INTEGER auto_increment NOT NULL,
     user_id VARCHAR(24) NOT NULL,
     user_pass VARCHAR(260) NOT NULL,
-    salt VARCHAR(16) NOT NULL,
     user_name VARCHAR(255),
     email VARCHAR(255),
     PRIMARY KEY(uid),
