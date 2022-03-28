@@ -1,9 +1,10 @@
 -- Templates of Views
 
 USE UniversityEvents;
-
+DROP  View PublicEventView;
 CREATE VIEW PublicEventView AS
 	SELECT event_name, descrip, event_date, event_start, event_end
+    -- SELECT event_name, descrip, DAYNAME(event_date), MONTHNAME(event_date), DAYOFMONTH(event_date), YEAR(event_date), event_start, event_end
     FROM PublicEvents
     INNER JOIN Events USING (event_id)
     ORDER BY event_date, event_start;
