@@ -1,5 +1,5 @@
 <?php
-    header('Access-Control-Allow-Origin: https://www.goldenknights.systems/%27');
+    header('Access-Control-Allow-Origin: https://www.goldenknights.systems/');
     header("Access-Control-Allow-Credentials: true");
     header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
     header('Access-Control-Max-Age: 1000');
@@ -8,6 +8,22 @@
 	$inData = getRequestInfo();
 	if(empty($inData["Password"])){ 
         returnWithError("Empty pass");
+	
+	$db_server = "db-mysql-nyc3-02487-do-user-11025506-0.b.db.ondigitalocean.com";
+	$db_user = "guest";
+	$db_password = "uHHXEqnnVzpGawRj";
+	$db_name = "UniversityEvents";
+	$db_port = 25060;
+	$conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
+	$inData = getRequestInfo();
+    $user_id = $inData["Login"];
+    $user_pass = password_hash($inData["Password"], PASSWORD_ARGON2I);
+    $user_name = $inData["Name"];
+    $email = $inData["Email"];
+	
+    if($user_id == NULL) 
+    {
+        returnWithError("Empty user");
         exit();
     }
     $user_id = filter_var($inData["Login"], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -20,7 +36,7 @@
         returnWithError("Empty user");
         exit();
     }
-	$conn = new mysqli("db-mysql-nyc3-02487-do-user-11025506-0.b.db.ondigitalocean.com", "doadmin", "HKOkbUAlyxXg5vKs", "UniversityEvents", 25060);
+	$conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
 	if ($conn->connect_error) 
 	{
 		returnWithError( $conn->connect_error );
@@ -61,5 +77,5 @@
 		}
 		sendResultInfoAsJson( $retValue );
 	}
-	
+}
 ?>

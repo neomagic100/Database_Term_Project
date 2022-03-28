@@ -1,16 +1,19 @@
 <?php
-    header('Access-Control-Allow-Origin: https://www.goldenknights.systems/%27');
+    header('Access-Control-Allow-Origin: https://www.goldenknights.systems/');
     header("Access-Control-Allow-Credentials: true");
     header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
 
-$inData = getRequestInfo();
-
-$sanitizedLogin = filter_var($inData["Login"], FILTER_SANITIZE_SPECIAL_CHARS);
-$sanitizedPassword = filter_var($inData["Password"], FILTER_SANITIZE_SPECIAL_CHARS);
-# $conn = new mysqli("db-mysql-nyc3-02487-do-user-11025506-0.b.db.ondigitalocean.com", "guest", "puHHXEqnnVzpGawRj", "UniversityEvents", 25060);
-$conn = new mysqli("db-mysql-nyc3-02487-do-user-11025506-0.b.db.ondigitalocean.com", "doadmin", "HKOkbUAlyxXg5vKs", "UniversityEvents", 25060);
+	$inData = getRequestInfo();
+	$db_server = "db-mysql-nyc3-02487-do-user-11025506-0.b.db.ondigitalocean.com";
+	$db_user = "guest";
+	$db_password = "uHHXEqnnVzpGawRj";
+	$db_name = "UniversityEvents";
+	$db_port = 25060;
+	$conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
+    $sanitizedLogin = filter_var($inData["Login"], FILTER_SANITIZE_SPECIAL_CHARS);
+    $sanitizedPassword = filter_var($inData["Password"], FILTER_SANITIZE_SPECIAL_CHARS);
 if( $conn->connect_error )
 {
     returnWithError( $conn->connect_error );
@@ -35,33 +38,28 @@ else
     {
         returnWithError($stmt->error);
     }
+	function getRequestInfo()
+	{
+		return json_decode(file_get_contents('php://input'), true);
+	}
 
-    $stmt->close();
-    $conn->close();
+	function sendResultInfoAsJson( $obj )
+	{
+		header('Content-type: application/json');
+		echo $obj;
+	}
+
+	function returnWithError( $err )
+	{
+		$retValue = '{"error":"' . $err . '"}';
+		sendResultInfoAsJson( $retValue );
+		exit();
+	}
+
+	function returnWithInfo( $user_id, $user_name)
+	{
+		$retValue = '{"id":"' . $user_id . '","Name":"' . $user_name . '","error":""}';
+		sendResultInfoAsJson( $retValue );
+	}
 }
-
-function getRequestInfo()
-{
-    return json_decode(file_get_contents('php://input'), true);
-}
-
-function sendResultInfoAsJson( $obj )
-{
-    header('Content-type: application/json');
-    echo $obj;
-}
-
-function returnWithError( $err )
-{
-    $retValue = '{"error":"' . $err . '"}';
-    sendResultInfoAsJson( $retValue );
-    exit();
-}
-
-function returnWithInfo( $user_id, $user_name)
-{
-    $retValue = '{"id":"' . $user_id . '","Name":"' . $user_name . '","error":""}';
-    sendResultInfoAsJson( $retValue );
-}
-
 ?>
