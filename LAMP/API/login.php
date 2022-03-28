@@ -11,38 +11,34 @@
 	$db_password = "uHHXEqnnVzpGawRj";
 	$db_name = "UniversityEvents";
 	$db_port = 25060;
-
-
 	$conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
-	if( $conn->connect_error )
-	{
-		returnWithError( $conn->connect_error );
-	}
-	else
-	{ 
-		$stmt = $conn->prepare("SELECT user_id, user_name, user_pass FROM Users WHERE user_id=?");
-		$stmt->bind_param("s", $inData["Login"]);
-		$stmt->execute();
-		$result = $stmt->get_result();
-
-		if( $row = $result->fetch_assoc()  )
-		{   
-			if(password_verify($inData["Password"], $row["user_pass"]))
-			{
-				returnWithInfo( $row['user_id'], $row['user_name']);
-			} else {
-				returnWithError("Wrong Password");
-			}
-		}
-		else
-		{
-			returnWithError("No Records Found");
-		}
-
-		$stmt->close();
-		$conn->close();
-	}
-
+    $sanitizedLogin = filter_var($inData["Login"], FILTER_SANITIZE_SPECIAL_CHARS);
+    $sanitizedPassword = filter_var($inData["Password"], FILTER_SANITIZE_SPECIAL_CHARS);
+if( $conn->connect_error )
+{
+    returnWithError( $conn->connect_error );
+}
+else
+{ 
+    $stmt = $conn->prepare("SELECT user_id, user_name, user_pass FROM Users WHERE user_id=?");
+    $stmt->bind_param("s", $sanitizedLogin);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if($result->num_rows == 0) returnWithError("Non-existent credentials, or typed wrong.");
+    if( $row = $result->fetch_assoc()  )
+    {   
+        if(password_verify($sanitizedPassword, $row["user_pass"]))
+        {
+            returnWithInfo( $row['user_id'], $row['user_name']);
+        } else {
+            returnWithError("Wrong Password");
+        }
+    }
+    else
+    {
+        returnWithError($stmt->error);
+    }
+}
 	function getRequestInfo()
 	{
 		return json_decode(file_get_contents('php://input'), true);
@@ -66,5 +62,4 @@
 		$retValue = '{"id":"' . $user_id . '","Name":"' . $user_name . '","error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
-
 ?>
