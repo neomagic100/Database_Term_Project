@@ -20,7 +20,7 @@ if( $conn->connect_error )
 }
 else
 { 
-    $stmt = $conn->prepare("SELECT user_id, user_name, user_pass FROM Users WHERE user_id=?");
+    $stmt = $conn->prepare("SELECT uid, user_id, user_name, user_pass FROM Users WHERE user_id=?");
     $stmt->bind_param("s", $sanitizedLogin);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -29,7 +29,7 @@ else
     {   
         if(password_verify($sanitizedPassword, $row["user_pass"]))
         {
-            returnWithInfo( $row['user_id'], $row['user_name']);
+            returnWithInfo( $row['uid'], $row['user_id'], $row['user_name']);
         } else {
             returnWithError("Wrong Password");
         }
@@ -57,9 +57,9 @@ else
 		exit();
 	}
 
-	function returnWithInfo( $user_id, $user_name)
+	function returnWithInfo( $uid, $user_id, $user_name)
 	{
-		$retValue = '{"id":"' . $user_id . '","Name":"' . $user_name . '","error":""}';
+		$retValue = '{"uid":' . $uid . ',"id":"' . $user_id . '","Name":"' . $user_name . '","error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
 ?>

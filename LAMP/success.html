@@ -4,8 +4,13 @@
 		<script type="text/javascript" src="js/main.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 	</head>
-<body>
+<body onload="getName();">
   <h1 class="title" id="title">Welcome <span id="Name"></span></h1>
-  <script type="text/javascript" src="js/main.js"></script>
+  <button type="button" id="publicButton" class="buttons" onclick="goToPublic();">PUBLIC EVENTS</button>
+  <br/>
+  <button type="button" id="privateButton" class="buttons" onclick="goToPublic();">PRIVATE EVENTS</button>
+  <br/>
+  <button type="button" id="rsoButton" class="buttons" onclick="goToPublic();">RSO EVENTS</button>
+
 </body>
 </html>

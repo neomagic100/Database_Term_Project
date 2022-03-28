@@ -49,11 +49,49 @@ input[type="edit_text"]{
     color: #95060a;
 }
 
-
+td {
+    text-align: center;
+}
 .title {
     font-size: 60px;
     color:rgb(0, 0, 0);
-    text-align: center; 
+    text-align: center;
+}
+.viewTable{
+    border: 3px solid;
+    margin: auto;
+    table-layout:fixed;
+    width:75%;
+    background-color: #FFC904;
+}
+.viewButton{
+    background-color: #000000; /* Green */
+    color: white;
+    border: none;
+    padding: 10px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-block;
+    margin:auto;
+}
+.buttons
+{
+    border-radius: 15px;
+    font-size: 23px;
+    width: 10%;
+    height:50px;
+    margin: 0 auto;
+    display:block;
+    border: 0;
+    padding: 0;
+    transition: 0.3s;
+    background-color: rgb(0, 0, 0);
+    color: #ffffff;
+}
+
+.buttons:hover{
+    background-color: #ffc904;
+    color: #ffffff
 }
 
 .buttons4

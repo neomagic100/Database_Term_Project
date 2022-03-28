@@ -1,7 +1,13 @@
 var urlBase = 'https://www.goldenknights.systems/API';
 var extension = 'php';
-
-document.getElementById("Name").innerHTML=localStorage.getItem("Name");
+function getName()
+{
+	document.getElementById("Name").innerHTML=localStorage.getItem("Name");
+}
+function goToPublic()
+{
+	window.location.href= "publicEvents.html";
+}
 function doLogin()
 {
 	userId = 0;
@@ -27,8 +33,9 @@ function doLogin()
 				{
 					user_id = jsonObject.id;
 					user_name = jsonObject.Name;
+					uid = jsonObject.uid;
 					localStorage.setItem("Name", user_name);
-
+					localStorage.setItem("uid", uid);
 		
 					window.location.href = "success.html";
 				} else {
@@ -79,6 +86,49 @@ function doLogin()
 	catch(err)
 	{
 		document.getElementById("result").innerHTML = err.message;
+	}
+}
+function returnPublicEvent()
+{
+	var url = urlBase + '/publicView.' + extension;
+	var list = "";
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				var jsonObject = JSON.parse( xhr.responseText );
+				if(jsonObject.error == "")
+				{
+					for(var i = 0 ; i < jsonObject.results.length; i++)
+					{
+						id = "rsoButton"+i;
+						list += "<tr>";
+						list += `<td>${jsonObject.results[i].EventName}</td>`;
+						list += `<td>${jsonObject.results[i].Description}</td>`;
+						list += `<td>${jsonObject.results[i].EventDate}</td>`;
+						list += `<td>${jsonObject.results[i].EventStart}</td>`;
+						list += `<td>${jsonObject.results[i].EventEnd}</td>`;
+						list += `<td><button type="button" id="${id}" class="viewButton" onclick="goToPublic();">View this Event</button></td>`
+						list += "</tr>";
+					}
+					document.getElementById("publicView").innerHTML = list;
+				} 
+				else
+				{
+					document.getElementById("publicView").innerHTML = "list";
+				}
+			}				
+		};
+		xhr.send(null);
+	}
+	catch(err)
+	{
+		document.getElementById("publicView").innerHTML = err.message;
 	}
 }
 
