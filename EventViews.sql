@@ -1,9 +1,9 @@
 -- Templates of Views
 
 USE UniversityEvents;
-
+DROP VIEW PublicEventView;
 CREATE VIEW PublicEventView AS
-	SELECT event_name, descrip, event_date, event_start
+	SELECT event_name, descrip, event_date, event_start, event_end
     FROM PublicEvents
     INNER JOIN Events USING (event_id);
     

@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS RSOs (
 	rso_id INTEGER auto_increment NOT NULL,
     rname VARCHAR(255),
     rtype VARCHAR(255),
-    is_active BIT NOT NULL DEFAULT 0,
-    established DATETIME NOT NULL,
+    is_active BIT DEFAULT 0,
+    established DATETIME DEFAULT NOW(),
     PRIMARY KEY(rso_id)
 );
 
