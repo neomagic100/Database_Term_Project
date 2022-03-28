@@ -1,4 +1,6 @@
 USE UniversityEvents;
+
+
 DELIMITER $$
 
 -- Add a User to Users table
@@ -49,7 +51,7 @@ CREATE PROCEDURE addPublicEvent (IN event_name VARCHAR(255), IN categ VARCHAR(25
 				IN edate DATE, IN estart TIME, IN eend TIME, IN lid INTEGER)
 	BEGIN
 		CALL addEvent(edate, estart, eend, lid, @id);
-        INSERT INTO PublicEvents values (@id, event_name, categ, 0, descrip);
+        INSERT INTO PublicEvents (event_id, event_name, event_category, descrip) values (@id, event_name, categ, descrip);
 	END$$
 
 -- Add an Event to PrivateEvents
@@ -58,7 +60,7 @@ CREATE PROCEDURE addPrivateEvent (IN event_name VARCHAR(255), IN categ VARCHAR(2
 				IN edate DATE, IN estart TIME, IN eend TIME, IN lid INTEGER)
 	BEGIN
 		CALL addEvent(edate, estart, eend, lid, @id);
-        INSERT INTO PrivateEvents values (@id, event_name, categ, 0, descrip);
+        INSERT INTO PrivateEvents (event_id, event_name, event_category, descrip) values (@id, event_name, categ, descrip);
 	END$$
     
 -- Add an Event to RsoEvents
@@ -67,7 +69,7 @@ CREATE PROCEDURE addRSOEvent (IN event_name VARCHAR(255), IN categ VARCHAR(255),
 				IN edate DATE, IN estart TIME, IN eend TIME, IN lid INTEGER)
 	BEGIN
 		CALL addEvent(edate, estart, eend, lid, @id);
-        INSERT INTO RSOEvents values (@id, event_name, categ, 0, descrip);
+        INSERT INTO RSOEvents (event_id, event_name, event_category, descrip)  values (@id, event_name, categ, descrip);
 	END$$
     
 DELIMITER ;

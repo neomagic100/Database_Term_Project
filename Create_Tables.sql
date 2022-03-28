@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS Users (
 	uid INTEGER auto_increment NOT NULL,
     user_id VARCHAR(24) NOT NULL,
     user_pass VARCHAR(260) NOT NULL,
-    salt VARCHAR(16) NOT NULL,
     user_name VARCHAR(255),
     email VARCHAR(255),
     PRIMARY KEY(uid),
@@ -57,8 +56,8 @@ CREATE TABLE IF NOT EXISTS RSOs (
 	rso_id INTEGER auto_increment NOT NULL,
     rname VARCHAR(255),
     rtype VARCHAR(255),
-    is_active BIT NOT NULL DEFAULT 0,
-    established DATETIME NOT NULL,
+    is_active BIT DEFAULT 0,
+    established DATETIME DEFAULT NOW(),
     PRIMARY KEY(rso_id)
 );
 

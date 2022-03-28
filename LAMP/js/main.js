@@ -90,6 +90,11 @@ function doLogin()
 }
 function returnPublicEvent()
 {
+<<<<<<< HEAD
+=======
+	var tmp = {Search:srch,UserID:userId};
+
+>>>>>>> 545f34c99b38490f125afed55a78f84fb28fa0f8
 	var url = urlBase + '/publicView.' + extension;
 	var list = "";
 	var xhr = new XMLHttpRequest();
@@ -106,6 +111,7 @@ function returnPublicEvent()
 				{
 					for(var i = 0 ; i < jsonObject.results.length; i++)
 					{
+<<<<<<< HEAD
 						id = "rsoButton"+i;
 						list += "<tr>";
 						list += `<td>${jsonObject.results[i].EventName}</td>`;
@@ -130,6 +136,29 @@ function returnPublicEvent()
 	{
 		document.getElementById("publicView").innerHTML = err.message;
 	}
+=======
+						list += "<tr>";
+						list += `<td>${jsonObject[i].EventName}</td>`;
+						list += `<td>${jsonObject[i].Description}</td>`;
+						list += `<td>${jsonObject[i].EventDate}</td>`;
+						list += `<td>${jsonObject[i].EventStart}</td>`;
+						list += `<td>${jsonObject[i].EventEnd}</td>`;
+						list += "</tr>";
+					}
+					document.getElementById("publicView").innerHTML += list;
+				}
+
+				}
+				else
+				{
+					document.getElementById('hider').style.display='none';
+					document.getElementById("List").innerHTML = "";
+				}				
+			};
+			xhr.send(null);
+		}catch(err)
+		{}
+>>>>>>> 545f34c99b38490f125afed55a78f84fb28fa0f8
 }
 
 
