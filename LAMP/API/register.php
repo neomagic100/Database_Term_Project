@@ -8,7 +8,7 @@
 	$inData = getRequestInfo();
 	if(empty($inData["Password"])){ 
         returnWithError("Empty pass");
-	
+	}
 	$db_server = "db-mysql-nyc3-02487-do-user-11025506-0.b.db.ondigitalocean.com";
 	$db_user = "guest";
 	$db_password = "uHHXEqnnVzpGawRj";
@@ -77,5 +77,4 @@
 		}
 		sendResultInfoAsJson( $retValue );
 	}
-}
 ?>

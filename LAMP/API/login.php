@@ -38,6 +38,7 @@ else
     {
         returnWithError($stmt->error);
     }
+}
 	function getRequestInfo()
 	{
 		return json_decode(file_get_contents('php://input'), true);
@@ -61,5 +62,4 @@ else
 		$retValue = '{"id":"' . $user_id . '","Name":"' . $user_name . '","error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
-}
 ?>
