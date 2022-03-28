@@ -1,25 +1,16 @@
 var urlBase = 'https://www.goldenknights.systems/API';
 var extension = 'php';
-var userId = 0;
-var Name = "";
-var b = "";
-var tmp_id = -100;
 
+document.getElementById("Name").innerHTML=localStorage.getItem("Name");
 function doLogin()
 {
 	userId = 0;
 	Name = "";
-		
 	var login = document.getElementById("loginName").value;
 	var password = document.getElementById("loginPassword").value;
-	
 	document.getElementById("result").innerHTML = "";
-
-
 	var tmp = {Login:login,Password:password};
-
 	var jsonPayload = JSON.stringify(tmp);
-	
 	var url = urlBase + '/login.' + extension;
 
 	var xhr = new XMLHttpRequest();
@@ -34,10 +25,10 @@ function doLogin()
 				var jsonObject = JSON.parse( xhr.responseText );
 				if(jsonObject.error == "")
 				{
-					user_id = jsonObject.user_id;
-					user_name = jsonObject.user_name;
-	
-					// saveCookie();
+					user_id = jsonObject.id;
+					user_name = jsonObject.Name;
+					localStorage.setItem("Name", user_name);
+
 		
 					window.location.href = "success.html";
 				} else {
@@ -55,8 +46,8 @@ function doLogin()
  function createAccount()
 {
 
-	var login = document.getElementById("loginName").value;
-	var password = document.getElementById("loginPassword").value;
+	var login = document.getElementById("createName").value;
+	var password = document.getElementById("createPassword").value;
 	var email = document.getElementById("email").value;
 	var name = document.getElementById("nameid").value;
 	
@@ -78,7 +69,7 @@ function doLogin()
 					window.location.href = "created.html";
 				} else 
 				{
-					document.getElementById("result").innerHTML = jsonObject.error;
+					document.getElementById("resultCreate").innerHTML = jsonObject.error;
 				}
 			}
 				
@@ -90,4 +81,5 @@ function doLogin()
 		document.getElementById("result").innerHTML = err.message;
 	}
 }
+
 

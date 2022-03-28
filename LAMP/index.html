@@ -1,16 +1,17 @@
 <html>
-	<link href="css/styles.css" rel="stylesheet">	
-	<script type="text/javascript" src="js/main.js"></script>
-	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+	<head> 
+		<link href="css/styles.css" rel="stylesheet">	
+		<script type="text/javascript" src="js/main.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+	</head>
 <body>
-  <h1 id="loginTitle">- + LOGIN + -</h1>
-  	<br/><br/><br/>
+<h1 class="title">- + LOGIN + -</h1>
+  	<br/>
 	<input type="text" id="loginName" placeholder="USERNAME" /><br /> 
-	<br/><br/><br/>
-	<input type="password" id="loginPassword" placeholder="PASSWORD"/><br />
 	<br/>
+	<input type="password" id="loginPassword" placeholder="PASSWORD"/><br />
+	<br/><br/>
 	<button type="button" id="loginButton" class="buttons4" onclick="doLogin();">LOG ON</button>
-	
 	<script>
 		let input = document.getElementById("loginPassword");
 		input.addEventListener("keyup", function(ev) {
@@ -20,6 +21,32 @@
 			}
 		})
 	</script>
-	<span id="result"></span>
- <span id="result"></span>
+	<div class="resdiv">
+		<span id="result" class="result"></span>
+	</div>
+</body>
+<body> 
+	<h1 class="title">- + REGISTER + -</h1>
+	<input type="text" id="nameid" placeholder="YOUR NAME" /><br /> 
+	<br/>
+	<input type="text" id="email" placeholder="EMAIL" /><br /> 
+	<br/>
+	<input type="text" id="createName" placeholder="USERNAME" /><br /> 
+	<br/>
+	<input type="password" id="createPassword" placeholder="PASSWORD"/><br />
+	<br/>
+	<button type="button" id = "createButton" class="buttons4" onclick="createAccount();">Create Account</button>
+	<script>	
+		let input = document.getElementById("createPassword");
+		input.addEventListener("keyup", function(ev) {
+			if(ev.keyCode === 13) {
+				ev.preventDefault();
+				document.getElementById("createButton").click();
+			}
+		})
+	</script>
+	<div class="resdiv">
+		<span id="resultCreate" class="result"></span>
+	</div>
+</body>
 </html>
