@@ -1,5 +1,5 @@
 
-html, body {margin: 0; height: 100%; overflow-y: scroll; overflow-x:hidden; background-color: #ba9b37;}
+html, body {margin: 0; height: 100%; overflow-y: scroll; overflow-x:hidden; background-color: #323237;}
 
 html * {
     font-family: 'Arial Narrow', sans-serif !important;
@@ -54,15 +54,15 @@ td {
 }
 .title {
     font-size: 60px;
-    color:rgb(0, 0, 0);
+    color:#BA9B37;
     text-align: center;
 }
 .viewTable{
-    border: 3px solid;
+    border:5px solid #000000;
     margin: auto;
     table-layout:fixed;
     width:75%;
-    background-color: #FFC904;
+    background-color: #F5F4F3;
 }
 .viewButton{
     background-color: #000000; /* Green */
@@ -74,6 +74,45 @@ td {
     display: inline-block;
     margin:auto;
 }
+.closeButton{
+    background-color: #000000; /* Green */
+    color: white;
+    border: none;
+    padding: 10px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-block;
+    position:absolute;
+    margin-left:-50px;
+    left:50%;
+    width:100px;
+    bottom:0px;
+}
+.modal-container{
+    background-color: rgba(0,0,0,.3);
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    position:fixed;
+    height: 100%;
+    width: 100%;
+    top:0;
+    left:0;
+    opacity: 0;
+    pointer-events: none;
+}
+.modal-container.show{
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal {
+    background-color: white;
+    opacity: 1;
+    position: fixed;
+    width:90%;
+    height:90%;
+    text-align: center;
+}
 .buttons
 {
     border-radius: 15px;
@@ -90,13 +129,9 @@ td {
 }
 
 .buttons:hover{
-    background-color: #ffc904;
+    background-color: #BA9B37;
     color: #ffffff
 }
-.viewTable{
-    border:none;
-    margin: auto;
-}
 .buttons
 {
     border-radius: 15px;
@@ -113,7 +148,7 @@ td {
 }
 
 .buttons:hover{
-    background-color: #ffc904;
+    background-color: #BA9B37;
     color: #ffffff
 }
 
@@ -135,6 +170,6 @@ td {
 }
 
 .buttons4:hover{
-    background-color: #ffc904;
+    background-color: #BA9B37;
     color: #ffffff;
 }

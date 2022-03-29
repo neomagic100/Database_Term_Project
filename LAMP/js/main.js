@@ -1,5 +1,6 @@
 var urlBase = 'https://www.goldenknights.systems/API';
 var extension = 'php';
+
 function getName()
 {
 	document.getElementById("Name").innerHTML=localStorage.getItem("Name");
@@ -90,11 +91,6 @@ function doLogin()
 }
 function returnPublicEvent()
 {
-<<<<<<< HEAD
-=======
-	var tmp = {Search:srch,UserID:userId};
-
->>>>>>> 545f34c99b38490f125afed55a78f84fb28fa0f8
 	var url = urlBase + '/publicView.' + extension;
 	var list = "";
 	var xhr = new XMLHttpRequest();
@@ -109,18 +105,24 @@ function returnPublicEvent()
 				var jsonObject = JSON.parse( xhr.responseText );
 				if(jsonObject.error == "")
 				{
-					for(var i = 0 ; i < jsonObject.results.length; i++)
+					var results = jsonObject.results;
+					for(var i = 0 ; i < results.length; i++)
 					{
-<<<<<<< HEAD
-						id = "rsoButton"+i;
+						id = "viewButton"+i;
+						var res = `results${i}`;
 						list += "<tr>";
-						list += `<td>${jsonObject.results[i].EventName}</td>`;
-						list += `<td>${jsonObject.results[i].Description}</td>`;
-						list += `<td>${jsonObject.results[i].EventDate}</td>`;
-						list += `<td>${jsonObject.results[i].EventStart}</td>`;
-						list += `<td>${jsonObject.results[i].EventEnd}</td>`;
-						list += `<td><button type="button" id="${id}" class="viewButton" onclick="goToPublic();">View this Event</button></td>`
+						list += `<td>${i+1}</td>`;
+						list += `<td>${results[i].EventName}</td>`;
+						list += `<td>${results[i].Description}</td>`;
+						list += `<td>${results[i].EventDate}</td>`;
+						list += `<td>${results[i].EventStart}</td>`;
+						list += `<td>${results[i].EventEnd}</td>`;
+						list += `<td>
+						<button type="button" id="${id}" class="viewButton" 
+						onclick="openModal(document.getElementById('publicView').rows[0].cells[${i}].innerText);">View this Event
+						</button>`;
 						list += "</tr>";
+						localStorage.setItem(res, results[i]);
 					}
 					document.getElementById("publicView").innerHTML = list;
 				} 
@@ -136,29 +138,24 @@ function returnPublicEvent()
 	{
 		document.getElementById("publicView").innerHTML = err.message;
 	}
-=======
-						list += "<tr>";
-						list += `<td>${jsonObject[i].EventName}</td>`;
-						list += `<td>${jsonObject[i].Description}</td>`;
-						list += `<td>${jsonObject[i].EventDate}</td>`;
-						list += `<td>${jsonObject[i].EventStart}</td>`;
-						list += `<td>${jsonObject[i].EventEnd}</td>`;
-						list += "</tr>";
-					}
-					document.getElementById("publicView").innerHTML += list;
-				}
-
-				}
-				else
-				{
-					document.getElementById('hider').style.display='none';
-					document.getElementById("List").innerHTML = "";
-				}				
-			};
-			xhr.send(null);
-		}catch(err)
-		{}
->>>>>>> 545f34c99b38490f125afed55a78f84fb28fa0f8
 }
+var modal;
+function openModal(row)
+{
+	const modal_container = document.getElementById('container');
+	res = "results"+row;
+	results = localStorage.getItem(res);
+	modal_container.classList.add('show');
+	modal = document.getElementById('contain');
+	console.log(modal);
+	modal.innerHTML += "Hello";
+}
+function closeModal(){
+	const modal_container = document.getElementById('container');
+	modal_container.classList.remove('show');
+	modal = document.getElementById('contain');
+	modal.innerHTML = '<button id="close" class="closeButton" onclick="closeModal();">Close</button>';
+}
+
 
 
