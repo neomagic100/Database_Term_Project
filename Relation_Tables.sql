@@ -52,12 +52,16 @@ CREATE TABLE IF NOT EXISTS Creates_RSOEvent (
 
 -- create private event
 CREATE TABLE IF NOT EXISTS Creates_PrivateEvent (
-	uid INTEGER NOT NULL,
+	uid INTEGER,
     event_id INTEGER,
-    PRIMARY KEY (uid, event_id),
+    uni_id INTEGER,
+    PRIMARY KEY (uni_id, event_id),
     FOREIGN KEY (uid) REFERENCES Admins(uid)
         ON UPDATE CASCADE,
 	FOREIGN KEY (event_id) REFERENCES PrivateEvents(event_id)
+		ON DELETE CASCADE
+        ON UPDATE CASCADE,
+	FOREIGN KEY (uni_id) REFERENCES University(uni_id)
 		ON DELETE CASCADE
         ON UPDATE CASCADE
 );
