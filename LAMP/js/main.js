@@ -108,8 +108,7 @@ function returnPublicEvent()
 					var results = jsonObject.results;
 					for(var i = 0 ; i < results.length; i++)
 					{
-						id = "viewButton"+i;
-						var res = `results${i}`;
+						var res = `results${i+1}`;
 						list += "<tr>";
 						list += `<td>${i+1}</td>`;
 						list += `<td>${results[i].EventName}</td>`;
@@ -118,11 +117,11 @@ function returnPublicEvent()
 						list += `<td>${results[i].EventStart}</td>`;
 						list += `<td>${results[i].EventEnd}</td>`;
 						list += `<td>
-						<button type="button" id="${id}" class="viewButton" 
+						<button type="button" id="${id+1}" class="viewButton" 
 						onclick="openModal(document.getElementById('publicView').rows[0].cells[${i}].innerText);">View this Event
 						</button>`;
 						list += "</tr>";
-						localStorage.setItem(res, results[i]);
+						localStorage.setItem(res, JSON.stringify(results[i]));
 					}
 					document.getElementById("publicView").innerHTML = list;
 				} 
@@ -144,11 +143,22 @@ function openModal(row)
 {
 	const modal_container = document.getElementById('container');
 	res = "results"+row;
-	results = localStorage.getItem(res);
+	results = JSON.parse(localStorage.getItem(res));
 	modal_container.classList.add('show');
 	modal = document.getElementById('contain');
-	console.log(modal);
-	modal.innerHTML += "Hello";
+	//modal.innerHTML += "Hello";
+	var header = document.createElement("h1");
+	var text = document.createTextNode(results.EventName);
+	newLine = document.createElement("br");
+	header.appendChild(text);
+	modal.appendChild(header);
+	modal.appendChild(newLine);
+	var para = document.createElement("p");
+	var ptext = document.createElement(results.Description);
+	para.append(ptext);
+	modal.appendChild(para);
+
+
 }
 function closeModal(){
 	const modal_container = document.getElementById('container');
