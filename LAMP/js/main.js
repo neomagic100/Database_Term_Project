@@ -117,8 +117,8 @@ function returnPublicEvent()
 						list += `<td>${results[i].EventStart}</td>`;
 						list += `<td>${results[i].EventEnd}</td>`;
 						list += `<td>
-						<button type="button" id="${id+1}" class="viewButton" 
-						onclick="openModal(document.getElementById('publicView').rows[0].cells[${i}].innerText);">View this Event
+						<button type="button" id="${i+1}" class="viewButton" 
+						onclick="openModal(document.getElementById('publicView').rows[${i}].cells[0].innerText);">View this Event
 						</button>`;
 						list += "</tr>";
 						localStorage.setItem(res, JSON.stringify(results[i]));
@@ -143,6 +143,7 @@ function openModal(row)
 {
 	const modal_container = document.getElementById('container');
 	res = "results"+row;
+	console.log(res);
 	results = JSON.parse(localStorage.getItem(res));
 	modal_container.classList.add('show');
 	modal = document.getElementById('contain');
@@ -154,11 +155,15 @@ function openModal(row)
 	modal.appendChild(header);
 	modal.appendChild(newLine);
 	var para = document.createElement("p");
-	var ptext = document.createElement(results.Description);
+	console.log(results);
+	console.log(row);
+	var ptext = document.createTextNode(results.Description);
 	para.append(ptext);
 	modal.appendChild(para);
-
-
+	var date = document.createElement("p");
+	var dateText = document.createTextNode(`${results.EventEnd} From ${results.EventStart} To ${results.EventEnd}`);
+	date.appendChild(dateText);
+	modal.appendChild(date);
 }
 function closeModal(){
 	const modal_container = document.getElementById('container');
