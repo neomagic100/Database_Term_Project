@@ -4,7 +4,7 @@ USE UniversityEvents;
 DELIMITER $$
 
 -- Add a User to Users table
--- IN: user_name, user_pass
+-- IN: user_id, user_pass, user_name, email
 -- OUT: uid (auto)
 CREATE PROCEDURE addUser (IN user_id VARCHAR(255), IN user_pass VARCHAR(255), 
 	IN user_name VARCHAR(255), IN email VARCHAR(255), OUT id INTEGER)
@@ -15,7 +15,7 @@ CREATE PROCEDURE addUser (IN user_id VARCHAR(255), IN user_pass VARCHAR(255),
 	END$$
 
 -- Add an Admin to Admins table
--- IN: user_name, user_pass
+-- IN: user_id, user_pass, user_name, email
 CREATE PROCEDURE addAdmin (IN user_id VARCHAR(255), IN user_pass VARCHAR(255), 
 		IN user_name VARCHAR(255), IN email VARCHAR(255))
 	BEGIN
@@ -26,7 +26,7 @@ CREATE PROCEDURE addAdmin (IN user_id VARCHAR(255), IN user_pass VARCHAR(255),
     END$$
 
 -- Add a Superuser to Superusers table
--- IN: user_name, user_pass
+-- IN: user_id, user_pass, user_name, email
 CREATE PROCEDURE addSuperuser (IN user_id VARCHAR(255), IN user_pass VARCHAR(255), 
 		IN user_name VARCHAR(255), IN email VARCHAR(255))
 	BEGIN
