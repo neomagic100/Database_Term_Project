@@ -1,7 +1,7 @@
 -- Templates of Views
 
 USE UniversityEvents;
-DROP  View RSOEventView;
+
 CREATE VIEW PublicEventView AS
 	SELECT event_id, event_name, descrip, event_date, event_start, event_end
     -- SELECT event_name, descrip, DAYNAME(event_date), MONTHNAME(event_date), DAYOFMONTH(event_date), YEAR(event_date), event_start, event_end
