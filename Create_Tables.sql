@@ -11,8 +11,7 @@ CREATE TABLE IF NOT EXISTS University (
 );
 
 -- Users superclass
--- Store passwords as MD5('[password]')
---      i.e. INSERT INTO Users (user_id, user_pass) values ('michael', MD5('qwerty'));
+-- Store passwords hashed
 CREATE TABLE IF NOT EXISTS Users (
 	uid INTEGER auto_increment NOT NULL,
     user_id VARCHAR(24) NOT NULL,
@@ -24,6 +23,7 @@ CREATE TABLE IF NOT EXISTS Users (
 );
 
 -- Admins subclass of Users
+-- Store passwords hashed
 CREATE TABLE IF NOT EXISTS Admins (
 	uid INTEGER NOT NULL,
     user_id VARCHAR(24) NOT NULL,
@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS Admins (
 );
 
 -- Admins subclass of Users
+-- Store passwords hashed
 CREATE TABLE IF NOT EXISTS Superusers (
 	uid INTEGER NOT NULL,
     user_id VARCHAR(24) NOT NULL,
