@@ -139,55 +139,59 @@ function returnPublicEvent()
 		document.getElementById("publicView").innerHTML = err.message;
 	}
 }
-var modal;
+var modal; 
 function openModal(row)
 {
+	
 	const modal_container = document.getElementById('container');
+	localStorage.setItem("currstate", modal_container.innerHTML);
 	res = "results"+row;
 	results = JSON.parse(localStorage.getItem(res));
 	modal_container.classList.add('show');
 	modal = document.getElementById('contain');
-
 	var header = document.createElement("h1");
 	var text = document.createTextNode(results.EventName);
-
+	
 	header.appendChild(text);
-	modal.appendChild(header);
-
 	var para = document.createElement("p");
 	var ptext = document.createTextNode(results.Description);
 	para.append(ptext);
-	modal.appendChild(para);
 	var date = document.createElement("p");
-	var dateText = document.createTextNode(`${results.EventEnd} From ${results.EventStart} To ${results.EventEnd}`);
+	var dateText = document.createTextNode(`${results.EventDate} - From ${results.EventStart} To ${results.EventEnd}`);
 	date.appendChild(dateText);
-	modal.appendChild(date);
-	getLocation(results.Eventid)
-	var loc = JSON.parse(localStorage.getItem(`location${results.Eventid}`));
-	if(loc.lname != "")
-	{
-
-		var locHead = document.createElement("h1");
-		var locT = document.createTextNode("The Location");
-		var locP = document.createElement("p");
-		var locName = document.createTextNode(loc.lname);
-		var locationInformation = document.createElement("p");
-		var locText = document.createTextNode(`Latitude: ${loc.latitude} Longitude: ${loc.longitude}`);
-		var address = document.createElement("p");
-		var addrT = document.createTextNode(loc.addr);
-
-		locHead.appendChild(locT);
-		locP.appendChild(locName);
-		locationInformation.appendChild(locText);
-		address.appendChild(addrT);
-
-		modal.appendChild(locHead);
-		modal.appendChild(locP);
-		modal.appendChild(locationInformation);
-		modal.appendChild(address);
-	}
+	getLocation(results.Eventid);
+	setTimeout(function(){
+		var locJ = localStorage.getItem(`location${results.Eventid}`);
+		console.log(locJ)
+		var loc = JSON.parse(locJ);
+		if(loc.lname != "")
+		{
+			initMap(results.Eventid);
+			var locHead = document.createElement("h1");
+			var locT = document.createTextNode("The Location");
+			var locP = document.createElement("p");
+			var locName = document.createTextNode(loc.lname);
+			var locationInformation = document.createElement("p");
+			var locText = document.createTextNode(`Latitude: ${loc.latitude} Longitude: ${loc.longitude}`);
+			var address = document.createElement("p");
+			var addrT = document.createTextNode(loc.addr);
+			locHead.appendChild(locT);
+			locP.appendChild(locName);
+			locationInformation.appendChild(locText);
+			address.appendChild(addrT);
+			
+			modal.appendChild(header);
+			modal.appendChild(para);
+			modal.appendChild(date);
+			
+			modal.appendChild(locHead);
+			modal.appendChild(locP);
+			modal.appendChild(locationInformation);
+			modal.appendChild(address);
+		}
+	}, 250);
 }
-function getLocation(eid)
+ function getLocation(eid)
 {
 	var tmp = {event_id:eid};
 	var jsonPayload = JSON.stringify( tmp );
@@ -201,8 +205,11 @@ function getLocation(eid)
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{ 
-				var jsonObject = JSON.parse( xhr.responseText );
-				localStorage.setItem(`location${eid}`, xhr.responseText);
+				var jsonobj = JSON.parse(xhr.responseText);
+				if(jsonobj != null) 
+				{
+					localStorage.setItem(`location${eid}`, JSON.stringify(jsonobj));
+				}
 			}		
 		};
 		xhr.send(jsonPayload);
@@ -211,11 +218,28 @@ function getLocation(eid)
 	{
 	}
 }
+var map;
+function initMap(eid) {
+	var loc = JSON.parse(localStorage.getItem(`location${eid}`));
+    // The location of Uluru
+	const location = { lat: parseFloat(loc.latitude), lng: parseFloat(loc.longitude)};
+	// The map, centered at Uluru
+	const map = new google.maps.Map(document.getElementById("map"), {
+	  zoom: 18,
+	  center: location,
+	});
+	// The marker, positioned at Uluru
+	const marker = new google.maps.Marker({
+	  position: location,
+	  map: map,
+	});
+  
+}
+
 function closeModal(){
 	const modal_container = document.getElementById('container');
 	modal_container.classList.remove('show');
-	modal = document.getElementById('contain');
-	modal.innerHTML = '<button id="close" class="closeButton" onclick="closeModal();">Close</button>';
+	modal_container.innerHTML = localStorage.getItem("currstate");
 }
 
 
