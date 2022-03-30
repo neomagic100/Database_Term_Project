@@ -24,8 +24,8 @@
       </table>
   </div>
   <div id="container" class="modal-container">
+      <button id="close" class="closeButton" onclick="closeModal();">Close</button>
       <div id="contain" class="modal">
-          <button id="close" class="closeButton" onclick="closeModal();">Close</button>
           <style>
             /* Always set the map height explicitly to define the size of the div
              * element that contains the map. */
@@ -42,6 +42,8 @@
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCjp0Qq4iEApRkHKpP9Ws1rHHT9U1eW3k"
           async defer></script>
         </body>
+        <div id="left"></div>
+        <div id="right"></div>
       </div>
   </div>
   <script>returnPublicEvent();</script>

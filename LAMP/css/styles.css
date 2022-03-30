@@ -86,12 +86,12 @@ td {
     margin-left:-50px;
     left:50%;
     width:100px;
-    bottom:0px;
+    top:90%;
 }
 .modal-container{
     background-color: rgba(0,0,0,.3);
     display:flex;
-    align-items: center;
+    text-align: center;
     justify-content: center;
     position:fixed;
     height: 100%;
@@ -111,8 +111,22 @@ td {
     position: fixed;
     width:90%;
     height:90%;
-    text-align: center;
     border-radius: 25px;
+    text-align: center;
+}
+#left{
+    height:50%;
+    width:50%;
+    text-align:center;
+    top:50%;
+    float:left;
+}
+#right{
+    height:50%;
+    width:50%;
+    text-align:center;
+    top:50%;
+    float:right;
 }
 .buttons
 {

@@ -148,7 +148,7 @@ function openModal(row)
 	res = "results"+row;
 	results = JSON.parse(localStorage.getItem(res));
 	modal_container.classList.add('show');
-	modal = document.getElementById('contain');
+	modal = document.getElementById('left');
 	var header = document.createElement("h1");
 	var text = document.createTextNode(results.EventName);
 	
