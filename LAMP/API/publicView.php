@@ -28,8 +28,8 @@
                 $results .= ",";
 			}
 			$searchCount++;
-			$results .= '{"EventName": "' . $row["event_name"]  . '", "Description": "' . $row["descrip"] . '", "EventDate": "' . 
-                                $row["event_date"]  . '", "EventStart": "' . $row["event_start"] . '", "EventEnd": "' . $row["event_end"] . '"}';
+			$results .= '{"EventName": "' . $row["event_name"]  . '", "Eventid":' .$row["event_id"] .', "Description": "' . $row["descrip"] . '", "EventDate": "' . 
+                                $row["event_date"]  . '", "EventStart": "' . $row["event_start"] . '", "EventType":"Public", "EventEnd": "' . $row["event_end"] . '"}';
 		}
         returnWithInfo($results);
         $stmt->close();
