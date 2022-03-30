@@ -153,7 +153,7 @@ function openModal(row)
 	newLine = document.createElement("br");
 	header.appendChild(text);
 	modal.appendChild(header);
-	modal.appendChild(newLine);
+	// modal.appendChild(newLine);
 	var para = document.createElement("p");
 	console.log(results);
 	console.log(row);
