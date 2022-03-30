@@ -40,8 +40,8 @@
 	<br/>
 	<button type="button" id = "createButton" class="buttons4" onclick="createAccount();">Create Account</button>
 	<script>	
-		let input = document.getElementById("createPassword");
-		input.addEventListener("keyup", function(ev) {
+		let input1 = document.getElementById("createPassword");
+		input1.addEventListener("keyup", function(ev) {
 			if(ev.keyCode === 13) {
 				ev.preventDefault();
 				document.getElementById("createButton").click();

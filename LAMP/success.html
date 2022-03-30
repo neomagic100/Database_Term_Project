@@ -6,11 +6,28 @@
 	</head>
 <body onload="getName();">
   <h1 class="title" id="title">Welcome <span id="Name"></span></h1>
-  <button type="button" id="publicButton" class="buttons" onclick="goToPublic();">PUBLIC EVENTS</button>
-  <br/>
-  <button type="button" id="privateButton" class="buttons" onclick="goToPublic();">PRIVATE EVENTS</button>
-  <br/>
-  <button type="button" id="rsoButton" class="buttons" onclick="goToPublic();">RSO EVENTS</button>
-
+    <div class="resdiv">
+      <table id="table" class="viewTable">
+          <thead>
+              <tr>
+                  <th scope="col">Index</th>
+                  <th scope="col">Event Name</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Event Type</th>
+                  <th scope="col">Event Date</th>
+                  <th scope="col">Event Start</th>
+                  <th scope="col">Event End</th>
+                  <th scope="col"> View </th>
+              </tr>
+          </thead>
+          <tbody id="publicView" class="viewTable"></tbody>
+      </table>
+  </div>
+  <div id="container" class="modal-container">
+      <div id="contain" class="modal">
+          <button id="close" class="closeButton" onclick="closeModal();">Close</button>
+      </div>
+  </div>
+  <script>returnPublicEvent();</script>
 </body>
 </html>

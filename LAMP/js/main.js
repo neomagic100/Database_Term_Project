@@ -113,6 +113,7 @@ function returnPublicEvent()
 						list += `<td>${i+1}</td>`;
 						list += `<td>${results[i].EventName}</td>`;
 						list += `<td>${results[i].Description}</td>`;
+						list += `<td>${results[i].EventType}</td>`;
 						list += `<td>${results[i].EventDate}</td>`;
 						list += `<td>${results[i].EventStart}</td>`;
 						list += `<td>${results[i].EventEnd}</td>`;
@@ -143,20 +144,17 @@ function openModal(row)
 {
 	const modal_container = document.getElementById('container');
 	res = "results"+row;
-	console.log(res);
 	results = JSON.parse(localStorage.getItem(res));
 	modal_container.classList.add('show');
 	modal = document.getElementById('contain');
-	//modal.innerHTML += "Hello";
+
 	var header = document.createElement("h1");
 	var text = document.createTextNode(results.EventName);
-	newLine = document.createElement("br");
+
 	header.appendChild(text);
 	modal.appendChild(header);
-	// modal.appendChild(newLine);
+
 	var para = document.createElement("p");
-	console.log(results);
-	console.log(row);
 	var ptext = document.createTextNode(results.Description);
 	para.append(ptext);
 	modal.appendChild(para);
@@ -164,6 +162,54 @@ function openModal(row)
 	var dateText = document.createTextNode(`${results.EventEnd} From ${results.EventStart} To ${results.EventEnd}`);
 	date.appendChild(dateText);
 	modal.appendChild(date);
+	getLocation(results.Eventid)
+	var loc = JSON.parse(localStorage.getItem(`location${results.Eventid}`));
+	if(loc.lname != "")
+	{
+
+		var locHead = document.createElement("h1");
+		var locT = document.createTextNode("The Location");
+		var locP = document.createElement("p");
+		var locName = document.createTextNode(loc.lname);
+		var locationInformation = document.createElement("p");
+		var locText = document.createTextNode(`Latitude: ${loc.latitude} Longitude: ${loc.longitude}`);
+		var address = document.createElement("p");
+		var addrT = document.createTextNode(loc.addr);
+
+		locHead.appendChild(locT);
+		locP.appendChild(locName);
+		locationInformation.appendChild(locText);
+		address.appendChild(addrT);
+
+		modal.appendChild(locHead);
+		modal.appendChild(locP);
+		modal.appendChild(locationInformation);
+		modal.appendChild(address);
+	}
+}
+function getLocation(eid)
+{
+	var tmp = {event_id:eid};
+	var jsonPayload = JSON.stringify( tmp );
+	var xhr = new XMLHttpRequest();
+	var url = urlBase + '/locatedAt.' + extension;
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{ 
+				var jsonObject = JSON.parse( xhr.responseText );
+				localStorage.setItem(`location${eid}`, xhr.responseText);
+			}		
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+	}
 }
 function closeModal(){
 	const modal_container = document.getElementById('container');

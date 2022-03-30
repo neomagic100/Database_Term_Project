@@ -27,7 +27,7 @@
 	function returnWithInfo( $lname, $lat, $long, $addr)
 	{
 		$retValue = '{"lname":"' . $lname . '","latitude":"' . $lat . '","longitude":"' . $long . 
-                     '","addr":"'. $addr. '","error:""}';
+                     '","addr":"'. $addr. '","error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
     	function sendResultInfoAsJson( $obj )
