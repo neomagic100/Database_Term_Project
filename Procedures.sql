@@ -1,6 +1,5 @@
 USE UniversityEvents;
 
-
 DELIMITER $$
 
 -- Add a User to Users table
