@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS Comments (
     PRIMARY KEY (uid, event_id),
     FOREIGN KEY (uid) REFERENCES Users(uid)
         ON UPDATE CASCADE,
-    FOREIGN KEY (event_id) REFERENCES RSOEvents(event_id)
+    FOREIGN KEY (event_id) REFERENCES Events(event_id)
 		ON DELETE CASCADE
         ON UPDATE CASCADE
 );
