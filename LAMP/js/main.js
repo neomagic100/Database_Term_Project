@@ -145,6 +145,16 @@ function createUniversity() {
 	}
 }
 
+// Logout from site
+function logout() 
+{
+	// clear local storage
+	localStorage.clear();
+
+	// Go back to login page
+	window.location.href = "index.html";
+}
+
 function returnPublicEvent()
 {
 	var url = urlBase + '/publicView.' + extension;
