@@ -4,6 +4,14 @@ var extension = 'php';
 
 function getName()
 {
+	var status = localStorage.getItem("status");
+	if (status == "super")
+	{
+		var uni = document.getElementById("uni");
+		var req = document.getElementById("eventreq");
+		uni.classList.add('show');
+		req.classList.add('show');
+	}
 	// In a browser session, retrieve from the key 'Name' from local storage. 
 	document.getElementById("Name").innerHTML=localStorage.getItem("Name");
 }
@@ -47,9 +55,11 @@ function doLogin()
 					user_id = jsonObject.id;
 					user_name = jsonObject.Name;
 					uid = jsonObject.uid;
+					var status = jsonObject.userStatus;
 					// Save the name and uid into local storage for future calls/
 					localStorage.setItem("Name", user_name);
 					localStorage.setItem("uid", uid);
+					localStorage.setItem("status", jsonObject.userStatus);
 					// Move us to the main events page.
 					window.location.href = "success.html";
 				} else {
@@ -113,7 +123,7 @@ function createUniversity() {
 	var addr = document.getElementById("createUniAddr").value;
 	var descrip = document.getElementById("createUniDescription").value;
 
-	var tmp = {University:uni_name, NumberStudents:numStudents, Address:addr, Description:descrip};
+	var tmp = {University:uni_name, NumberStudents:numStudents, Address:addr, Description:descrip, uid:parseInt(localStorage.getItem('uid'))};
 	var jsonPayload = JSON.stringify( tmp );
 	var xhr = new XMLHttpRequest();
 	var url = urlBase + '/createUniversity.' + extension;
