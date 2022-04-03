@@ -217,3 +217,25 @@ td {
     background-color: #BA9B37;
     color: #ffffff;
 }
+
+/* Add a background color to the top navigation */
+.topnav {
+    background-color: #1d1d1e;
+    overflow: hidden;
+  }
+  
+  /* Style the links inside the navigation bar */
+  .topnav a {
+    float: right;
+    color: #BA9B37;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  /* Change the color of links on hover */
+  .topnav a:hover {
+    background-color: #BA9B37;
+    color: #1d1d1e;
+  }
