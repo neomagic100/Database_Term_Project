@@ -22,6 +22,15 @@
         <input type="text" id="createUniDescription" placeholder="DESCRIPTION"/><br />
         <br/>
         <button type="button" id="createUniButton" class="buttons4" onclick="createUniversity()">Create University</button>
+        <script>
+            let input = document.getElementById("createUniName");
+            input.addEventListener("keyup", function(ev) {
+                if(ev.keyCode === 13) {
+                    ev.preventDefault();
+                    document.getElementById("createUniButton").click();
+                }
+            })
+        </script>
         <div class="resdiv">
             <span id="resultCreate" class="result"></span>
         </div>

@@ -105,6 +105,46 @@ function doLogin()
 		document.getElementById("result").innerHTML = err.message;
 	}
 }
+
+// Create a new University Profile
+function createUniversity() {
+	var uni_name = document.getElementById("createUniName").value;
+	var numStudents = document.getElementById("createNumStudents").value;
+	var addr = document.getElementById("createUniAddr").value;
+	var descrip = document.getElementById("createUniDescription").value;
+
+	var tmp = {University:uni_name, NumberStudents:numStudents, Address:addr, Description:descrip};
+	var jsonPayload = JSON.stringify( tmp );
+	var xhr = new XMLHttpRequest();
+	var url = urlBase + '/createUniversity.' + extension;
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				var jsonObject = JSON.parse( xhr.responseText );
+				if(jsonObject.error == "")
+				{
+					// This can change just placeholder.
+					window.location.href = "created.html";
+				} else 
+				{
+					document.getElementById("resultCreate").innerHTML = jsonObject.error;
+				}
+			}
+				
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("result").innerHTML = err.message;
+	}
+}
+
 function returnPublicEvent()
 {
 	var url = urlBase + '/publicView.' + extension;
