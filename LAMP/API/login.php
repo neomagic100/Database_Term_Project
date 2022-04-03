@@ -21,16 +21,30 @@ if( $conn->connect_error )
 }
 else
 { 
+	$user_status = "normal";
     $stmt = $conn->prepare("SELECT uid, user_id, user_name, user_pass FROM Users WHERE user_id=?");
     $stmt->bind_param("s", $sanitizedLogin);
     $stmt->execute();
     $result = $stmt->get_result();
+	$stmt->close();
     if($result->num_rows == 0) returnWithError("Non-existent credentials, or typed wrong.");
+
     if( $row = $result->fetch_assoc()  )
     {   
+		$uid = $row['uid'];
+		$stmt = $conn->prepare("SELECT uid FROM Superusers WHERE uid=?");
+		$stmt->bind_param('i', $uid);
+		$stmt->execute();
+		if($stmt->get_result()->num_rows == 1) $user_status = "super";
+		$stmt->close();
+		$stmt = $conn->prepare("SELECT uid FROM Admins WHERE uid=?");
+		$stmt->bind_param("i", $uid);
+		$stmt->execute();
+		if ($stmt->get_result()->num_rows == 1) $user_status = "rso";
+		$stmt->close();
         if(password_verify($sanitizedPassword, $row["user_pass"]))
         {
-            returnWithInfo( $row['uid'], $row['user_id'], $row['user_name']);
+            returnWithInfo( $uid, $row['user_id'], $row['user_name'], $user_status);
         } else {
             returnWithError("Wrong Password");
         }
@@ -58,9 +72,9 @@ else
 		exit();
 	}
 
-	function returnWithInfo( $uid, $user_id, $user_name)
+	function returnWithInfo( $uid, $user_id, $user_name, $user_status)
 	{
-		$retValue = '{"uid":' . $uid . ',"id":"' . $user_id . '","Name":"' . $user_name . '","error":""}';
+		$retValue = '{"uid":' . $uid . ',"id":"' . $user_id . '","Name":"' . $user_name . '","userStatus":"' . $user_status . '","error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
 ?>

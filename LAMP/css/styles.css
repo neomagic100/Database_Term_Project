@@ -82,6 +82,28 @@ td {
     display: inline-block;
     margin:auto;
 }
+.acceptButton {
+    background-color: #11cf00;
+    /* Green */
+    color: white;
+    border: none;
+    padding: 10px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-block;
+    margin: auto;
+}
+.denyButton {
+    background-color: #ff0000;
+    /* Green */
+    color: white;
+    border: none;
+    padding: 10px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-block;
+    margin: auto;
+}
 .submit {
     background-color: #000000;
     color: white;
@@ -106,6 +128,12 @@ td {
     width:100px;
     top:90%;
 }
+.link{
+    opacity: 0;
+}
+.link.show{
+    opacity: 1;
+}
 .modal-container{
     background-color: rgba(0,0,0,.3);
     display:flex;
@@ -119,6 +147,7 @@ td {
     opacity: 0;
     pointer-events: none;
 }
+
 .modal-container.show{
     opacity: 1;
     pointer-events: auto;
@@ -222,6 +251,11 @@ td {
 .topnav {
     background-color: #1d1d1e;
     overflow: hidden;
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    height: 40px;
   }
   
   /* Style the links inside the navigation bar */

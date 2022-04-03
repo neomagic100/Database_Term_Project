@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <link href="css/styles.css" rel="stylesheet">
+    <script type="text/javascript" src="js/main.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+</head>
+<!-- Top Nav Bar-->
+<div class="topnav">
+    <a href="javascript: logout();"> Logout </a>
+    <a href="#contact">Contact</a>
+    <a href="#about">About</a>
+    <a href="success.html">Dashboard</a>
+    <a href="rsopage.html">RSO Management</a>
+    <a id='uni' class='link' href="addUniversity.html">Create University Profile</a>
+    <!-- Should only be accessible to SU -->
+    <a id='eventreq' class="link" href="eventRequests.html">View Event Requests</a>
+</div>
+
+<body>
+    <h1 class="title" id="title">Public Event Requests</h1>
+    <div class="resdiv">
+        <table id="table" class="viewTable">
+            <thead>
+                <tr>
+                    <th scope="col">Request</th>
+                    <th scope="col">Accept</th>
+                    <th scope="col">Deny</th>
+                </tr>
+            </thead>
+            <tbody id="publicView" class="viewTable"></tbody>
+        </table>
+    </div>
+    <script>populateEventRequests();</script>
+</body>
+
+</html>
