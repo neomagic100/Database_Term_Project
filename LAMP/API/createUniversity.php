@@ -1,8 +1,8 @@
     <?php
-        
+    include 'dbconfig.php';
         $inData = getRequestInfo();
         $sanitizedUniName = filter_var($inData["University"], FILTER_SANITIZE_SPECIAL_CHARS);
-        $sanitizedNumStudents = filter_var($inData["NumberStudents"], FILTER_SANITIZE_SPECIAL_CHARS);
+        $sanitizedNumStudents = $inData["NumberStudents"];
         $sanitizedAddress = filter_var($inData["Address"], FILTER_SANITIZE_SPECIAL_CHARS);
         $sanitizedDescription = filter_var($inData["Description"], FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -13,7 +13,7 @@
         }
         else {
             $stmt = $conn->prepare("INSERT INTO University (uni_name, location, num_students, descrip) VALUES (?,?,?,?)");
-            $stmt->bind_param("ssss", $sanitizedUniName, $sanitizedNumStudents, $sanitizedAddress, $sanitizedDescription);
+            $stmt->bind_param("ssis", $sanitizedUniName, $sanitizedAddress, $sanitizedNumStudents, $sanitizedDescription);
             $stmt->execute();
             $result = $stmt->get_result();
             $stmt->close();
@@ -26,6 +26,3 @@
             return json_decode(file_get_contents('php://input'), true);
         }
     ?>
-    </body>
-
-</html>
