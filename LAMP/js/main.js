@@ -129,7 +129,7 @@ function createUniversity() {
 				if(jsonObject.error == "")
 				{
 					// This can change just placeholder.
-					window.location.href = "created.html";
+					window.location.href = "success.html";
 				} else 
 				{
 					document.getElementById("resultCreate").innerHTML = jsonObject.error;
