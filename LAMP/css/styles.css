@@ -239,3 +239,9 @@ td {
     background-color: #BA9B37;
     color: #1d1d1e;
   }
+
+  /* Add an active class to highlight the current page */
+.topnav a.active {
+    background-color: #BA9B37;
+    color: #1d1d1e;
+  }
