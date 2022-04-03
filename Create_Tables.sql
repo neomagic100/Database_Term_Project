@@ -3,7 +3,7 @@ USE UniversityEvents;
 -- University Table
 CREATE TABLE IF NOT EXISTS University (
 	uni_id INTEGER auto_increment NOT NULL,
-    uni_name VARCHAR(255),
+    uni_name VARCHAR(255) NOT NULL,
     location VARCHAR(255),
     num_students INTEGER,
     descrip VARCHAR(1023),
