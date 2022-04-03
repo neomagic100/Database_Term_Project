@@ -5,6 +5,7 @@
         $sanitizedNumStudents = $inData["NumberStudents"];
         $sanitizedAddress = filter_var($inData["Address"], FILTER_SANITIZE_SPECIAL_CHARS);
         $sanitizedDescription = filter_var($inData["Description"], FILTER_SANITIZE_SPECIAL_CHARS);
+        $suID = $inData["uid"];
 
 
         $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port); 
@@ -18,6 +19,23 @@
             $result = $stmt->get_result();
             returnWithInfo($result->error);
             $stmt->close();
+
+            // get last university id added
+            $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $uniID = $row["LAST_INSERT_ID()"];
+            $stmt->close();
+
+            // Add to creates_profile table in DB
+            $stmt = $conn->prepare("INSERT INTO Creates_Profile(uid, uni_id) VALUES (?,?)");
+            $stmt->bind_param("ii", $suID, $uniID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            returnWithInfo($result->error);
+            $stmt->close();
+
             $conn->close();
         }
     function sendResultInfoAsJson($obj)
