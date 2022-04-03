@@ -1,10 +1,12 @@
 
-html, body {margin: 0; height: 100%; overflow-y: scroll; overflow-x:hidden; background-color: #323237;}
-
+html {margin: 0; height: 100%; overflow-y: scroll; overflow-x:hidden; background-color: #323237;}
+body {overflow-y:hidden}
 html * {
     font-family: 'Arial Narrow', sans-serif !important;
 }
-
+textarea{
+    resize:none
+}
 
 #nameFormat 
 {
@@ -48,7 +50,13 @@ input[type="edit_text"]{
     font-family: 'Ubuntu', sans-serif;
     color: #95060a;
 }
-
+.indcomment{
+    width:50%;
+    padding:1px;
+    background-color: #c2c2c2;
+    border-radius: 4px;
+    margin: 10 auto;
+}
 td {
     text-align: center;
 }
@@ -74,6 +82,16 @@ td {
     display: inline-block;
     margin:auto;
 }
+.submit {
+    background-color: #000000;
+    color: white;
+    border: none;
+    padding: 10px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto;
+}
 .closeButton{
     background-color: #000000; /* Green */
     color: white;
@@ -94,7 +112,7 @@ td {
     text-align: center;
     justify-content: center;
     position:fixed;
-    height: 100%;
+    height: 100vh;
     width: 100%;
     top:0;
     left:0;
@@ -115,19 +133,30 @@ td {
     text-align: center;
 }
 #left{
-    height:50%;
+    height:100%;
     width:50%;
     text-align:center;
-    top:50%;
+    top:40%;
     float:left;
+    overflow-y:auto;
 }
 #right{
     height:50%;
     width:50%;
     text-align:center;
+    top:60%;
+    float:left;
+    overflow-y:auto;
+}
+#bright{
+    height: 40%;
+    width:50%;
+    text-align:center;
     top:50%;
     float:right;
+    overflow-y:auto;
 }
+
 .buttons
 {
     border-radius: 15px;

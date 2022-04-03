@@ -190,15 +190,15 @@ function openModal(row)
 	date.appendChild(dateText);
 	// Calls php which returns to us the location of the event. If it's empty, event page is empty.
 	getLocation(results.Eventid);
+	getComments(results.Eventid);
 	// Why do we setTimeout? Because since js isn't sequential we can do all this work below and the location will not be in local storage
 	// even though we called getLocation before it. This is why when you click View This Event it hands for a fraction of a second.
 	setTimeout(function(){
 		var locJ = localStorage.getItem(`location${results.Eventid}`);
-		console.log(locJ)
 		var loc = JSON.parse(locJ);
 		if(loc.lname != "")
 		{
-			initMap(results.Eventid);
+			// Location
 			var locHead = document.createElement("h1");
 			var locT = document.createTextNode("The Location");
 			var locP = document.createElement("p");
@@ -220,9 +220,109 @@ function openModal(row)
 			modal.appendChild(locP);
 			modal.appendChild(locationInformation);
 			modal.appendChild(address);
+			//Comments
+			var comments = localStorage.getItem(`comments${results.Eventid}`);
+			comments = JSON.parse(comments);
+			var h = document.createElement('h1');
+			var ht = document.createTextNode('Comments');
+			h.appendChild(ht);
+			modal.appendChild(h);
+			for(var i = 0; i < comments.length; i++)
+			{
+				var commentdiv = document.createElement('div');
+				commentdiv.classList.add('indcomment');
+				var username = document.createTextNode(comments[i].user);
+				var time = document.createTextNode(comments[i].time);
+				var comment = document.createTextNode(comments[i].cmnt);
+				var stars = "";
+				for (var j = 0; j < comments[i].rating && j < 5; j++)  stars += '\u2605'
+				var rating = document.createTextNode(stars);
+				var p = document.createElement('p');
+				p.appendChild(username);
+				p.innerHTML += '<br>'
+				p.appendChild(time);
+				p.innerHTML += '<br>'
+				p.appendChild(comment);
+				p.innerHTML += '<br>'
+				p.appendChild(rating);
+				commentdiv.appendChild(p);
+				modal.appendChild(commentdiv);
+			}
+			//comment form
+			var bright = document.getElementById("bright");
+			var area = document.createElement('textarea');
+			area.setAttribute('id', 'cBox');
+			area.setAttribute('name', 'cBox');
+			area.setAttribute('placeholder', 'Add your comment here.');
+			area.setAttribute('rows', 5);
+			area.setAttribute('cols', 100);
+			var button = document.createElement('button');
+			button.setAttribute('id', 'submit');
+			button.setAttribute('onClick', `submitComment(${results.Eventid});`);
+			var buttonText = document.createTextNode("Submit!");
+			button.appendChild(buttonText);
+			button.classList.add('submit');
+			bright.appendChild(area);
+			bright.appendChild(button)
+
+			initMap(results.Eventid);
 		}
 	}, 250);
+	// localStorage.removeItem(`location${results.Eventid}`);
+	// localStorage.removeItem(`comments${results.Eventid}`);
 }
+function submitComment(eid)
+{
+	var comment = document.getElementById('cBox').value;
+	var rating = document.getElementById('rating').value;
+	var tmp = { cmnt:comment, uid:parseInt(localStorage.getItem('uid')), eid:eid, rating:parseInt(rating)};
+	console.log(tmp);
+	var jsonPayload = JSON.stringify(tmp);
+	var xhr = new XMLHttpRequest();
+	var url = urlBase + '/submitcomment.' + extension;
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				var jsonObject = JSON.parse(xhr.responseText);
+				if (jsonObject.error ==  " ") {
+					//document.getElementById("result").innerHTML = "Success!";
+					closeModal();
+				} else {
+					document.getElementById("result").innerHTML = jsonObject.error;
+				}
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch (err) {
+		document.getElementById("result").innerHTML = err.message;
+	}
+}
+function getComments(eid)
+{
+	var tmp = { event_id: eid };
+	var jsonPayload = JSON.stringify(tmp);
+	var xhr = new XMLHttpRequest();
+	var url = urlBase + '/loadComments.' + extension;
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				var jsonobj = JSON.parse(xhr.responseText);
+				var res = jsonobj.comments;
+				if (jsonobj != null) {
+					localStorage.setItem(`comments${eid}`, JSON.stringify(res));
+				}
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch (err) {
+	}
+}	
  function getLocation(eid)
 {
 	// calls locatedAt.php. 

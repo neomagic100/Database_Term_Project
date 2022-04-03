@@ -30,7 +30,7 @@
             /* Always set the map height explicitly to define the size of the div
              * element that contains the map. */
             #map {
-              height: 50%;
+              height: 60%;
               border-top-left-radius: 25px;
               border-top-right-radius: 25px;
             }
@@ -38,14 +38,22 @@
           </style>
         </head>
         <body>
+        <div id="left"></div>
           <div id="map"></div>
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCjp0Qq4iEApRkHKpP9Ws1rHHT9U1eW3k"
           async defer></script>
+          <div id="bright">
+            <label for="ratings">Select a rating</label>
+            <select name="ratings" id = 'rating'>
+              <option value=5>5</option>
+              <option value=4>4</option>
+              <option value=3>3</option>
+              <option value=2>2</option>
+              <option value=1>1</option>
+            </select>
+            <span id="result" class="result"></span>
+          </div>
         </body>
-        <div id="left"></div>
-        <div id="right">
-        </div>
-      </div>
   </div>
   <script>returnPublicEvent();</script>
 </body>
