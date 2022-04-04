@@ -16,26 +16,25 @@
         $stmt = $conn->prepare("SELECT uni_id, uni_name FROM University;");
         $stmt->execute();
         $result = $stmt->get_result();
-        $unis = "";
-        $searchCount = 0;
+        $unis = array();
 		while($row = $result->fetch_assoc())
 		{
-            if ($searchCount > 0) {
-                $unis .= ",";
-            }
-            $searchCount++;
-            $unis .= $row["uni_id"] . $row["uni_name"];
+            array_push($unis, array("UniversityID" => $row["uni_id"], "UniversityName" => $row["uni_name"]));
 		}
-        returnWithInfo($unis);
+        returnWithInfo(json_encode($unis));
         $stmt->close();
         $conn->close();
 
         
     }
-
+    function sendResultInfoAsJson($obj)
+    {
+        header('Content-type: application/json');
+        echo $obj;
+    }
     function returnWithInfo( $results )
 	{
-		$retValue = '{"results":[' . $results . '], "error":""}';
+		$retValue = '{"results":' . $results . ', "error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
 
