@@ -10,13 +10,28 @@ $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
 if ($conn->connect_error) {
     returnWithError($conn->connect_error);
 } else {
-    $stmt = $conn->prepare("UPDATE PublicEvents SET is_published=1 WHERE event_name=?");
-    $stmt->bind_param("s", $inData['name']);
+    // Check for superuser access
+    $stmt = $conn->prepare("SELECT uid FROM Superusers WHERE uid = ?;");
+    $stmt->bind_param("i", $inData['uid']);
     $stmt->execute();
     $result = $stmt->get_result();
-    returnWithInfo($result->error);
-    $stmt->close();
-    $conn->close();
+    $row = $result->fetch_assoc();
+    if ($row == NULL) {
+        echo alert('You do not have access to this function');
+        $stmt->close();
+        $conn->close();
+        exit();
+    }
+
+    else {
+        $stmt = $conn->prepare("UPDATE PublicEvents SET is_published=1 WHERE event_name=?");
+        $stmt->bind_param("s", $inData['name']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        returnWithInfo($result->error);
+        $stmt->close();
+        $conn->close();
+    }
 }
 function getRequestInfo()
 {

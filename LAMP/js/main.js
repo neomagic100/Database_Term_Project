@@ -260,7 +260,7 @@ function accept(name)
 {
 	// Similar to login, obtain values and send JSON to php.
 
-	var tmp = { name: name };
+	var tmp = { name: name , uid:parseInt(localStorage.getItem('uid'))};
 	var jsonPayload = JSON.stringify(tmp);
 	var xhr = new XMLHttpRequest();
 	var url = urlBase + '/accept.' + extension;
