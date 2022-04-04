@@ -6,8 +6,7 @@
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
 
-    echo "<input id="univ" list="University" >
-    <datalist id="University" >";
+    
 
     $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
     if (!$conn) {
@@ -17,16 +16,21 @@
         $stmt = $conn->prepare("SELECT uni_id, uni_name FROM University;");
         $stmt->execute();
         $result = $stmt->get_result();
-        $unis = array();
+        $unis = "";
+        $searchCount = 0;
 		while($row = $result->fetch_assoc())
 		{
-            $unis[$row["uni_id"]] = $row["uni_name"];
-            echo "<option value="$row['uni_name']"/>";
+            if ($searchCount > 0) {
+                $unis .= ",";
+            }
+            $searchCount++;
+            $unis .= $row["uni_id"] . $row["uni_name"];
 		}
+        returnWithInfo($unis);
         $stmt->close();
         $conn->close();
 
-        echo "</datalist>";
+        
     }
 
     function returnWithInfo( $results )
