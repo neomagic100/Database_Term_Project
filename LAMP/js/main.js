@@ -117,6 +117,56 @@ function doLogin()
 	}
 }
 
+// Get a list for a dropdown menu of universities
+function getUniversities() {
+	var url = urlBase + '/unisList.' + extension;
+	var list ="";
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				var jsonObject = JSON.parse( xhr.responseText );
+				if(jsonObject.error == "")
+				{
+					// Results is a JSON Array {results:[Name, Desc, Type, ...]}
+					var results = jsonObject.results;
+					// Go through results and form a new row in the table view you see in the events page.
+					for(var i = 0 ; i < results.length; i++)
+					{
+						// Everything here is building up the HTML that goes inside of the table body (in publicEvents look at the id publicView)
+						var uni = `results${i+1}`;
+						// Start a row.
+						list += '<select name=Universities value="unis">University</option>';
+						//<td> is the columns.
+						list += '<td>';
+						// We need the index here because its how I get the information from local storage.
+						list += `<td>${results[i].UniversityID}</td>`;
+						list += `<td>${results[i].UniversityName}</td>`;
+						
+						
+						list += "</tr>";
+						// Save results in local storage.
+						localStorage.setItem(uni, JSON.stringify(results[i]));
+					}
+					document.getElementById("unis").innerHTML = list;
+				} 
+				
+			}				
+		};
+		xhr.send(null);
+	}
+	catch(err)
+	{
+		document.getElementById("publicView").innerHTML = err.message;
+	}
+
+}
+
 // Create a new University Profile
 function createUniversity() {
 	var uni_name = document.getElementById("createUniName").value;
