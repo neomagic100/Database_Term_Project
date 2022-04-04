@@ -28,6 +28,7 @@
     $user_pass = password_hash($pass, PASSWORD_ARGON2I);
     $user_name = filter_var($inData["Name"], FILTER_SANITIZE_SPECIAL_CHARS);
     $email = filter_var($inData["Email"], FILTER_SANITIZE_EMAIL);
+	$univ = filter_var($inData["University"], FILTER_SANITIZE_SPECIAL_CHARS);
     if(empty($user_id))
     {
         returnWithError("Empty user");

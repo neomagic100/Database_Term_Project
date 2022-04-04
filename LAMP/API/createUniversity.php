@@ -13,6 +13,20 @@
             die("Connection failed: " . mysqli_connect_error());
         }
         else {
+            // Check to see if user is superuser with access
+            $stmt = $conn->prepare("SELECT uid FROM Superusers WHERE uid = ?;");
+            $stmt->bind_param("i", $suID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            if (row == NULL) {
+                echo alert('You do not have access to this function');
+                $stmt->close();
+                $conn->close();
+                exit();
+            }
+
+            // Insert user into university
             $stmt = $conn->prepare("INSERT INTO University (uni_name, location, num_students, descrip) VALUES (?,?,?,?)");
             $stmt->bind_param("ssis", $sanitizedUniName, $sanitizedAddress, $sanitizedNumStudents, $sanitizedDescription);
             $stmt->execute();
