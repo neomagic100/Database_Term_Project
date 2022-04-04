@@ -16,7 +16,7 @@
     $user_pass = password_hash($inData["Password"], PASSWORD_ARGON2I);
     $user_name = $inData["Name"];
     $email = $inData["Email"];
-	$univ = $inData["University"]
+	$univ = $inData["University"];
 	
     if($user_id == NULL) 
     {
@@ -47,6 +47,19 @@
 		$stmt->execute();
         $result = $stmt->get_result();
 		returnWithError($stmt->error);
+		$stmt->close();
+		//get uid
+		$uid = 0;
+		$stmt = $conn->prepare("SELECT uid FROM Users WHERE user_id = ?");
+		$stmt->bind_param("s", $user_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$result = $result->fetch_assoc();
+		$uid = $result['uid'];
+		// affiliated_with table
+		$stmt = $conn->prepare("INSERT INTO Affiliated_with (uni_id, uid) VALUES(?,?);");
+		$stmt->bind_param("ii", $univ, $uid);
+		$stmt->execute();
 		$stmt->close();
 		$conn->close();
 	}

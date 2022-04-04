@@ -83,9 +83,10 @@ function doLogin()
 	var password = document.getElementById("createPassword").value;
 	var email = document.getElementById("email").value;
 	var name = document.getElementById("nameid").value;
-	var university = document.getElementById("universityid").value;
-	
-	var tmp = {Login:login, Password:password, Email:email, Name:name, University:universityid};
+	var university = document.getElementById("unis").value;
+	var uniId = JSON.parse(localStorage.getItem(university)).UniversityID;
+	console.log(uniId);
+	var tmp = {Login:login, Password:password, Email:email, Name:name, University:parseInt(uniId)};
 	var jsonPayload = JSON.stringify( tmp );
 	var xhr = new XMLHttpRequest();
 	var url = urlBase + '/register.' + extension;
@@ -135,23 +136,15 @@ function getUniversities() {
 				{
 					// Results is a JSON Array {results:[Name, Desc, Type, ...]}
 					var results = jsonObject.results;
+					list += `<option value="def">Choose a University</option>`
 					// Go through results and form a new row in the table view you see in the events page.
 					for(var i = 0 ; i < results.length; i++)
 					{
-						// Everything here is building up the HTML that goes inside of the table body (in publicEvents look at the id publicView)
-						var uni = `results${i+1}`;
-						// Start a row.
-						list += '<select name=Universities value="unis">University</option>';
-						//<td> is the columns.
-						list += '<td>';
-						// We need the index here because its how I get the information from local storage.
-						list += `<td>${results[i].UniversityID}</td>`;
-						list += `<td>${results[i].UniversityName}</td>`;
+						var name = results[i].UniversityName;
+						list += `<option value="${name}">${name}</option>`;
 						
-						
-						list += "</tr>";
 						// Save results in local storage.
-						localStorage.setItem(uni, JSON.stringify(results[i]));
+						localStorage.setItem(name, JSON.stringify(results[i]));
 					}
 					document.getElementById("unis").innerHTML = list;
 				} 
