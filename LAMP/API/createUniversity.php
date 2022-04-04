@@ -19,7 +19,7 @@
             $stmt->execute();
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
-            if (row == NULL) {
+            if ($row == NULL) {
                 echo alert('You do not have access to this function');
                 $stmt->close();
                 $conn->close();
