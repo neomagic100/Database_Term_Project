@@ -319,12 +319,16 @@ function deny(name)
 		document.getElementById("result").innerHTML = err.message;
 	}
 }
+// can rename this to return events
+
 function returnPublicEvent()
 {
-	var url = urlBase + '/publicView.' + extension;
-	var list = "";
+
+	var tmp = { uid: parseInt(localStorage.getItem('uid')) };
+	var jsonPayload = JSON.stringify(tmp);
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET", url, true);
+	var url = urlBase + '/returnEvents.' + extension;
+	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
@@ -337,6 +341,7 @@ function returnPublicEvent()
 				{
 					// Results is a JSON Array {results:[Name, Desc, Type, ...]}
 					var results = jsonObject.results;
+					var list = "";
 					// Go through results and form a new row in the table view you see in the events page.
 					for(var i = 0 ; i < results.length; i++)
 					{
@@ -370,7 +375,7 @@ function returnPublicEvent()
 				}
 			}				
 		};
-		xhr.send(null);
+		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
