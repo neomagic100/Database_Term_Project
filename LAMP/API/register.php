@@ -20,6 +20,7 @@
     $user_pass = password_hash($inData["Password"], PASSWORD_ARGON2I);
     $user_name = $inData["Name"];
     $email = $inData["Email"];
+	$univ = $inData["University"]
 	
     if($user_id == NULL) 
     {

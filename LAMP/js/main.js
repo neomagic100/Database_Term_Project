@@ -83,8 +83,9 @@ function doLogin()
 	var password = document.getElementById("createPassword").value;
 	var email = document.getElementById("email").value;
 	var name = document.getElementById("nameid").value;
+	var university = document.getElementById("universityid").value;
 	
-	var tmp = {Login:login, Password:password, Email:email, Name:name};
+	var tmp = {Login:login, Password:password, Email:email, Name:name, University:universityid};
 	var jsonPayload = JSON.stringify( tmp );
 	var xhr = new XMLHttpRequest();
 	var url = urlBase + '/register.' + extension;
