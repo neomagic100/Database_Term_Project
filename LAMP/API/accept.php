@@ -16,9 +16,9 @@ if ($conn->connect_error) {
     $stmt->execute();
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
+    $stmt->close();
     if ($row == NULL) {
-        echo alert('You do not have access to this function');
-        $stmt->close();
+        returnWithError('You do not have access to this function');
         $conn->close();
         exit();
     }
@@ -46,13 +46,7 @@ function sendResultInfoAsJson($obj)
 
 function returnWithError($err)
 {
-    $retValue = "";
-    if (!empty($err)) {
-        $ret = explode(' ', $err, 4);
-        $retValue = '{"error":"' . $ret[0] . " " . $ret[1] . " " . $ret[2] . '"}';
-    } else {
-        $retValue = '{"error":"' . $err . '"}';
-    }
+    $retValue = '{"error":"' . $err . '"}';
     sendResultInfoAsJson($retValue);
 }
 function returnWithInfo($results)

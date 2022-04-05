@@ -1,12 +1,11 @@
     <?php
-    include 'dbconfig.php';
+        include 'dbconfig.php';
         $inData = getRequestInfo();
         $sanitizedUniName = filter_var($inData["University"], FILTER_SANITIZE_SPECIAL_CHARS);
-        $sanitizedNumStudents = $inData["NumberStudents"];
         $sanitizedAddress = filter_var($inData["Address"], FILTER_SANITIZE_SPECIAL_CHARS);
         $sanitizedDescription = filter_var($inData["Description"], FILTER_SANITIZE_SPECIAL_CHARS);
         $suID = $inData["uid"];
-
+        $sanitizedNumStudents = $inData["NumberStudents"];
 
         $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port); 
         if (!$conn) {
@@ -18,20 +17,17 @@
             $stmt->bind_param("i", $suID);
             $stmt->execute();
             $result = $stmt->get_result();
-            $row = $result->fetch_assoc();
-            if ($row == NULL) {
-                echo alert('You do not have access to this function');
-                $stmt->close();
+            $stmt->close();
+            if ($result == NULL) {
+                returnWithError("You do not have access");
                 $conn->close();
                 exit();
             }
-
             // Insert user into university
-            $stmt = $conn->prepare("INSERT INTO University (uni_name, location, num_students, descrip) VALUES (?,?,?,?)");
+            $stmt = $conn->prepare("INSERT INTO University (uni_name, location, num_students, descrip) VALUES (?,?,?,?);");
             $stmt->bind_param("ssis", $sanitizedUniName, $sanitizedAddress, $sanitizedNumStudents, $sanitizedDescription);
             $stmt->execute();
             $result = $stmt->get_result();
-            returnWithInfo($result->error);
             $stmt->close();
 
             // get last university id added
@@ -56,6 +52,11 @@
     {
         header('Content-type: application/json');
         echo $obj;
+    }
+    function returnWithError($err)
+    {
+        $retValue = '{"error":"' . $err . '"}';
+        sendResultInfoAsJson($retValue);
     }
     function returnWithInfo($results)
     {
