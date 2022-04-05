@@ -295,7 +295,8 @@ footer {
     padding: 3px;
     background-color: #1d1d1e;
     color: #BA9B37;
-    
+    position: absolute;
+    bottom: 0;
 }
 footer a:link {
     color: #ffffff;
