@@ -186,7 +186,7 @@ function getRSOs() {
 						list += `<option value="${name}">${name}</option>`;
 						
 						// Save results in local storage.
-						localStorage.setItem(name, JSON.stringify(results[i]));
+						localStorage.setItem(rsoname, JSON.stringify(results[i]));
 					}
 					document.getElementById("rsos").innerHTML = list;
 				} 
