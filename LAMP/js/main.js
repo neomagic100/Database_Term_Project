@@ -102,7 +102,7 @@ function doLogin()
 				if(jsonObject.error == "")
 				{
 					// This can change just placeholder.
-					window.location.href = "created.html";
+					location.reload();
 				} else 
 				{
 					document.getElementById("resultCreate").innerHTML = jsonObject.error;
