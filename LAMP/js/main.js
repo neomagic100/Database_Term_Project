@@ -161,7 +161,7 @@ function getUniversities() {
 }
 
 // Get a list for a dropdown menu of RSOs
-function getUniversities() {
+function getRSOs() {
 	var url = urlBase + '/rsosList.' + extension;
 	var list ="";
 	var xhr = new XMLHttpRequest();

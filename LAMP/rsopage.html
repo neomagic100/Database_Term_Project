@@ -20,7 +20,9 @@
 	<p>Active</p>
 	<p>Inactive</p>
 	<p>Join an RSO</p>
-	<select></select>
+	<select required name="RSOs" id="rsos"">
+	</select>
+	<script>getRSOs()</script>
 	<p>Create an RSO</p>
 	<form action="/action_page.php"><label for="fname">RSO Name:</label> <input name="fname" type="text" /><br /><br /><label for="lname">RSO Type:</label> <input name="lname" type="text" /><br /><br /><input type="submit" value="Submit" /></form>
 	
