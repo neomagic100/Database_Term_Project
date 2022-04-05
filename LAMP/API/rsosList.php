@@ -21,7 +21,7 @@
 		{
             array_push($rsos, array("RSOID" => $row["rso_id"], "RSOName" => $row["rname"], "RSOType" => $row["rtype"]));
 		}
-        returnWithInfo(json_encode($unis));
+        returnWithInfo(json_encode($rsos));
         $stmt->close();
         $conn->close();
 
