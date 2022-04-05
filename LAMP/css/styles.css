@@ -292,11 +292,12 @@ script {
 footer {
     display: block;
     text-align: center;
-    padding: 3px;
+    padding: 0px;
     background-color: #1d1d1e;
     color: #BA9B37;
     position: absolute;
     bottom: 0;
+    width: 100%;
 }
 footer a:link {
     color: #ffffff;
