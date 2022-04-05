@@ -14,7 +14,8 @@ FOR EACH ROW
 		)
 	)
     THEN
-		SIGNAL sqlstate '45000';
+		SIGNAL sqlstate '45000'
+        SET MESSAGE_TEXT = 'Time Conflict';
     END IF;
 END$$
     
