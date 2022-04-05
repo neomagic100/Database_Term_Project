@@ -30,6 +30,9 @@ CREATE VIEW RSOEventView AS
         TIME_FORMAT(event_end, '%h:%i %p') AS event_end
     FROM RSOEvents E, Creates_RSOEvent C
     INNER JOIN Events USING (event_id)
-    WHERE is_published = 1
+    WHERE E.is_published = 1 AND (
+		SELECT R.rso_id
+        FROM RSOs R
+        WHERE R.rso_id = C.rso_id AND R.is_active = 1)
     ORDER BY Events.event_date, Events.event_start;
 
