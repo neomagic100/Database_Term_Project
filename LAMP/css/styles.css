@@ -287,3 +287,23 @@ script {
     display:block;
     margin:0 auto;
 }
+
+/* Display Footer */
+footer {
+    display: block;
+    text-align: center;
+    padding: 3px;
+    background-color: #1d1d1e;
+    color: #BA9B37;
+    
+}
+footer a:link {
+    color: #ffffff;
+    background-color: #1d1d1e;
+    text-decoration: underline;
+}
+footer a:hover {
+    color: #1d1d1e;
+    background-color: #BA9B37;
+    text-decoration: none;
+}
