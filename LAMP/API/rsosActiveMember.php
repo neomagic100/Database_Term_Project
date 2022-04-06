@@ -6,8 +6,6 @@
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
 	include 'dbconfig.php';
 
-
-	$inData = getRequestInfo();
 	$conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
     $uid = parseInt(localStorage.getItem('uid'));
 
