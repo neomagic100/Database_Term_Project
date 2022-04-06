@@ -3,6 +3,8 @@ var urlBase = 'https://www.goldenknights.systems/API';
 var extension = 'php';
 
 function returnRSOs_ActiveMember(){
+    var tmp = { uid: parseInt(localStorage.getItem('uid')) };
+	var jsonPayload = JSON.stringify(tmp);
     var url = urlBase + '/rsosActiveMember.' + extension;
 	var list ="";
 	var xhr = new XMLHttpRequest();
@@ -50,7 +52,7 @@ function returnRSOs_ActiveMember(){
 				
 			}				
 		};
-		xhr.send(null);
+		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
