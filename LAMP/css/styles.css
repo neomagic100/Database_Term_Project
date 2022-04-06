@@ -287,7 +287,9 @@ script {
     display:block;
     margin:0 auto;
 }
-
+#timediv{
+    text-align: center;
+}
 /* Display Footer */
 footer {
     display: block;

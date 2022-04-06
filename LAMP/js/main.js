@@ -67,7 +67,7 @@ function logout()
 
 // can rename this to return events
 
-function returnPublicEvent()
+function returnEvents()
 {
 
 	var tmp = { uid: parseInt(localStorage.getItem('uid')) };
@@ -113,6 +113,7 @@ function returnPublicEvent()
 						// Save results in local storage.
 						localStorage.setItem(res, JSON.stringify(results[i]));
 					}
+					localStorage.setItem("uniid", parseInt(jsonObject.uniid));
 					document.getElementById("publicView").innerHTML = list;
 				} 
 				else

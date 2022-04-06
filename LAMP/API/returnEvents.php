@@ -68,7 +68,7 @@
 			));
 		}
 		$stmt->close();
-        returnWithInfo(json_encode($results));
+        returnWithInfo(json_encode($results), $uni_id);
         $conn->close();
 	}
 	function getRequestInfo()
@@ -94,9 +94,9 @@
 		}
 		sendResultInfoAsJson( $retValue );
 	}
-    function returnWithInfo( $results )
+    function returnWithInfo( $results, $uni_id )
 	{
-		$retValue = '{"results":' . $results . ', "error":""}';
+		$retValue = '{"results":' . $results . ',"uniid":' .$uni_id. ', "error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
 ?>
