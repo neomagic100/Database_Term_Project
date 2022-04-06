@@ -36,15 +36,17 @@ function returnRSOs_ActiveMember(){
 						// Just setting up a button that when clicked retreives the index it's in to open up that information page with the location.
 						list += `<td>                       
 						<button type="button" id="${i+1}" class="viewButton" 
-						onclick="openModal(document.getElementById('publicView').rows[${i}].cells[0].innerText);">View this Event
-						</button>`;
+						onclick="">Leave RSO</button>`;
 						list += "</tr>";
 						
 						// Save results in local storage.
-						localStorage.setItem(activerssoname, JSON.stringify(results[i]));
+						localStorage.setItem(activerssos, JSON.stringify(results[i]));
 					}
-					document.getElementById("rsos").innerHTML = list;
-				} 
+					document.getElementById("RSOActiveView").innerHTML = list;
+				}
+                else {
+                    document.getElementById("RSOActiveView").innerHTML = list;
+                } 
 				
 			}				
 		};

@@ -2,7 +2,7 @@ USE UniversityEvents;
 
 -- Dates formatted as Wed, Mar 31, 2022
 -- Times formatted as 11:46 AM
-DROP VIEW RSOEventView;
+
 -- View to see public events, date and time formatted, ordered chronologically
  CREATE VIEW PublicEventView AS
 	SELECT event_id, event_name, descrip, DATE_FORMAT(event_date, '%a, %b %d, %Y') AS event_date,
@@ -35,4 +35,10 @@ CREATE VIEW RSOEventView AS
         FROM RSOs R
         WHERE R.rso_id = C.rso_id AND R.is_active = 1)
     ORDER BY Events.event_date, Events.event_start;
+
+CREATE VIEW ActiveRSOs AS
+	SELECT U.uid, R.rname, R.rtype
+    FROM RSOs R, Member_of M, Users U
+    WHERE R.rso_id = M.rso_id AND U.uid = M.uid AND R.is_active = 1
+    ORDER BY R.rname;
 

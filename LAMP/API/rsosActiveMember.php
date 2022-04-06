@@ -5,14 +5,42 @@
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
 	include 'dbconfig.php';
+
+
 	$inData = getRequestInfo();
 	$conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
-    if ($conn->connect_error) 
-	{
-		returnWithError( $conn->connect_error );
-	} 
+    $uid = parseInt(localStorage.getItem('uid'));
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    } 
 	else
 	{
+        $stmt = $conn->prepare("SELECT uid, rname, rtype FROM ActiveRSOs WHERE uid = ?;");
+        $stmt->bind_param("i", $uid);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $results = array();
+
+        while($row = $result->fetch_assoc())
+		{
+			array_push($results, array('uid' => $row["uid"],'RSOName' => $row["rname"], 'RSOType' => $row["rtype"]));
+		}
+
+        $stmt->close();
+        $conn->close();
+
+        returnWithInfo(json_encode($results));
     }
 
+    function getRequestInfo()
+	{
+		return json_decode(file_get_contents('php://input'), true);
+	}
+
+    function returnWithInfo( $results )
+	{
+		$retValue = '{"results":' . $results . ', "error":""}';
+		sendResultInfoAsJson( $retValue );
+	}
 ?>
