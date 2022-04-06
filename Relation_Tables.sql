@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS Comments (
     timestmp TIMESTAMP DEFAULT NOW(),
     cmnt VARCHAR(1023),
     rating INTEGER,
-    PRIMARY KEY (uid, event_id),
+    PRIMARY KEY (uid, event_id, comment_id),
     FOREIGN KEY (uid) REFERENCES Users(uid)
         ON UPDATE CASCADE,
     FOREIGN KEY (event_id) REFERENCES Events(event_id)
