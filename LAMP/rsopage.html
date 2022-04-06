@@ -1,7 +1,7 @@
 <html>
     <head> 
 		<link href="css/styles.css" rel="stylesheet">	
-		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/rsos.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 	</head>
     <body onload="getName();">
@@ -21,11 +21,12 @@
   <br><br>
 	<p>RSOs Currently in&nbsp;</p>
 	<p>Active</p>
+	<script>returnRSOs_ActiveMember();</script>
 	<p>Inactive</p>
 	<p>Join an RSO</p>
 	<select required name="RSOs" id="rsos">
 	</select>
-	<script>getRSOs()</script>
+	<script>getRSOs();</script>
 	<p>Create an RSO</p>
 	<form action="/action_page.php"><label for="fname">RSO Name:</label> <input name="fname" type="text" /><br /><br /><label for="lname">RSO Type:</label> <input name="lname" type="text" /><br /><br /><input type="submit" value="Submit" /></form>
 	
