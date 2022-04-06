@@ -15,150 +15,6 @@ function getName()
 	// In a browser session, retrieve from the key 'Name' from local storage. 
 	document.getElementById("Name").innerHTML=localStorage.getItem("Name");
 }
-// Defunct will delete later.
-// function goToPublic()
-// {
-// 	// Redirects browser to the 
-// 	window.location.href= "publicEvents.html";
-// }
-function doLogin()
-{
-	userId = 0;
-	Name = "";
-	// In the html get the value of whatever is in the fields. (In this case whatever is in the loginName/password input.)
-	var login = document.getElementById("loginName").value;
-	var password = document.getElementById("loginPassword").value;
-	//"result" is like the error message you get (e.g. Invalid password!). This just sets it as blank. 
-	document.getElementById("result").innerHTML = "";
-	// This is what gets sent to the .php file (backend) just formatted as JSON.
-	var tmp = {Login:login,Password:password};
-	// Formats tmp from JSON into a string, since JSON is its own datatype here.
-	var jsonPayload = JSON.stringify(tmp);
-	// Where to call to? 
-	var url = urlBase + '/login.' + extension;
-
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-  	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		// This function happens when we get a response.
-		xhr.onreadystatechange = function() 
-		{
-			// This just tells us if the response was succesful 
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				// Response text is a string, parse it and format it into a JSON datatype/
-				var jsonObject = JSON.parse( xhr.responseText );
-				if(jsonObject.error == "")
-				{
-					user_id = jsonObject.id;
-					user_name = jsonObject.Name;
-					uid = jsonObject.uid;
-					var status = jsonObject.userStatus;
-					// Save the name and uid into local storage for future calls/
-					localStorage.setItem("Name", user_name);
-					localStorage.setItem("uid", uid);
-					localStorage.setItem("status", jsonObject.userStatus);
-					// Move us to the main events page.
-					window.location.href = "success.html";
-				} else {
-					// If there was an error, display it (e.g. No user 'bop' exists)
-					document.getElementById("result").innerHTML = jsonObject.error;
-				}
-			}
-		};
-		// Sends the JSON to the php file and exectutes function above when a response is received.
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("result").innerHTML = err.message;
-	}
- }
- function createAccount()
-{
-	// Similar to login, obtain values and send JSON to php.
-	var login = document.getElementById("createName").value;
-	var password = document.getElementById("createPassword").value;
-	var email = document.getElementById("email").value;
-	var name = document.getElementById("nameid").value;
-	var university = document.getElementById("unis").value;
-	var uniId = JSON.parse(localStorage.getItem(university)).UniversityID;
-	console.log(uniId);
-	var tmp = {Login:login, Password:password, Email:email, Name:name, University:parseInt(uniId)};
-	var jsonPayload = JSON.stringify( tmp );
-	var xhr = new XMLHttpRequest();
-	var url = urlBase + '/register.' + extension;
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				var jsonObject = JSON.parse( xhr.responseText );
-				if(jsonObject.error == "")
-				{
-					// This can change just placeholder.
-					location.reload();
-				} else 
-				{
-					document.getElementById("resultCreate").innerHTML = jsonObject.error;
-				}
-			}
-				
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("result").innerHTML = err.message;
-	}
-}
-
-// Get a list for a dropdown menu of universities
-function getUniversities() {
-	var url = urlBase + '/unisList.' + extension;
-	var list ="";
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				var jsonObject = JSON.parse( xhr.responseText );
-				if(jsonObject.error == "")
-				{
-					// Results is a JSON Array {results:[Name, Desc, Type, ...]}
-					var results = jsonObject.results;
-					list += `<option value="def">Choose a University</option>`
-					// Go through results and form a new row in the table view you see in the events page.
-					for(var i = 0 ; i < results.length; i++)
-					{
-						var name = results[i].UniversityName;
-						list += `<option value="${name}">${name}</option>`;
-						
-						// Save results in local storage.
-						localStorage.setItem(name, JSON.stringify(results[i]));
-					}
-					document.getElementById("unis").innerHTML = list;
-				} 
-				
-			}				
-		};
-		xhr.send(null);
-	}
-	catch(err)
-	{
-		document.getElementById("publicView").innerHTML = err.message;
-	}
-
-}
 
 // Get a list for a dropdown menu of RSOs
 function getRSOs() {
@@ -250,110 +106,7 @@ function logout()
 	// Go back to login page
 	window.location.href = "index.html";
 }
-function populateEventRequests(){
-	var url = urlBase + '/eventRequests.' + extension;
-	var list = "";
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try {
-		xhr.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				var jsonObject = JSON.parse(xhr.responseText);
-				if (jsonObject.error == "") {
-					// Results is a JSON Array {results:[Name, Desc, Type, ...]}
-					var results = jsonObject.results;
-					// Go through results and form a new row in the table view you see in the events page.
-					for (var i = 0; i < results.length; i++) {
-						// Everything here is building up the HTML that goes inside of the table body (in publicEvents look at the id publicView)
-						var res = `results${i + 1}`;
-						// Start a row.
-						list += "<tr>";
-						//<td> is the columns.
-						// We need the index here because its how I get the information from local storage.
-						list += `<td>${results[i].EventName}</td>`;
-						// Just setting up a button that when clicked retreives the index it's in to open up that information page with the location.
-						list += `<td>
-						<button type="button" id="${i + 1}" class="acceptButton" 
-						onclick="accept(document.getElementById('publicView').rows[${i}].cells[0].innerText);">Accept
-						</button>`;
-						list += `<td>
-						<button type="button" id="${i + 1}" class="denyButton" 
-						onclick="deny(document.getElementById('publicView').rows[${i}].cells[0].innerText);">Decline
-						</button>`;
-						list += "</tr>";
-						// Save results in local storage.
-						localStorage.setItem(res, JSON.stringify(results[i]));
-					}
-					document.getElementById("publicView").innerHTML = list;
-				}
-				else {
-					document.getElementById("publicView").innerHTML = "list";
-				}
-			}
-		};
-		xhr.send(null);
-	}
-	catch (err) {
-		document.getElementById("publicView").innerHTML = err.message;
-	}
-}
-function accept(name)
-{
-	// Similar to login, obtain values and send JSON to php.
 
-	var tmp = { name: name , uid:parseInt(localStorage.getItem('uid'))};
-	var jsonPayload = JSON.stringify(tmp);
-	var xhr = new XMLHttpRequest();
-	var url = urlBase + '/accept.' + extension;
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try {
-		xhr.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				var jsonObject = JSON.parse(xhr.responseText);
-				if (jsonObject.error == "") {
-					// This can change just placeholder.
-					location.reload();
-				} else {
-					document.getElementById("resultCreate").innerHTML = jsonObject.error;
-				}
-			}
-
-		};
-		xhr.send(jsonPayload);
-	}
-	catch (err) {
-		document.getElementById("result").innerHTML = err.message;
-	}
-}
-function deny(name)
-{
-	var tmp = { name: name };
-	var jsonPayload = JSON.stringify(tmp);
-	var xhr = new XMLHttpRequest();
-	var url = urlBase + '/deny.' + extension;
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try {
-		xhr.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				var jsonObject = JSON.parse(xhr.responseText);
-				if (jsonObject.error == "") {
-					// This can change just placeholder.
-					location.reload();
-				} else {
-					document.getElementById("resultCreate").innerHTML = jsonObject.error;
-				}
-			}
-
-		};
-		xhr.send(jsonPayload);
-	}
-	catch (err) {
-		document.getElementById("result").innerHTML = err.message;
-	}
-}
 // can rename this to return events
 
 function returnPublicEvent()
@@ -481,13 +234,17 @@ function openModal(row)
 			var ht = document.createTextNode('Comments');
 			h.appendChild(ht);
 			modal.appendChild(h);
+			var hasPosted = false;
 			for(var i = 0; i < comments.length; i++)
 			{
 				var commentdiv = document.createElement('div');
+				commentdiv.setAttribute('id', 'cmntdiv');
 				commentdiv.classList.add('indcomment');
 				var username = document.createTextNode(comments[i].user);
 				var time = document.createTextNode(comments[i].time);
+				var cmnt = document.createElement('p');
 				var comment = document.createTextNode(comments[i].cmnt);
+				cmnt.appendChild(comment);
 				var stars = "";
 				for (var j = 0; j < comments[i].rating && j < 5; j++)  stars += '\u2605'
 				var rating = document.createTextNode(stars);
@@ -496,10 +253,25 @@ function openModal(row)
 				p.innerHTML += '<br>'
 				p.appendChild(time);
 				p.innerHTML += '<br>'
-				p.appendChild(comment);
-				p.innerHTML += '<br>'
 				p.appendChild(rating);
+				p.innerHTML += '<br>'
+				p.appendChild(cmnt);
 				commentdiv.appendChild(p);
+				if(parseInt(localStorage.getItem("uid")) == comments[i].uid)
+				{
+					cmnt.setAttribute('id', 'cmnt');
+					hasPosted = true;
+					var deleteComment = document.createElement("button");
+					var editComment = document.createElement("button");
+					deleteComment.setAttribute('id', 'delBut');
+					deleteComment.innerText = "Delete";
+					deleteComment.setAttribute('onClick', `deleteComment(${results.Eventid}, ${row})`);
+					commentdiv.appendChild(deleteComment);
+					editComment.setAttribute('id', 'editBut');
+					editComment.setAttribute('onClick', `editComment(${results.Eventid}, ${row})`);
+					editComment.innerText="Edit";
+					commentdiv.appendChild(editComment);
+				}
 				modal.appendChild(commentdiv);
 			}
 			//comment form
@@ -507,17 +279,26 @@ function openModal(row)
 			var area = document.createElement('textarea');
 			area.setAttribute('id', 'cBox');
 			area.setAttribute('name', 'cBox');
-			area.setAttribute('placeholder', 'Add your comment here.');
 			area.setAttribute('rows', 5);
 			area.setAttribute('cols', 100);
-			var button = document.createElement('button');
-			button.setAttribute('id', 'submit');
-			button.setAttribute('onClick', `submitComment(${results.Eventid});`);
-			var buttonText = document.createTextNode("Submit!");
-			button.appendChild(buttonText);
-			button.classList.add('submit');
-			bright.appendChild(area);
-			bright.appendChild(button)
+			if(hasPosted)
+			{
+				var p = document.createElement('p')
+				area.disabled = true;
+				p.innerText = 'You\'ve already posted!'
+				bright.appendChild(p);
+			} else 
+			{
+				area.setAttribute('placeholder', 'Add your comment here.');
+				var button = document.createElement('button');
+				button.setAttribute('id', 'submit');
+				button.setAttribute('onClick', `submitComment(${results.Eventid}, ${row})`);
+				var buttonText = document.createTextNode("Submit!");
+				button.appendChild(buttonText);
+				button.classList.add('submit');
+				bright.appendChild(area);
+				bright.appendChild(button);
+			}
 
 			initMap(results.Eventid);
 		}
@@ -525,58 +306,8 @@ function openModal(row)
 	// localStorage.removeItem(`location${results.Eventid}`);
 	// localStorage.removeItem(`comments${results.Eventid}`);
 }
-function submitComment(eid)
-{
-	var comment = document.getElementById('cBox').value;
-	var rating = document.getElementById('rating').value;
-	var tmp = { cmnt:comment, uid:parseInt(localStorage.getItem('uid')), eid:eid, rating:parseInt(rating)};
-	console.log(tmp);
-	var jsonPayload = JSON.stringify(tmp);
-	var xhr = new XMLHttpRequest();
-	var url = urlBase + '/submitcomment.' + extension;
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try {
-		xhr.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				var jsonObject = JSON.parse(xhr.responseText);
-				if (jsonObject.error ==  " ") {
-					//document.getElementById("result").innerHTML = "Success!";
-					closeModal();
-				} else {
-					document.getElementById("result").innerHTML = jsonObject.error;
-				}
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch (err) {
-		document.getElementById("result").innerHTML = err.message;
-	}
-}
-function getComments(eid)
-{
-	var tmp = { event_id: eid };
-	var jsonPayload = JSON.stringify(tmp);
-	var xhr = new XMLHttpRequest();
-	var url = urlBase + '/loadComments.' + extension;
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try {
-		xhr.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				var jsonobj = JSON.parse(xhr.responseText);
-				var res = jsonobj.comments;
-				if (jsonobj != null) {
-					localStorage.setItem(`comments${eid}`, JSON.stringify(res));
-				}
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch (err) {
-	}
-}	
+
+
  function getLocation(eid)
 {
 	// calls locatedAt.php. 
