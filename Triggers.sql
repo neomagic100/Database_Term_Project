@@ -1,4 +1,5 @@
 USE UniversityEvents;
+
 DELIMITER $$
 
 -- Trigger to ensure times of events don't conflict
