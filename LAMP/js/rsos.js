@@ -42,7 +42,7 @@ function returnRSOs_ActiveMember(){
 						list += "</tr>";
 						
 						// Save results in local storage.
-						localStorage.setItem(activerssos, JSON.stringify(results[i]));
+						//localStorage.setItem(activerssos, JSON.stringify(results[i]));
 					}
 					document.getElementById("RSOActiveView").innerHTML = list;
 				}
@@ -52,7 +52,7 @@ function returnRSOs_ActiveMember(){
 				
 			}				
 		};
-		xhr.send(jsonPayload);
+		xhr.send(null);
 	}
 	catch(err)
 	{
@@ -86,7 +86,7 @@ function getRSOs() {
 						list += `<option value="${name}">${name}</option>`;
 						
 						// Save results in local storage.
-						localStorage.setItem(rsoname, JSON.stringify(results[i]));
+						//localStorage.setItem(rsoname, JSON.stringify(results[i]));
 					}
 					document.getElementById("rsos").innerHTML = list;
 				} 
@@ -100,4 +100,8 @@ function getRSOs() {
 		document.getElementById("publicView").innerHTML = err.message;
 	}
 
+}
+
+function joinRSO() {
+    alert('joined');
 }
