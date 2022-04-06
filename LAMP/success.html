@@ -5,6 +5,10 @@
     <script type="text/javascript" src="js/comments.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 	</head>
+ <footer>
+      <p>Authors: Adin Lukas DelaCruz, Michael Bernhardt, Andres Jardon</p>
+      <p><a href="mailto:contact@goldenknights.systems">Contact Us</a></p>
+ </footer>
 <!-- Top Nav Bar-->
 <div class="topnav">
   <a href="javascript: logout();" > Logout </a>
@@ -12,6 +16,8 @@
   <a href="#about">About</a>
   <a href="success.html">Dashboard</a>
   <a href="rsopage.html">RSO Management</a>
+  <a href="createPublic.html">Create a Public Event</a>
+  <a href="createPrivate.html">Create a Private Event</a>
   <a id='uni' class='link' href="addUniversity.html">Create University Profile</a> <!-- Should only be accessible to SU -->
   <a id='eventreq' class="link" href="eventRequests.html">View Event Requests</a>
 </div>
@@ -35,10 +41,7 @@
           <tbody id="publicView" class="viewTable"></tbody>
       </table>
   </div>
-    <footer>
-      <p>Authors: Adin Lukas DelaCruz, Michael Bernhardt, Andres Jardon</p>
-      <p><a href="mailto:contact@goldenknights.systems">Contact Us</a></p>
-    </footer>
+    
   <div id="container" class="modal-container">
       <button id="close" class="closeButton" onclick="closeModal();">Close</button>
       <div id="contain" class="modal">
@@ -71,7 +74,7 @@
           </div>
         </body>
   </div>
-  <script>returnPublicEvent();</script>
+  <script>returnEvents();</script>
 </div>
 
 </body>
