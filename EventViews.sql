@@ -41,4 +41,10 @@ CREATE VIEW ActiveRSOs AS
     FROM RSOs R, Member_of M, Users U
     WHERE R.rso_id = M.rso_id AND U.uid = M.uid AND R.is_active = 1
     ORDER BY R.rname;
+    
+CREATE VIEW InactiveRSOs AS
+	SELECT U.uid, R.rname, R.rtype
+    FROM RSOs R, Member_of M, Users U
+    WHERE R.rso_id = M.rso_id AND U.uid = M.uid AND R.is_active = 0
+    ORDER BY R.rname;
 
