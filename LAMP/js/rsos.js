@@ -98,4 +98,14 @@ function getRSOs() {
 		document.getElementById("publicView").innerHTML = err.message;
 	}
 
+    // Logout from site
+function logout() 
+{
+	// clear local storage
+	localStorage.clear();
+
+	// Go back to login page
+	window.location.href = "index.html";
+}
+
 }
