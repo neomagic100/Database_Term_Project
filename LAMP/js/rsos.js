@@ -54,9 +54,7 @@ function returnRSOs_ActiveMember(){
 			}				
 		};
 
-		var tmp = { uid: parseInt(localStorage.getItem('uid')) };
-		var jsonPayload = JSON.stringify(tmp);
-		xhr.send(null);
+		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
