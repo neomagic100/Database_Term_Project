@@ -41,4 +41,10 @@
 		$retValue = '{"results":' . $results . ', "error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
+
+    function sendResultInfoAsJson($obj)
+    {
+        header('Content-type: application/json');
+        echo $obj;
+    }
 ?>
