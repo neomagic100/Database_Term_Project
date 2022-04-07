@@ -58,7 +58,7 @@ function returnRSOs_ActiveMember(){
 	}
 	catch(err)
 	{
-		document.getElementById("publicView").innerHTML = err.message;
+		document.getElementById("rsotable").innerHTML = err.message;
 	}
 }
 
@@ -99,7 +99,7 @@ function getRSOs() {
 	}
 	catch(err)
 	{
-		document.getElementById("publicView").innerHTML = err.message;
+		document.getElementById("rsos").innerHTML = err.message;
 	}
 
 }
