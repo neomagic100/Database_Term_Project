@@ -87,7 +87,8 @@ function getRSOs() {
 					for(var i = 0 ; i < results.length; i++)
 					{
 						var name = results[i].RSOName;
-						list += `<option value="${name}">${name}</option>`;
+						var id = results[i].RSOID;
+						list += `<option value="${id}">${name}</option>`;
 						
 						// Save results in local storage.
 						//localStorage.setItem(rsoname, JSON.stringify(results[i]));
@@ -110,6 +111,7 @@ function joinRSO() {
     alert('joined'); //Placeholder
 
 	var select = document.getElementById('rsoSelect');
-	var value = select.options[select.selectedIndex].value;
-	console.log(value);
+	var selectedRSO = select.options[select.selectedIndex].value;
+	console.log(selectedRSO);
+
 }
