@@ -3,7 +3,7 @@ var urlBase = 'https://www.goldenknights.systems/API';
 var extension = 'php';
 
 function returnRSOs_ActiveMember(){
-    var tmp = { uid: parseInt(localStorage.getItem('uid')) };
+	var tmp = { uid: parseInt(localStorage.getItem('uid')) };
 	var jsonPayload = JSON.stringify(tmp);
     var url = urlBase + '/rsosActiveMember.' + extension;
 	var list ="";
@@ -42,8 +42,9 @@ function returnRSOs_ActiveMember(){
 						list += "</tr>";
 						
 						// Save results in local storage.
-						//localStorage.setItem(activerssos, JSON.stringify(results[i]));
+						localStorage.setItem(res, JSON.stringify(results[i]));
 					}
+					localStorage.setItem("rsoid", parseInt(jsonObject.rsoid));
 					document.getElementById("RSOActiveView").innerHTML = list;
 				}
                 else {
@@ -52,6 +53,9 @@ function returnRSOs_ActiveMember(){
 				
 			}				
 		};
+
+		var tmp = { uid: parseInt(localStorage.getItem('uid')) };
+		var jsonPayload = JSON.stringify(tmp);
 		xhr.send(null);
 	}
 	catch(err)
