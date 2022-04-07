@@ -80,26 +80,4 @@ FOR EACH ROW
 	END IF;
 END$$ 
 
--- Insert member with min(uid) into admins when member total is 5
-CREATE TRIGGER RSOMemberToAdmin
-	BEFORE INSERT ON Member_of
-FOR EACH ROW 
-	BEGIN
-    IF ((SELECT COUNT(*) 
-		FROM Member_of M
-        WHERE M.rso_id = NEW.rso_id) = 4)
-	THEN
-		INSERT INTO Admins (uid, user_id, user_pass, user_name, email)
-        SELECT U.uid, user_id, user_pass, user_name, email
-        FROM Users U
-        INNER JOIN Member_of M USING (uid)
-        WHERE U.uid = (SELECT MIN(uid) FROM Member_of)
-        LIMIT 1;
-        
-        SELECT LAST_INSERT_ID() into @id;
-        
-        INSERT INTO Owns (uid, rso_id) VALUES (@id, NEW.rso_id);
-	END IF;
-END $$
-
 DELIMITER ;
