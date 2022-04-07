@@ -108,10 +108,33 @@ function getRSOs() {
 }
 
 function joinRSO() {
-    alert('joined'); //Placeholder
-
+    
 	var select = document.getElementById('rsoSelect');
 	var selectedRSO = select.options[select.selectedIndex].value;
-	console.log(selectedRSO);
+	var tmp = { uid: parseInt(localStorage.getItem('uid')) , rsoid: parseInt(selectedRSO)};
+	var jsonPayload = JSON.stringify(tmp);
+	var url = urlBase + '/joinRSO.' + extension;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				var jsonObject = JSON.parse( xhr.responseText );
+				if(jsonObject.error == "")
+				{
+					// Placeholder
+					var temp = 1;
+				}
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err) {
+        document.getElementById("rsoSelect").innerHTML = err.message;
+	}
 
 }
