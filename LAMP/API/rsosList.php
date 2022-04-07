@@ -6,23 +6,14 @@
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
 
-    $uid = parseInt(localStorage.getItem('uid'));
+    
 
     $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
     else {
-        // Get RSOs from User's University
-        $stmt = $conn->prepare("SELECT A.uni_id FROM Owns O, Affiliated_with A WHERE O.uid = A.uid;");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $uni_id = $row['uni_id'];
-        $stmt->close();
-
-        $stmt = $conn->prepare("SELECT DISTINCT rso_id, rname, rtype FROM RSOs R, Affiliated_with A WHERE A.uni_id = ? AND A.uid = ?;");
-        $stmt->bind_param("ii", $uni_id, $uid);
+        $stmt = $conn->prepare("SELECT rso_id, rname, rtype FROM RSOs;");
         $stmt->execute();
         $result = $stmt->get_result();
         $rsos = array();
