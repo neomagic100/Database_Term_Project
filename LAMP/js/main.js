@@ -48,6 +48,7 @@ function createUniversity() {
 				
 		};
 		xhr.send(jsonPayload);
+		alert("Successfully Added new university!");
 	}
 	catch(err)
 	{
