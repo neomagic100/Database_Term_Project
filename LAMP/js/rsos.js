@@ -64,6 +64,8 @@ function returnRSOs_ActiveMember(){
 
 // Get a list for a dropdown menu of RSOs
 function getRSOs() {
+	var tmp = { uid: parseInt(localStorage.getItem('uid')) };
+	var jsonPayload = JSON.stringify(tmp);
 	var url = urlBase + '/rsosList.' + extension;
 	var list ="";
 	var xhr = new XMLHttpRequest();
@@ -95,7 +97,7 @@ function getRSOs() {
 				
 			}				
 		};
-		xhr.send(null);
+		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
