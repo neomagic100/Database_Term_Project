@@ -6,8 +6,8 @@
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
 
-    $uid = parseInt(localStorage.getItem('uid'));
     $inData = getRequestInfo();
+    $uid = $inData['uid'];
     $rso_id = $inData['rsoid'];
 
     $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
@@ -22,5 +22,19 @@
 		returnWithError($stmt->error);
 		$stmt->close();
         $conn->close();
+    }
+    function returnWithError($err)
+    {
+        $retValue = '{"error":"' . $err . '"}';
+        sendResultInfoAsJson($retValue);
+    }
+    function getRequestInfo()
+    {
+        return json_decode(file_get_contents('php://input'), true);
+    }
+    function sendResultInfoAsJson($obj)
+    {
+        header('Content-type: application/json');
+        echo $obj;
     }
 ?>
