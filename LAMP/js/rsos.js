@@ -132,6 +132,7 @@ function joinRSO() {
 			}
 		};
 		xhr.send(jsonPayload);
+		alert('Joined RSO');
 	}
 	catch(err) {
         document.getElementById("rsoSelect").innerHTML = err.message;
