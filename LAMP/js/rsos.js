@@ -90,7 +90,7 @@ function getRSOs() {
 						// Save results in local storage.
 						//localStorage.setItem(rsoname, JSON.stringify(results[i]));
 					}
-					document.getElementById("rsos").innerHTML = list;
+					document.getElementById("rsoSelect").innerHTML = list;
 				} 
 				
 			}				
@@ -99,7 +99,7 @@ function getRSOs() {
 	}
 	catch(err)
 	{
-		document.getElementById("rsos").innerHTML = err.message;
+		document.getElementById("rsoSelect").innerHTML = err.message;
 	}
 
 }
