@@ -107,5 +107,9 @@ function getRSOs() {
 }
 
 function joinRSO() {
-    alert('joined');
+    alert('joined'); //Placeholder
+
+	var select = document.getElementById('rsoSelect');
+	var value = select.options[select.selectedIndex].value;
+	console.log(value);
 }
