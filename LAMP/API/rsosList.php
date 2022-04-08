@@ -6,8 +6,7 @@
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
 
-    
-
+    $inData = getRequestInfo();
     $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
@@ -21,12 +20,16 @@
 		{
             array_push($rsos, array("RSOID" => $row["rso_id"], "RSOName" => $row["rname"], "RSOType" => $row["rtype"]));
 		}
-        returnWithInfo(json_encode($rsos));
         $stmt->close();
+        returnWithInfo(json_encode($rsos));
         $conn->close();
-
-        
     }
+
+    function getRequestInfo()
+	{
+		return json_decode(file_get_contents('php://input'), true);
+	}
+
     function sendResultInfoAsJson($obj)
     {
         header('Content-type: application/json');
@@ -35,6 +38,19 @@
     function returnWithInfo( $results )
 	{
 		$retValue = '{"results":' . $results . ', "error":""}';
+		sendResultInfoAsJson( $retValue );
+	}
+
+    function returnWithError( $err )
+	{
+		$retValue = "";
+		if(!empty($err))
+		{
+			$ret = explode(' ', $err, 4);
+			$retValue = '{"error":"' . $ret[0] . " " . $ret[1] . " " . $ret[2] .'"}';
+		} else {
+			$retValue = '{"error":"' . $err . '"}';
+		}
 		sendResultInfoAsJson( $retValue );
 	}
 
