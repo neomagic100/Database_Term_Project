@@ -126,6 +126,7 @@ function returnRSOs_InactiveMember(){
 function leaveInactiveRSO(row) {
 	var res = "x_RSO"+row;
 	var rso = JSON.parse(localStorage.getItem(res));
+	console.log(rso);
 	var jsonPayload = JSON.stringify(rso);
 	var xhr = new XMLHttpRequest();
     var url = urlBase + '/leaveRSO.' + extension;
