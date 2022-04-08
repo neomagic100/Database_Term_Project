@@ -37,13 +37,13 @@ CREATE VIEW RSOEventView AS
     ORDER BY Events.event_date, Events.event_start;
 
 CREATE VIEW ActiveRSOs AS
-	SELECT U.uid, R.rname, R.rtype
+	SELECT U.uid, R.rso_id, R.rname, R.rtype
     FROM RSOs R, Member_of M, Users U
     WHERE R.rso_id = M.rso_id AND U.uid = M.uid AND R.is_active = 1
     ORDER BY R.rname;
     
 CREATE VIEW InactiveRSOs AS
-	SELECT U.uid, R.rname, R.rtype
+	SELECT U.uid, R.rso_id, R.rname, R.rtype
     FROM RSOs R, Member_of M, Users U
     WHERE R.rso_id = M.rso_id AND U.uid = M.uid AND R.is_active = 0
     ORDER BY R.rname;
