@@ -38,7 +38,7 @@ function returnRSOs_ActiveMember(){
 						// Just setting up a button that when clicked retreives the index it's in to open up that information page with the location.
 						list += `<td>                       
 						<button type="button" id="${i+1}" class="viewButton" 
-						onclick="leaveActiveRSO(document.getElementById('RSOActiveView').rows[${i}].cells[0].innerText)>Leave RSO</button>`;
+						onclick="leaveActiveRSO(document.getElementById('RSOActiveView').rows[${i}].cells[0].innerText);">Leave RSO</button>`;
 						list += "</tr>";
 						
 						// Save results in local storage.
