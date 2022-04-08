@@ -62,6 +62,71 @@ function returnRSOs_ActiveMember(){
 	}
 }
 
+function returnRSOs_InactiveMember(){
+	var tmp = { uid: parseInt(localStorage.getItem('uid')) };
+	var jsonPayload = JSON.stringify(tmp);
+	var xhr = new XMLHttpRequest();
+    var url = urlBase + '/rsosInactiveMember.' + extension;
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				var jsonObject = JSON.parse( xhr.responseText );
+				if(jsonObject.error == "")
+				{
+					// Results is a JSON Array {results:[Name, Desc, Type, ...]}
+					var results = jsonObject.results;
+					var list ="";
+					// Go through results and form a new row in the table view you see in the events page.
+					for(var i = 0 ; i < results.length; i++)
+					{
+						// Everything here is building up the HTML that goes inside of the table body (in publicEvents look at the id publicView)
+						var currRSO = `x_RSO${i+1}`;
+						// Start a row.
+						list += "<tr>";
+						//<td> is the columns.
+						// We need the index here because its how I get the information from local storage.
+						list += `<td>${i+1}</td>`;
+						list += `<td>${results[i].RSOName}</td>`;
+						list += `<td>${results[i].RSOType}</td>`;
+						
+                        // TODO CHANGE
+						// Just setting up a button that when clicked retreives the index it's in to open up that information page with the location.
+						list += `<td>                       
+						<button type="button" id="${i+1}" class="viewButton" 
+						onclick="">Leave RSO</button>`;
+						list += "</tr>";
+						
+						// Save results in local storage.
+						localStorage.setItem(currRSO, JSON.stringify(results[i]));
+					}
+					//localStorage.setItem("rsoid", parseInt(jsonObject.rsoid));
+					document.getElementById("RSOInactiveView").innerHTML = list;
+				}
+                else {
+                    document.getElementById("RSOInactiveView").innerHTML = "list";
+                } 
+				
+			}				
+		};
+
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("RSOInactiveView").innerHTML = err.message;
+	}
+}
+
+// Leave clicked RSO
+function leaveRSO() {
+
+}
+
 // Get a list for a dropdown menu of RSOs
 function getRSOs() {
 	var tmp = { uid: parseInt(localStorage.getItem('uid')) };
