@@ -7,6 +7,8 @@
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
 
     $inData = getRequestInfo();
+    $rso_id = $inData['RSOID'];
+    $uid = $inData['uid'];
     $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
