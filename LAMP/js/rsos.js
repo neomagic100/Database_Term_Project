@@ -25,7 +25,7 @@ function returnRSOs_ActiveMember(){
 					for(var i = 0 ; i < results.length; i++)
 					{
 						// Everything here is building up the HTML that goes inside of the table body (in publicEvents look at the id publicView)
-						var res = `results${i+1}`;
+						var currRSO = `RSO${i+1}`;
 						// Start a row.
 						list += "<tr>";
 						//<td> is the columns.
@@ -42,9 +42,9 @@ function returnRSOs_ActiveMember(){
 						list += "</tr>";
 						
 						// Save results in local storage.
-						localStorage.setItem(res, JSON.stringify(results[i]));
+						localStorage.setItem(currRSO, JSON.stringify(results[i]));
 					}
-					localStorage.setItem("rsoid", parseInt(jsonObject.rsoid));
+					//localStorage.setItem("rsoid", parseInt(jsonObject.rsoid));
 					document.getElementById("RSOActiveView").innerHTML = list;
 				}
                 else {
