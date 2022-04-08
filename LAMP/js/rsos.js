@@ -5,10 +5,9 @@ var extension = 'php';
 function returnRSOs_ActiveMember(){
 	var tmp = { uid: parseInt(localStorage.getItem('uid')) };
 	var jsonPayload = JSON.stringify(tmp);
-    var url = urlBase + '/rsosActiveMember.' + extension;
-	
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET", url, true);
+    var url = urlBase + '/rsosActiveMember.' + extension;
+	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
@@ -49,7 +48,7 @@ function returnRSOs_ActiveMember(){
 					document.getElementById("RSOActiveView").innerHTML = list;
 				}
                 else {
-                    document.getElementById("RSOActiveView").innerHTML = list;
+                    document.getElementById("RSOActiveView").innerHTML = "list";
                 } 
 				
 			}				
@@ -59,7 +58,7 @@ function returnRSOs_ActiveMember(){
 	}
 	catch(err)
 	{
-		document.getElementById("rsotable").innerHTML = err.message;
+		document.getElementById("RSOActiveView").innerHTML = err.message;
 	}
 }
 
