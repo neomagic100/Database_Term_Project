@@ -155,6 +155,8 @@ function leaveInactiveRSO(row) {
 	catch(err) {
 
 	}
+
+	location.reload();
 }
 
 // Leave clicked RSO
@@ -189,6 +191,8 @@ function leaveActiveRSO(row) {
 	catch(err) {
 
 	}
+
+	location.reload();
 
 }
 
@@ -262,10 +266,10 @@ function joinRSO() {
 			}
 		};
 		xhr.send(jsonPayload);
-		alert('Joined RSO');
 	}
 	catch(err) {
         document.getElementById("rsoSelect").innerHTML = err.message;
 	}
 
+	location.reload();
 }
