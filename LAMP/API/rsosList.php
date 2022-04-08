@@ -7,6 +7,7 @@
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
 
     $inData = getRequestInfo();
+    $uid = $inData['uid'];
     $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
@@ -18,7 +19,7 @@
         $rsos = array();
 		while($row = $result->fetch_assoc())
 		{
-            array_push($rsos, array("RSOID" => $row["rso_id"], "RSOName" => $row["rname"], "RSOType" => $row["rtype"]));
+            array_push($rsos, array("RSOID" => $row["rso_id"], "RSOName" => $row["rname"], "RSOType" => $row["rtype"], "uid" => $uid));
 		}
         $stmt->close();
         returnWithInfo(json_encode($rsos));
