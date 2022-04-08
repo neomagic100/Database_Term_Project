@@ -273,3 +273,7 @@ function joinRSO() {
 
 	location.reload();
 }
+
+function createRSO() {
+	var rsoName = lo
+}
