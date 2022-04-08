@@ -98,7 +98,7 @@ function returnRSOs_InactiveMember(){
 						// Just setting up a button that when clicked retreives the index it's in to open up that information page with the location.
 						list += `<td>                       
 						<button type="button" id="${i+1}" class="viewButton" 
-						onclick="">Leave RSO</button>`;
+						onclick="leaveInactiveRSO(document.getElementById('RSOInactiveView').rows[${i}].cells[0].innerText);">Leave RSO</button>`;
 						list += "</tr>";
 						
 						// Save results in local storage.
@@ -123,7 +123,71 @@ function returnRSOs_InactiveMember(){
 }
 
 // Leave clicked RSO
-function leaveRSO() {
+function leaveInactiveRSO(row) {
+	var res = "x_RSO"+row;
+	var rso = JSON.parse(localStorage.getItem(res));
+	var jsonPayload = JSON.stringify(rso);
+	var xhr = new XMLHttpRequest();
+    var url = urlBase + '/leaveRSO.' + extension;
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				var jsonObject = JSON.parse( xhr.responseText );
+				if(jsonObject.error == "")
+				{
+					// This can change just placeholder.
+					window.location.href = "success.html";
+				} else 
+				{
+					document.getElementById("RSOInactiveView").innerHTML = jsonObject.error;
+				}
+			}
+				
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err) {
+
+	}
+}
+
+// Leave clicked RSO
+function leaveActiveRSO(row) {
+	var res = "RSO"+row;
+	var rso = JSON.parse(localStorage.getItem(res));
+	var jsonPayload = JSON.stringify(rso);
+	var xhr = new XMLHttpRequest();
+    var url = urlBase + '/leaveRSO.' + extension;
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				var jsonObject = JSON.parse( xhr.responseText );
+				if(jsonObject.error == "")
+				{
+					// This can change just placeholder.
+					window.location.href = "success.html";
+				} else 
+				{
+					document.getElementById("RSOActiveView").innerHTML = jsonObject.error;
+				}
+			}
+				
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err) {
+
+	}
 
 }
 
