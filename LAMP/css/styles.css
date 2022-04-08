@@ -8,6 +8,16 @@ textarea{
     resize:none
 }
 
+h2 {
+    text-align: center;
+    color:#BA9B37
+}
+
+h3 {
+    text-align: center;
+    color:#BA9B37
+}
+
 #nameFormat 
 {
     font-size: 50px;
