@@ -1,10 +1,11 @@
 <?php
+    include 'dbconfig.php';
     header('Access-Control-Allow-Origin: https://www.goldenknights.systems/');
     header("Access-Control-Allow-Credentials: true");
     header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
-	include 'dbconfig.php';
+	
 
 	$conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
     $uid = parseInt(localStorage.getItem('uid'));
@@ -26,9 +27,8 @@
 		}
 
         $stmt->close();
-        $conn->close();
-
         returnWithInfo(json_encode($results));
+        $conn->close();       
     }
 
     function getRequestInfo()
@@ -46,5 +46,11 @@
     {
         header('Content-type: application/json');
         echo $obj;
+    }
+
+    function returnWithError($err)
+    {
+        $retValue = '{"error":"' . $err . '"}';
+        sendResultInfoAsJson($retValue);
     }
 ?>
