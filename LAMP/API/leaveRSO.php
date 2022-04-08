@@ -14,16 +14,10 @@
         die("Connection failed: " . mysqli_connect_error());
     }
     else {
-        $stmt = $conn->prepare("SELECT rso_id, rname, rtype FROM RSOs;");
+        $stmt = $conn->prepare("DELETE FROM Member_of WHERE uid = ? AND rso_id = ?;");
+        $stmt->bind_param("ii", $uid, $rso_id);
         $stmt->execute();
-        $result = $stmt->get_result();
-        $rsos = array();
-		while($row = $result->fetch_assoc())
-		{
-            array_push($rsos, array("RSOID" => $row["rso_id"], "RSOName" => $row["rname"], "RSOType" => $row["rtype"]));
-		}
         $stmt->close();
-        returnWithInfo(json_encode($rsos));
         $conn->close();
     }
 
