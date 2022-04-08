@@ -20,8 +20,8 @@
 			<a id='eventreq' class="link" href="eventRequests.html">View Event Requests</a>
 		</div>
   <br><br>
-	<p>RSOs Currently in</p>
-	<p>Active</p>
+	<p><h2>RSOs Currently in</h2></p>
+	<p><h3>Active</h3></p>
 	<div class="resdiv">
 		<table id="table" class="viewTable">
 			<thead>
@@ -36,7 +36,7 @@
 		</table>
 	</div>
 	<script>returnRSOs_ActiveMember();</script>
-	<p>Inactive</p>
+	<p><h3>Inactive</h3></p>
 	<div class="resdiv">
 		<table id="table" class="viewTable">
 			<thead>
@@ -51,12 +51,12 @@
 		</table>
 	</div>
 	<script>returnRSOs_InactiveMember();</script>
-	<p>Join an RSO</p>
+	<br><h3>Join an RSO</h3>
 	<select required name="RSOs" id="rsoSelect">
 	</select>
 	<script>getRSOs();</script>
 	<input type="button" onclick="joinRSO();" value="Join!" id="joinrso">
-	<p>Create an RSO</p>
+	<p><h2>Create an RSO</h2></p>
 	<form action="/action_page.php"><label for="fname">RSO Name:</label> <input name="fname" type="text" /><br /><br /><label for="lname">RSO Type:</label> <input name="lname" type="text" /><br /><br /><input type="submit" value="Submit" /></form>
 	
 	</body>
