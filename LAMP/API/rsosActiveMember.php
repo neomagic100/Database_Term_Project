@@ -15,7 +15,7 @@
     } 
 	else
 	{
-        $stmt = $conn->prepare("SELECT uid, rname, rtype FROM ActiveRSOs WHERE uid = ?;");
+        $stmt = $conn->prepare("SELECT * FROM ActiveRSOs WHERE uid = ?;");
         $stmt->bind_param("i", $uid);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -23,7 +23,7 @@
 
         while($row = $result->fetch_assoc())
 		{
-			array_push($results, array('uid' => $row["uid"],'RSOName' => $row["rname"], 'RSOType' => $row["rtype"]));
+			array_push($results, array('uid' => $row["uid"],'RSOID' => $row["rso_id"], 'RSOName' => $row["rname"], 'RSOType' => $row["rtype"]));
 		}
 
         $stmt->close();
