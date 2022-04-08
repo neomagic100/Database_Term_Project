@@ -51,13 +51,21 @@
 		</table>
 	</div>
 	<script>returnRSOs_InactiveMember();</script>
-	<br><h3>Join an RSO</h3>
-	<select required name="RSOs" id="rsoSelect">
-	</select>
-	<script>getRSOs();</script>
-	<input type="button" onclick="joinRSO();" value="Join!" id="joinrso">
-	<p><h2>Create an RSO</h2></p>
-	<form action="/action_page.php"><label for="fname">RSO Name:</label> <input name="fname" type="text" /><br /><br /><label for="lname">RSO Type:</label> <input name="lname" type="text" /><br /><br /><input type="submit" value="Submit" /></form>
-	
+
+	<div class="resdiv">
+		<br><h3>Join an RSO</h3>
+		<select required name="RSOs" id="rsoSelect">
+		</select>
+		<script>getRSOs();</script>
+		<input type="button" onclick="joinRSO();" value="Join!" id="joinrso">
+	</div>
+	<div class="resdiv">
+		<h2>Create an RSO</h2>
+		<form>
+			<input type="text" id="rsoName" placeholder="RSO NAME" /><br /> <br/>
+			<input type="text" id="rsoType" placeholder="RSO TYPE" /><br /> <br/>
+			<button type="button" id="creatersoButton" class="buttons4" onclick="doNothing();">Create</button>
+		</form>
+	</div>
 	</body>
 </html>
