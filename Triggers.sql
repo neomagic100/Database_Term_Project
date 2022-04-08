@@ -2,6 +2,22 @@ USE UniversityEvents;
 
 DELIMITER $$
 
+-- Trigger to prevent admin from leaving RSO
+CREATE TRIGGER Prevent_Admin_Leaving
+	BEFORE DELETE ON Member_of
+FOR EACH ROW
+	IF (EXISTS (
+		SELECT *
+        FROM Owns O
+        WHERE (OLD.uid = O.uid) AND (OLD.rso_id = O.rso_id)
+        )
+	)
+    THEN
+		SIGNAL sqlstate '4500'
+        SET MESSAGE_TEXT = 'Admin cannot leave an RSO they own';
+	END IF;
+END $$
+
 -- Trigger to ensure times of events don't conflict
 CREATE TRIGGER Event_Time_Check
 	BEFORE INSERT ON Events
