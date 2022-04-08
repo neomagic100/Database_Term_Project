@@ -6,7 +6,7 @@ function returnRSOs_ActiveMember(){
 	var tmp = { uid: parseInt(localStorage.getItem('uid')) };
 	var jsonPayload = JSON.stringify(tmp);
     var url = urlBase + '/rsosActiveMember.' + extension;
-	var list ="";
+	
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -21,6 +21,7 @@ function returnRSOs_ActiveMember(){
 				{
 					// Results is a JSON Array {results:[Name, Desc, Type, ...]}
 					var results = jsonObject.results;
+					var list ="";
 					// Go through results and form a new row in the table view you see in the events page.
 					for(var i = 0 ; i < results.length; i++)
 					{
