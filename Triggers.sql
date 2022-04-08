@@ -13,10 +13,10 @@ FOR EACH ROW
         )
 	)
     THEN
-		SIGNAL sqlstate '4500'
+		SIGNAL sqlstate '45000'
         SET MESSAGE_TEXT = 'Admin cannot leave an RSO they own';
 	END IF;
-END $$
+END$$
 
 -- Trigger to ensure times of events don't conflict
 CREATE TRIGGER Event_Time_Check
