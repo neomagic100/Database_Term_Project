@@ -18,8 +18,9 @@ CREATE VIEW PrivateEventView AS
     SELECT E.event_id, event_name, C.uni_id, descrip, DATE_FORMAT(event_date, '%a, %b %d, %Y') AS event_date,
 		TIME_FORMAT(event_start, '%h:%i %p') AS event_start, 
         TIME_FORMAT(event_end, '%h:%i %p') AS event_end
-    FROM PrivateEvents E, Creates_PrivateEvent C
+    FROM PrivateEvents E
     INNER JOIN Events USING (event_id)
+    INNER JOIN Creates_PrivateEvent C USING (event_id)
     WHERE is_published = 1
     ORDER BY Events.event_date, Events.event_start;
 
