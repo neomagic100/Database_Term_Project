@@ -21,6 +21,11 @@
     $addr = $inData['address'];
     $uniid = $inData['uniid'];
 
+    if ($end - $start <= 0) {
+        returnWithError("Please make sure event times are in the same date");
+        die();
+    }
+
     if (is_null($uid) || is_null($eventcat) || is_null($eventname) || is_null($descrip) || is_null($lname) || is_null($latitude) || is_null($long)) {
         returnWithError("hey uh put some values in here");
         die();
