@@ -289,7 +289,7 @@ function createRSO() {
 			if (this.readyState == 4 && this.status == 200) {
 				var jsonObject = JSON.parse(xhr.responseText);
 				if (jsonObject.error == "") {
-					window.location.href = "success.html";
+					location.reload();
 				}
 				else {
 					location.reload();
@@ -301,4 +301,6 @@ function createRSO() {
 	catch (err) {
 
     }
+
+	location.reload();
 }
