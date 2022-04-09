@@ -37,7 +37,7 @@ function returnRSOs_ActiveMember(){
 						// Create an RSO event if user is admin and owner
 						list += `<td>                       
 						<button type="button" id="create${i+1}" class="viewButton" 
-						onclick="window.location.href='https://www.goldenknights.com/createRSOEvent.html';">Create RSO Event</button>`;
+						onclick="window.location.href='https://www.goldenknights.systems/createRSOEvent.html';">Create RSO Event</button>`;
                         
 						// Leave the selected RSO
 						list += `<td>                       
