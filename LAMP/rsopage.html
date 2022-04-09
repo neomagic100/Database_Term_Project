@@ -5,7 +5,7 @@
 		<script type="text/javascript" src="js/main.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 	</head>
-    <body>
+    <body onload="getOwned();">
         <!-- Top Nav Bar-->
 		<div class="topnav">
 			<a href="javascript: logout();"> Logout </a>
@@ -36,7 +36,7 @@
 			<tbody id="RSOActiveView" class="viewTable"></tbody>
 		</table>
 	</div>
-	<script>returnRSOs_ActiveMember();</script>
+	<script>setTimeout(() => {returnRSOs_ActiveMember();}, 250);</script>
 	<p><h3>Inactive</h3></p>
 	<div class="resdiv">
 		<table id="table" class="viewTable">

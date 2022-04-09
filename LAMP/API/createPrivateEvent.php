@@ -58,12 +58,11 @@ if (!$conn) {
     $stmt->bind_param("ssssssi", $eventname, $eventcat, $descrip, $date, $start, $end, $lid);
     $stmt->execute();
     $result = $stmt->get_result();
-    if ($result == FALSE
-    ) {
+    $stmt->close();
+    if ($stmt->affected_rows == -1) {
         returnWithError($stmt->error);
         die();
     }
-    $stmt->close();
     //eid
     $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
     $stmt->execute();
@@ -76,8 +75,7 @@ if (!$conn) {
     $stmt->bind_param("ii", $eid, $lid);
     $stmt->execute();
     $result = $stmt->get_result();
-    if ($result == FALSE
-    ) {
+    if ($stmt->affected_rows == -1) {
         returnWithError($stmt->error);
         die();
     }
@@ -87,8 +85,7 @@ if (!$conn) {
     $stmt->bind_param("iii",$uid, $eid, $uniid);
     $stmt->execute();
     $result = $stmt->get_result();
-    if ($result == FALSE
-    ) {
+    if ($stmt->affected_rows == -1) {
         returnWithError($stmt->error);
         die();
     }

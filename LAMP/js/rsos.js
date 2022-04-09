@@ -1,15 +1,50 @@
 // Set up where the calls will be made to.
 var urlBase = 'https://www.goldenknights.systems/API';
 var extension = 'php';
+function getOwned()
+{
+	var tmp = { uid: parseInt(localStorage.getItem('uid')) };
+	var jsonPayload = JSON.stringify(tmp);
+	var xhr = new XMLHttpRequest();
+	var url = urlBase + '/returnOwnedRSOs.' + extension;
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				var jsonObject = JSON.parse(xhr.responseText);
+				if (jsonObject.error == "") {
+					var res = JSON.stringify(jsonObject.results);
+					localStorage.setItem("owned", res);
+	
+				}
+				else {
+					document.getElementById("RSOActiveView").innerHTML = "list";
+				}
 
+			}
+		};
+
+		xhr.send(jsonPayload);
+	}
+	catch (err) {
+		document.getElementById("RSOActiveView").innerHTML = err.message;
+	}
+}
 function returnRSOs_ActiveMember(){
 	var tmp = { uid: parseInt(localStorage.getItem('uid')) };
+	var set = new Set();
+	var res = JSON.parse(localStorage.getItem("owned"));
+	for(var i = 0; i < res.length; i++)
+	{
+		set.add(res[i].rsoid);
+	}
 	var jsonPayload = JSON.stringify(tmp);
 	var xhr = new XMLHttpRequest();
     var url = urlBase + '/rsosActiveMember.' + extension;
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
+	setTimeout(()=>{try
 	{
 		xhr.onreadystatechange = function() 
 		{
@@ -35,10 +70,15 @@ function returnRSOs_ActiveMember(){
 						list += `<td>${results[i].RSOType}</td>`;
 						
 						// Create an RSO event if user is admin and owner
-						list += `<td>                       
-						<button type="button" id="create${i+1}" class="viewButton" 
-						onclick="setRSOCreate(document.getElementById('RSOActiveView').rows[${i}].cells[0].innerText);window.location.href='https://www.goldenknights.systems/createRSOEvent.html';">Create RSO Event</button>`;
-                        
+
+						list += `<td>`;
+						if(set.has(results[i].RSOID)){
+							console.log('hi');
+						list += `<button type="button" id="create${i+1}" class="rsoButton" 
+						onclick="setRSOCreate(document.getElementById('RSOActiveView').rows[${i}].cells[0].innerText);
+						window.location.href='https://www.goldenknights.systems/createRSOEvent.html';">Create RSO Event</button>`;
+						}
+                        list += "</td>";
 						// Leave the selected RSO
 						list += `<td>                       
 						<button type="button" id="${i+1}" class="viewButton" 
@@ -63,7 +103,7 @@ function returnRSOs_ActiveMember(){
 	catch(err)
 	{
 		document.getElementById("RSOActiveView").innerHTML = err.message;
-	}
+	} }, 100);
 }
 
 function returnRSOs_InactiveMember(){

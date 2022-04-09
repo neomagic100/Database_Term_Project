@@ -37,11 +37,6 @@ else
 		$stmt->execute();
 		if($stmt->get_result()->num_rows == 1) $user_status = "super";
 		$stmt->close();
-		$stmt = $conn->prepare("SELECT uid FROM Admins WHERE uid=?");
-		$stmt->bind_param("i", $uid);
-		$stmt->execute();
-		if ($stmt->get_result()->num_rows == 1) $user_status = "rso";
-		$stmt->close();
         if(password_verify($sanitizedPassword, $row["user_pass"]))
         {
             returnWithInfo( $uid, $row['user_id'], $row['user_name'], $user_status);

@@ -60,10 +60,6 @@
         $stmt->bind_param("ssssssi", $eventname, $eventcat, $descrip, $date, $start, $end, $lid);
         $stmt->execute();
         $result = $stmt->get_result();
-        if ($result == FALSE) {
-            returnWithError($stmt->error);
-            die();
-        }   
         $stmt->close();
         //eid
         $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");

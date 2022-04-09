@@ -27,6 +27,8 @@
     }
 
     if (is_null($uid) || is_null($eventcat) || is_null($eventname) || is_null($descrip) || is_null($lname) || is_null($latitude) || is_null($long)) {
+    if (is_null($uid) || is_null($eventcat) || is_null($eventname) || is_null($descrip) || is_null($lname) || is_null($latitude) || is_null($long) || is_null($date) || is_null($start) ||
+    is_null($end) || is_null($addr)) {
         returnWithError("hey uh put some values in here");
         die();
     }
@@ -37,22 +39,16 @@
     }
     else {
         // Make sure user is Owner of RSO
-        $stmt = $conn->prepare("SELECT COUNT(*) FROM Owns WHERE uid = ? AND rso_id = ?;");
-        $stmt->bind_param("ii", $uid, $rsoid);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $isOwner = $row["COUNT(*)"];
-        $stmt->close();
-
-        if ($isOwner > 0) {
             // Add location
             $stmt = $conn->prepare("INSERT INTO Location (lname, latitude, longitude, address) VALUES (?,?,?,?);");
             $stmt->bind_param("sdds", $lname, $latitude, $long, $addr);
             $stmt->execute();
             $result = $stmt->get_result();
             $stmt->close();
-
+            if ($stmt->affected_rows == -1) {
+                returnWithError($stmt->error);
+                die();
+            }
             // Get location id
             $lid = 0;
             if ($result == FALSE) {
@@ -78,11 +74,11 @@
             $stmt->bind_param("ssssssi", $eventname, $eventcat, $descrip, $date, $start, $end, $lid);
             $stmt->execute();
             $result = $stmt->get_result();
-            $stmt->close();
-            if ($result == FALSE) {
+            if ($stmt->affected_rows == -1) {
                 returnWithError($stmt->error);
                 die();
             }
+            $stmt->close();
             //eid
             $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
             $stmt->execute();
@@ -95,26 +91,25 @@
             $stmt->bind_param("ii", $eid, $lid);
             $stmt->execute();
             $result = $stmt->get_result();
-            if ($result == FALSE) {
+            if ($stmt->affected_rows == -1) {
                 returnWithError($stmt->error);
                 die();
             }
             $stmt->close();
 
             //put in creates RSO Event
-            $stmt = $conn->prepare("INSERT INTO Creates_PrivateEvent (rso_id, event_id) VALUES (?,?)");
-            $stmt->bind_param("iii", $rsoid, $eid);
+            $stmt = $conn->prepare("INSERT INTO Creates_RSOEvent (rso_id, event_id) VALUES (?,?)");
+            $stmt->bind_param("ii", $rsoid, $eid);
             $stmt->execute();
             $result = $stmt->get_result();
-            if ($result == FALSE) {
+            returnWithError($result->error);
+            if ($stmt->affected_rows == -1) {
                 returnWithError($stmt->error);
                 die();
             }
-            returnWithError($result->error);
             $stmt->close();
-            $conn->close()
+            $conn->close();
         }
-
     }
 
     function returnWithError($err)

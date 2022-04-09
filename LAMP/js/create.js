@@ -13,12 +13,26 @@ function createRSOEvent() {
     var date = document.getElementById("date").value;
     var start = document.getElementById('startTime').value;
     var end = document.getElementById('endTime').value;
+    /*    $rsoid = $inData["RSOID"];
+    $uid = $inData['uid'];
+    $eventname = $inData['eventname'];
+    $eventcat = $inData['eventcat'];
+    $descrip = $inData['descrip'];
+    $date = $inData['date'];
+    $start = $inData['start'];
+    $end = $inData['end'];
+    $lname = $inData['lname'];
+    $latitude = $inData['lat'];
+    $long = $inData['long'];
+    $addr = $inData['address'];
+    $uniid = $inData['uniid'];*/
     var tmp = {
         eventname: eventName, uid: parseInt(localStorage.getItem('uid')),
         eventcat: eventCat, descrip: descrip, date: date, start: start,
-        end: end, lname: lname, lat: lat, long: long, address: addr
+        end: end, lname: lname, lat: lat, long: long, address: addr,
+        RSOID:rsoInfo.RSOID
     };
-    tmp = union(tmp, rsoInfo);
+    console.log(tmp);
     var jsonPayload = JSON.stringify(tmp);
     var xhr = new XMLHttpRequest();
     var url = urlBase + '/createRSOEvent.' + extension;
@@ -28,6 +42,7 @@ function createRSOEvent() {
         xhr.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var jsonObject = JSON.parse(xhr.responseText);
+                console.log(jsonObject);
                 if (jsonObject.error == "") {
                     //closeModal();
                     document.getElementById("resultCreate").innerHTML = "Added!";
