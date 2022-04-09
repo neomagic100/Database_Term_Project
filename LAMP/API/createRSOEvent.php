@@ -21,10 +21,11 @@
     $addr = $inData['address'];
     $uniid = $inData['uniid'];
 
-    if (is_null($uid) || is_null($eventcat) || is_null($eventname) || is_null($descrip) || is_null($lname) || is_null($latitude) || is_null($long)) {
+if (is_null($uid) || is_null($eventcat) || is_null($eventname) || is_null($descrip) || is_null($lname) || is_null($latitude) || is_null($long) || is_null($date) || is_null($start) ||
+    is_null($end) || is_null($addr)) {
         returnWithError("hey uh put some values in here");
         die();
-    }
+    }   
 
     $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
     if (!$conn) {
@@ -49,12 +50,24 @@
             $stmt->close();
 
             // Get location id
-            $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $row = $result->fetch_assoc();
-            $lid = $row["LAST_INSERT_ID()"];
-            $stmt->close();
+            $lid = 0;
+            if ($result == FALSE) {
+                $stmt = $conn->prepare("SELECT lid FROM Location WHERE address = ?;");
+                $stmt->bind_param("s", $addr);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
+                $lid = $row["lid"];
+                $stmt->close();
+            } else {
+                // Get location id
+                $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
+                $lid = $row["LAST_INSERT_ID()"];
+                $stmt->close();
+            }
 
             // add it
             $stmt = $conn->prepare("CALL addRSOEvent( ?, ?,  ?, ?, ?,?,  ?);");
@@ -62,7 +75,10 @@
             $stmt->execute();
             $result = $stmt->get_result();
             $stmt->close();
-
+            if ($result == FALSE) {
+                returnWithError($stmt->error);
+                die();
+            }
             //eid
             $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
             $stmt->execute();
@@ -70,12 +86,15 @@
             $row = $result->fetch_assoc();
             $eid = $row["LAST_INSERT_ID()"];
             $stmt->close();
-
             //put in located at
             $stmt = $conn->prepare("INSERT INTO Located_at (event_id, lid) VALUES (?,?)");
             $stmt->bind_param("ii", $eid, $lid);
             $stmt->execute();
             $result = $stmt->get_result();
+            if ($result == FALSE) {
+                returnWithError($stmt->error);
+                die();
+            }
             $stmt->close();
 
             //put in creates RSO Event
@@ -83,6 +102,10 @@
             $stmt->bind_param("iii", $rsoid, $eid);
             $stmt->execute();
             $result = $stmt->get_result();
+            if ($result == FALSE) {
+                returnWithError($stmt->error);
+                die();
+            }
             returnWithError($result->error);
             $stmt->close();
             $conn->close()
