@@ -34,8 +34,12 @@ function returnRSOs_ActiveMember(){
 						list += `<td>${results[i].RSOName}</td>`;
 						list += `<td>${results[i].RSOType}</td>`;
 						
-                        // TODO CHANGE
-						// Just setting up a button that when clicked retreives the index it's in to open up that information page with the location.
+						// Create an RSO event if user is admin and owner
+						list += `<td>                       
+						<button type="button" id="create${i+1}" class="viewButton" 
+						onclick="window.location.href='https://www.goldenknights.com/createRSOEvent.html';">Create RSO Event</button>`;
+                        
+						// Leave the selected RSO
 						list += `<td>                       
 						<button type="button" id="${i+1}" class="viewButton" 
 						onclick="leaveActiveRSO(document.getElementById('RSOActiveView').rows[${i}].cells[0].innerText);">Leave RSO</button>`;
@@ -94,8 +98,7 @@ function returnRSOs_InactiveMember(){
 						list += `<td>${results[i].RSOName}</td>`;
 						list += `<td>${results[i].RSOType}</td>`;
 						
-                        // TODO CHANGE
-						// Just setting up a button that when clicked retreives the index it's in to open up that information page with the location.
+                        // Leave the selected RSO
 						list += `<td>                       
 						<button type="button" id="${i+1}" class="viewButton" 
 						onclick="leaveInactiveRSO(document.getElementById('RSOInactiveView').rows[${i}].cells[0].innerText);">Leave RSO</button>`;
