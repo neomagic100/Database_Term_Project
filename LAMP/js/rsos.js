@@ -278,7 +278,7 @@ function createRSO() {
 	var rsoName = document.getElementById("rsoName").value;
 	var rsoType = document.getElementById("rsoType").value;
 
-	var tmp = { RSOName: rsoName, RSOType: rsoType };
+	var tmp = { RSOName: rsoName, RSOType: rsoType, uid: parseInt(localStorage.getItem("uid")) };
 	var jsonPayload = JSON.stringify(tmp);
 	var xhr = new XMLHttpRequest();
 	var url = urlBase + '/createRSO.' + extension;
