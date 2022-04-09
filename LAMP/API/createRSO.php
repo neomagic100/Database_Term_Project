@@ -9,6 +9,7 @@
     $inData = getRequestInfo();
     $rsoName = $inData["RSOName"];
     $rsoType = $inData["RSOType"];
+    $uid = $inData["uid"];
 
     $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
     if (!$conn) {
@@ -18,6 +19,21 @@
         // Add new RSO
         $stmt = $conn->prepare("INSERT INTO RSOs (rname, rtype) VALUES (?,?);");
         $stmt->bind_param("ss", $rsoName, $rsoType);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        // get last RSO id added
+        $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $rsoID = $row["LAST_INSERT_ID()"];
+        $stmt->close();
+
+        // Join new RSO
+        $stmt = $conn->prepare("INSERT INTO Member_of (uid, rso_id) VALUES (?,?);");
+        $stmt->bind_param("ii", $uid, $rsoID);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
