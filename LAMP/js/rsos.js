@@ -165,44 +165,49 @@ function setRSOCreate(row) {
 	var res = "RSO"+row;
 	var rso = JSON.parse(localStorage.getItem(res));
 	var jsonPayload = JSON.stringify(rso);
-	alert(jsonPayload);
 	localStorage.setItem("CreateRSOev", jsonPayload);
 }
 
 // Create an RSO Event
-function createRSOEvent(row) {
-	var lbl;
-	var res = "RSO"+row;
-	var rso = JSON.parse(localStorage.getItem(res));
-	var jsonPayload = JSON.stringify(rso);
-	var xhr = new XMLHttpRequest();
-    var url = urlBase + '/createRSOEvent.' + extension; 
-
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				var jsonObject = JSON.parse( xhr.responseText );
-				if(jsonObject.error == "")
-				{
-					// This can change just placeholder.
-					localStorage.setItem(currRSO, JSON.stringify(results[i]));
-				} else 
-				{
-					document.getElementById("RSOActiveView").innerHTML = jsonObject.error;
-				}
-			}
-				
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err) {
-
-	}
+function createRSOEvent() {
+	var rsoInfo = JSON.parse(localStorage.getItem("CreateRSOev"));
+	var long = document.getElementById('cityLat').value;
+    var lat = document.getElementById('cityLng').value;
+    var eventName = document.getElementById('eventName').value;
+    var eventCat = document.getElementById("eventCat").value;
+    var descrip = document.getElementById("description").value;
+    var lname = document.getElementById('locationName').value;
+    var addr = document.getElementById('location').value;
+    var date = document.getElementById("date").value;
+    var start = document.getElementById('startTime').value;
+    var end = document.getElementById('endTime').value;
+    var tmp = { eventname: eventName, uid: parseInt(localStorage.getItem('uid')),
+                 eventcat: eventCat, descrip: descrip, date:date, start: start,
+                end:end, lname:lname, lat:lat, long:long, address:addr };
+	tmp = union(tmp, rsoInfo);			
+    var jsonPayload = JSON.stringify(tmp);
+    var xhr = new XMLHttpRequest();
+    var url = urlBase + '/createRSOEvent.' + extension;
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try {
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var jsonObject = JSON.parse(xhr.responseText);
+                if (jsonObject.error == "") {
+                    //closeModal();
+                    document.getElementById("resultCreate").innerHTML = "Added!";
+                    //location.reload();
+                } else {
+                    document.getElementById("resultCreate").innerHTML = jsonObject.error;
+                }
+            }
+        };
+        xhr.send(jsonPayload);
+    }
+    catch (err) {
+        document.getElementById("result").innerHTML = err.message;
+    }
 }
 
 // Leave clicked RSO
