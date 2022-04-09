@@ -19,10 +19,11 @@ $latitude = $inData['lat'];
 $long = $inData['long'];
 $addr = $inData['address'];
 $uniid = $inData['uniid'];
-if (is_null($uid) || is_null($eventcat) || is_null($eventname) || is_null($descrip) || is_null($lname) || is_null($latitude) || is_null($long)) {
-    returnWithError("hey uh put some values in here");
-    die();
-}
+    if (is_null($uid) || is_null($eventcat) || is_null($eventname) || is_null($descrip) || is_null($lname) || is_null($latitude) || is_null($long) || is_null($date) || is_null($start) ||
+    is_null($end) || is_null($addr)) {
+        returnWithError("hey uh put some values in here");
+        die();
+    }   
 $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -34,17 +35,34 @@ if (!$conn) {
     $result = $stmt->get_result();
     $stmt->close();
     // Get location id
-    $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    $lid = $row["LAST_INSERT_ID()"];
-    $stmt->close();
+    $lid = 0;
+    if ($result == FALSE) {
+        $stmt = $conn->prepare("SELECT lid FROM Location WHERE address = ?;");
+        $stmt->bind_param("s", $addr);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $lid = $row["lid"];
+        $stmt->close();
+    } else {
+        // Get location id
+        $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $lid = $row["LAST_INSERT_ID()"];
+        $stmt->close();
+    }
     // add it
     $stmt = $conn->prepare("CALL addPrivateEvent( ?, ?,  ?, ?, ?,?,  ?);");
     $stmt->bind_param("ssssssi", $eventname, $eventcat, $descrip, $date, $start, $end, $lid);
     $stmt->execute();
     $result = $stmt->get_result();
+    if ($result == FALSE
+    ) {
+        returnWithError($stmt->error);
+        die();
+    }
     $stmt->close();
     //eid
     $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
@@ -58,12 +76,22 @@ if (!$conn) {
     $stmt->bind_param("ii", $eid, $lid);
     $stmt->execute();
     $result = $stmt->get_result();
+    if ($result == FALSE
+    ) {
+        returnWithError($stmt->error);
+        die();
+    }
     $stmt->close();
     //put in creates priavate
     $stmt = $conn->prepare("INSERT INTO Creates_PrivateEvent (uid, event_id, uni_id) VALUES (?,?,?)");
     $stmt->bind_param("iii",$uid, $eid, $uniid);
     $stmt->execute();
     $result = $stmt->get_result();
+    if ($result == FALSE
+    ) {
+        returnWithError($stmt->error);
+        die();
+    }
     returnWithError($result->error);
     $stmt->close();
     $conn->close();
