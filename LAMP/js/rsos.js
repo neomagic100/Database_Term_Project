@@ -227,8 +227,8 @@ function getRSOs() {
 						var id = results[i].RSOID;
 						list += `<option value="${id}">${name}</option>`;
 						
-						// Save results in local storage.
-						//localStorage.setItem(rsoname, JSON.stringify(results[i]));
+						//Save results in local storage.
+						//localStorage.setItem(name, JSON.stringify(results[i]));
 					}
 					document.getElementById("rsoSelect").innerHTML = list;
 				} 
@@ -247,8 +247,9 @@ function getRSOs() {
 function joinRSO() {
     
 	var select = document.getElementById('rsoSelect');
-	var selectedRSO = select.options[select.selectedIndex].value;
+	var selectedRSO = select.value;
 	var tmp = { uid: parseInt(localStorage.getItem('uid')) , rsoid: parseInt(selectedRSO)};
+	console.log(tmp);
 	var jsonPayload = JSON.stringify(tmp);
 	var url = urlBase + '/joinRSO.' + extension;
 	var xhr = new XMLHttpRequest();
@@ -264,7 +265,7 @@ function joinRSO() {
 				if(jsonObject.error == "")
 				{
 					// Placeholder
-					var temp = 1;
+					location.reload();
 				}
 			}
 		};
@@ -273,8 +274,6 @@ function joinRSO() {
 	catch(err) {
         document.getElementById("rsoSelect").innerHTML = err.message;
 	}
-
-	location.reload();
 }
 
 function createRSO() {
