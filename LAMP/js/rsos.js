@@ -37,7 +37,7 @@ function returnRSOs_ActiveMember(){
 						// Create an RSO event if user is admin and owner
 						list += `<td>                       
 						<button type="button" id="create${i+1}" class="viewButton" 
-						onclick="window.location.href='https://www.goldenknights.systems/createRSOEvent.html';">Create RSO Event</button>`;
+						onclick="setRSOCreate(document.getElementById('RSOActiveView').rows[${i}]).cells[0].innerText;window.location.href='https://www.goldenknights.systems/createRSOEvent.html';">Create RSO Event</button>`;
                         
 						// Leave the selected RSO
 						list += `<td>                       
@@ -129,7 +129,6 @@ function returnRSOs_InactiveMember(){
 function leaveInactiveRSO(row) {
 	var res = "x_RSO"+row;
 	var rso = JSON.parse(localStorage.getItem(res));
-	console.log(rso);
 	var jsonPayload = JSON.stringify(rso);
 	var xhr = new XMLHttpRequest();
     var url = urlBase + '/leaveRSO.' + extension;
@@ -160,6 +159,47 @@ function leaveInactiveRSO(row) {
 	}
 
 	location.reload();
+}
+
+function setRSOCreate(row) {
+	var res = "RSO"+row;
+	localStorage.setItem("CreateRSOev", localStorage.getItem(JSON.stringify(res)));
+}
+
+// Create an RSO Event
+function createRSOEvent(row) {
+	var lbl;
+	var res = "RSO"+row;
+	var rso = JSON.parse(localStorage.getItem(res));
+	var jsonPayload = JSON.stringify(rso);
+	var xhr = new XMLHttpRequest();
+    var url = urlBase + '/createRSOEvent.' + extension; 
+
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				var jsonObject = JSON.parse( xhr.responseText );
+				if(jsonObject.error == "")
+				{
+					// This can change just placeholder.
+					localStorage.setItem(currRSO, JSON.stringify(results[i]));
+				} else 
+				{
+					document.getElementById("RSOActiveView").innerHTML = jsonObject.error;
+				}
+			}
+				
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err) {
+
+	}
 }
 
 // Leave clicked RSO
