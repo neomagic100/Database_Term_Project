@@ -27,7 +27,7 @@ FOR EACH ROW
 		SELECT *
         FROM Events E
         WHERE (E.lid = NEW.lid) AND (E.event_date = NEW.event_date) AND
-			((NEW.event_end - E.event_start) > 0) AND ((E.event_end - NEW.event_start > 0))
+			((NEW.event_end - E.event_start) >= 0) AND ((E.event_end - NEW.event_start >= 0))
 		)
 	)
     THEN
