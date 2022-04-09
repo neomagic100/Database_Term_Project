@@ -22,7 +22,10 @@
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
-
+        if ($stmt->affected_rows == -1) {
+            returnWithError($stmt->error);
+            die();
+        }
         // get last RSO id added
         $stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
         $stmt->execute();
@@ -36,6 +39,7 @@
         $stmt->bind_param("ii", $uid, $rsoID);
         $stmt->execute();
         $result = $stmt->get_result();
+        returnWithError("");
         $stmt->close();
         $conn->close();
     }

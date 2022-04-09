@@ -73,7 +73,6 @@ function returnRSOs_ActiveMember(){
 
 						list += `<td>`;
 						if(set.has(results[i].RSOID)){
-							console.log('hi');
 						list += `<button type="button" id="create${i+1}" class="rsoButton" 
 						onclick="setRSOCreate(document.getElementById('RSOActiveView').rows[${i}].cells[0].innerText);
 						window.location.href='https://www.goldenknights.systems/createRSOEvent.html';">Create RSO Event</button>`;
@@ -296,7 +295,6 @@ function joinRSO() {
 	var select = document.getElementById('rsoSelect');
 	var selectedRSO = select.value;
 	var tmp = { uid: parseInt(localStorage.getItem('uid')) , rsoid: parseInt(selectedRSO)};
-	console.log(tmp);
 	var jsonPayload = JSON.stringify(tmp);
 	var url = urlBase + '/joinRSO.' + extension;
 	var xhr = new XMLHttpRequest();
@@ -341,7 +339,6 @@ function createRSO() {
 					location.reload();
 				}
 				else {
-					location.reload();
                 }
 			}
 		};
@@ -351,5 +348,4 @@ function createRSO() {
 
     }
 
-	location.reload();
 }
