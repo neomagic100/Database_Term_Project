@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS Creates_PrivateEvent (
     event_id INTEGER,
     uni_id INTEGER,
     PRIMARY KEY (uni_id, event_id),
-    FOREIGN KEY (uid) REFERENCES Admins(uid)
+    FOREIGN KEY (uid) REFERENCES Users(uid)
         ON UPDATE CASCADE,
 	FOREIGN KEY (event_id) REFERENCES PrivateEvents(event_id)
 		ON DELETE CASCADE
