@@ -5,22 +5,23 @@
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/create.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCjp0Qq4iEApRkHKpP9Ws1rHHT9U1eW3k&libraries=places"></script>
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCjp0Qq4iEApRkHKpP9Ws1rHHT9U1eW3k&libraries=places"></script>
 
     <script>
 
-   function initialize() {
-        var input = document.getElementById('location');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-        var place = autocomplete.getPlace();
-        document.getElementById('city2').value = place.name;
-        document.getElementById('cityLat').value = place.geometry.location.lat();
-        document.getElementById('cityLng').value = place.geometry.location.lng();
-       });
-    }   
+        function initialize() {
+            var input = document.getElementById('location');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                document.getElementById('city2').value = place.name;
+                document.getElementById('cityLat').value = place.geometry.location.lat();
+                document.getElementById('cityLng').value = place.geometry.location.lng();
+            });
+        }
 
-    google.maps.event.addDomListener(window, 'load', initialize);
+        google.maps.event.addDomListener(window, 'load', initialize);
     </script>
 </head>
 
@@ -39,7 +40,7 @@
         <a id='eventreq' class="link" href="eventRequests.html">View Event Requests</a>
     </div>
 
-    <h1 class="title" id="title">Create a Public Event</h1>
+    <h1 class="title" id="title">Create a Private Event</h1>
 
     <form method="post">
         <input type="text" id="eventName" placeholder="EVENT NAME" /><br />
@@ -64,9 +65,9 @@
             <input type="date" id="date" name="date">
         </div>
 
-        <br/>
-        <button type="button" id="createPublic" class="buttons4" onclick="addPublicEvent();">Create
-            Public Event</button>
+        <br />
+        <button type="button" id="createPublic" class="buttons4" onclick="addPrivateEvent();">Create
+            Private Event</button>
         <div class="resdiv">
             <span id="resultCreate" class="result"></span>
         </div>
