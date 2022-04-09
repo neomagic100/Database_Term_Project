@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Member_of (
 -- Admin Owns RSO
 CREATE TABLE IF NOT EXISTS Owns (
 	uid INTEGER,
-    rso_id INTEGER,
+    rso_id INTEGER UNIQUE,
     PRIMARY KEY (uid, rso_id),
     FOREIGN KEY (uid) REFERENCES Admins(uid)
 		ON DELETE CASCADE
