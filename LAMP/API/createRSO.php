@@ -29,6 +29,7 @@
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
         $rsoID = $row["LAST_INSERT_ID()"];
+        console.log($rsoID);
         $stmt->close();
 
         // Join new RSO
