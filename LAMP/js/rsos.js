@@ -275,5 +275,29 @@ function joinRSO() {
 }
 
 function createRSO() {
-	var rsoName = lo
-}
+	var rsoName = document.getElementById("rsoName").value;
+	var rsoType = document.getElementById("rsoType").value;
+
+	var tmp = { RSOName: rsoName, RSOType: rsoType };
+	var jsonPayload = JSON.stringify(tmp);
+	var xhr = new XMLHttpRequest();
+	var url = urlBase + '/createRSO.' + extension;
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "Application/json, charset=UTF-8");
+	try {
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				var jsonObject = JSON.parse(xhr.responseText);
+				if (jsonObject.error == "") {
+					window.location.href = "/success.html";
+				}
+				else {
+					location.reload();
+                }
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch (err) {
+
+    }
