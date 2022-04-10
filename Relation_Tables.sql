@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS Comments (
     rating INTEGER,
     PRIMARY KEY (uid, event_id, comment_id),
     FOREIGN KEY (uid) REFERENCES Users(uid)
+		ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (event_id) REFERENCES Events(event_id)
 		ON DELETE CASCADE
