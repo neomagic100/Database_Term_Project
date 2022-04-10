@@ -20,21 +20,19 @@
     $long = $inData['long'];
     $addr = $inData['address'];
     $uniid = $inData['uniid'];
-
     if ($end - $start <= 0) {
         returnWithError("Please make sure event times are in the same date");
         die();
     }
-
-    if (is_null($uid) || is_null($eventcat) || is_null($eventname) || is_null($descrip) || is_null($lname) || is_null($latitude) || is_null($long)) {
-    if (is_null($uid) || is_null($eventcat) || is_null($eventname) || is_null($descrip) || is_null($lname) || is_null($latitude) || is_null($long) || is_null($date) || is_null($start) ||
-    is_null($end) || is_null($addr)) {
+    if (
+        is_null($uid) || is_null($eventcat) || is_null($eventname) || is_null($descrip) || is_null($lname) || is_null($latitude) || is_null($long) || is_null($date) || is_null($start) ||
+        is_null($end) || is_null($addr)) {
         returnWithError("hey uh put some values in here");
         die();
     }
-
     $conn = new mysqli($db_server, $db_user, $db_password, $db_name, $db_port);
     if (!$conn) {
+        returnWithError("connection failed");
         die("Connection failed: " . mysqli_connect_error());
     }
     else {
@@ -102,16 +100,14 @@
             $stmt->bind_param("ii", $rsoid, $eid);
             $stmt->execute();
             $result = $stmt->get_result();
-            returnWithError($result->error);
             if ($stmt->affected_rows == -1) {
                 returnWithError($stmt->error);
                 die();
             }
+            returnWithError("");
             $stmt->close();
             $conn->close();
         }
-    }
-
     function returnWithError($err)
     {
         $retValue = '{"error":"' . $err . '"}';
