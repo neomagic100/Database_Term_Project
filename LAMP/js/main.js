@@ -163,6 +163,7 @@ function openModal(row)
 	setTimeout(function(){
 		var locJ = localStorage.getItem(`location${results.Eventid}`);
 		var loc = JSON.parse(locJ);
+		modal.innerHTML += `<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>`;
 		if(loc.lname != "")
 		{
 			// Location
@@ -186,7 +187,16 @@ function openModal(row)
 			modal.appendChild(locHead);
 			modal.appendChild(locP);
 			modal.appendChild(locationInformation);
-			modal.appendChild(address);
+			var script = document.createElement("script")
+			script.charset = "utf-8";
+			document.head.appendChild(script);
+			script.onload = function () {
+				loc.addr = loc.addr.replaceAll(' ', '%20');
+				results.EventName= results.EventName.replaceAll(' ', '%20');
+				console.log(results.EventName);
+				setTimeout(()=>{modal.innerHTML += `<a class ="twitter-share-button" href=https://twitter.com/intent/tweet?text=${results.EventName}%20Event%20being%20held%20at%20${loc.addr}>Tweet</a>`}, 50);
+			};  
+			script.src = "https://platform.twitter.com/widgets.js";
 			//Comments
 			var comments = localStorage.getItem(`comments${results.Eventid}`);
 			comments = JSON.parse(comments);
