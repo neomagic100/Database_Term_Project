@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Admins (
         ON UPDATE CASCADE
 );
 
--- Admins subclass of Users
+-- Super Admins subclass of Users
 -- Store passwords hashed
 CREATE TABLE IF NOT EXISTS Superusers (
 	uid INTEGER NOT NULL,
