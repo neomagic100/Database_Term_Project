@@ -26,16 +26,17 @@ CREATE VIEW PrivateEventView AS
 
 -- -- View to see RSO events, date and time formatted, ordered chronologically
 CREATE VIEW RSOEventView AS
-    SELECT E.event_id, event_name, C.rso_id, descrip, DATE_FORMAT(event_date, '%a, %b %d, %Y') AS event_date,
-		TIME_FORMAT(event_start, '%h:%i %p') AS event_start, 
-        TIME_FORMAT(event_end, '%h:%i %p') AS event_end
-    FROM RSOEvents E, Creates_RSOEvent C
-    INNER JOIN Events USING (event_id)
-    WHERE E.is_published = 1 AND (
-		SELECT R.rso_id
+    SELECT DISTINCT(RE.event_id), RE.event_name, C.rso_id, RE.descrip, DATE_FORMAT(E.event_date, '%a, %b %d, %Y') AS event_date,
+		TIME_FORMAT(E.event_start, '%h:%i %p') AS event_start, 
+        TIME_FORMAT(E.event_end, '%h:%i %p') AS event_end
+    FROM Events E
+    INNER JOIN RSOEvents RE USING (event_id)
+    INNER JOIN Creates_RSOEvent C USING (event_id)
+    WHERE RE.is_published = 1 AND (
+		SELECT DISTINCT R.rso_id
         FROM RSOs R
-        WHERE R.rso_id = C.rso_id AND R.is_active = 1)
-    ORDER BY Events.event_date, Events.event_start;
+        WHERE R.rso_id = C.rso_id AND R.is_active = 1
+	);
 
 CREATE VIEW ActiveRSOs AS
 	SELECT U.uid, R.rso_id, R.rname, R.rtype
