@@ -46,28 +46,34 @@
 			'EventStart' => $row["event_start"], 'EventType' => "Private", "EventEnd" => $row["event_end"]));
 		}
 		$stmt-> close();
-		//Get RSO ID
+		//Get RSO IDs
 		$rso_id = 0;
 		$stmt = $conn->prepare("SELECT rso_id FROM Member_of WHERE uid = ?");
 		$stmt->bind_param("i", $inData['uid']);
 		$stmt->execute();
 		$res = $stmt->get_result();
-		$res = $res->fetch_assoc();
-		$rso_id = $res['rso_id'];
+		$rsoids = array();
+		while($row = $res->fetch_assoc())
+		{
+			array_push($rsoids, $row['rso_id']);
+		}
 		$stmt->close();
 
 		//Get RSO Events based on RSO id.
-		$stmt = $conn->prepare("SELECT * FROM RSOEventView WHERE rso_id = ?");
-		$stmt->bind_param("i", $rso_id);
-		$stmt->execute();
-		$res = $stmt->get_result();
-		while ($row = $res->fetch_assoc()) {
-			array_push($results, array(
-				'EventName' => $row["event_name"], 'Eventid' => $row["event_id"], 'Description' => $row['descrip'], 'EventDate' => $row['event_date'],
-				'EventStart' => $row["event_start"], 'EventType' => "RSO", "EventEnd" => $row["event_end"]
-			));
+		foreach($rsoids as $rsoid)
+		{
+			$stmt = $conn->prepare("SELECT * FROM RSOEventView WHERE rso_id = ?");
+			$stmt->bind_param("i", $rsoid);
+			$stmt->execute();
+			$res = $stmt->get_result();
+			while ($row = $res->fetch_assoc()) {
+				array_push($results, array(
+					'EventName' => $row["event_name"], 'Eventid' => $row["event_id"], 'Description' => $row['descrip'], 'EventDate' => $row['event_date'],
+					'EventStart' => $row["event_start"], 'EventType' => "RSO", "EventEnd" => $row["event_end"]
+				));
+			}
+			$stmt->close();
 		}
-		$stmt->close();
         returnWithInfo(json_encode($results), $uni_id);
         $conn->close();
 	}
