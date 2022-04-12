@@ -32,20 +32,29 @@
         $num_members = $row["COUNT(*)"];
         $stmt->close();
 
-        // If the new addition makes 5 people, add 1 to admins and owns
-        if ($num_members == 5)
+        // Check if there is an Owner of the RSO
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM Owns WHERE rso_id = ?;");
+        $stmt->bind_param("i", $rso_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $ownerExists = $row["COUNT(*)"];
+        $stmt->close();
+
+        // If the new addition makes 5 people, and there is no owner of the RSO
+        if ($num_members >= 5 && $ownerExists == 0)
         {
-            // Check if there is already an Owner of the RSO
-            $stmt = $conn->prepare("SELECT COUNT(*) FROM Owns WHERE rso_id = ?;");
-            $stmt->bind_param("i", $rso_id);
+            // Check if current user is an Admin already
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM Admins WHERE user_id = ?;");
+            $stmt->bind_param("i", $uid);
             $stmt->execute();
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
-            $ownerExists = $row["COUNT(*)"];
+            $isAdmin = $row["COUNT(*)"];
             $stmt->close();
-
-            // If an owner does not yet exist
-            if ($ownerExists = 0)
+            
+            // If they are not an Admin, add them to admin table
+            if ($isAdmin == 0)
             {
                 // Add the new user to Admins
                 $stmt = $conn->prepare("INSERT INTO Admins SELECT * FROM Users WHERE user_id = ?;");
@@ -53,14 +62,15 @@
                 $stmt->execute();
                 $result = $stmt->get_result();
                 $stmt->close();
-
-                // Add the new Admin to Owns
-                $stmt = $conn->prepare("INSERT INTO Owns (uid, rso_id) VALUES (?,?);");
-                $stmt->bind_param("ii", $uid, $rso_id);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $stmt->close();
-            }            
+            }
+            
+            // Add the new Admin to Owns
+            $stmt = $conn->prepare("INSERT INTO Owns (uid, rso_id) VALUES (?,?);");
+            $stmt->bind_param("ii", $uid, $rso_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $stmt->close();
+                
         }  
 
         $conn->close();
