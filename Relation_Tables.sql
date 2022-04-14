@@ -109,13 +109,13 @@ CREATE TABLE IF NOT EXISTS Creates_Profile (
 -- Located at table for events (public, private, rso)
 -- May not be used
 CREATE TABLE IF NOT EXISTS Located_at (
-	event_id INTEGER,
+    event_id INTEGER,
     lid INTEGER,
-    PRIMARY KEY (event_id, lid),
-    FOREIGN KEY (event_id) REFERENCES Events (event_id)
-		ON DELETE CASCADE
-        ON UPDATE CASCADE,
-	FOREIGN KEY (lid) REFERENCES Location (lid)
-		ON DELETE CASCADE
-        ON UPDATE CASCADE
+    PRIMARY KEY (event_id , lid),
+    FOREIGN KEY (event_id)
+        REFERENCES Events (event_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (lid)
+        REFERENCES Location (lid)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
