@@ -31,7 +31,7 @@ function editComment(eid, row)
     document.getElementById('delBut').remove();
     var cmnt = cmntP.innerHTML;
     setTimeout(() => {cmntP.remove();}, 200);
-    var cmntDiv = document.getElementById('cmntdiv');
+    var cmntDiv = document.getElementById(`cmntdiv${localStorage.getItem("uid")}`);
     var area = document.createElement('textarea');
     area.setAttribute('id', 'editarea');
     area.innerText = cmnt;

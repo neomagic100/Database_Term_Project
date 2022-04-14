@@ -188,7 +188,7 @@ function openModal(row)
 			modal.appendChild(locP);
 			modal.appendChild(locationInformation);
 			var script = document.createElement("script")
-			script.charset = "utf-8";
+			script.charset = "utf-	8";
 			document.head.appendChild(script);
 			script.onload = function () {
 				loc.addr = loc.addr.replaceAll(' ', '%20');
@@ -208,7 +208,7 @@ function openModal(row)
 			for(var i = 0; i < comments.length; i++)
 			{
 				var commentdiv = document.createElement('div');
-				commentdiv.setAttribute('id', 'cmntdiv');
+				commentdiv.setAttribute('id', `cmntdiv${comments[i].uid}`);
 				commentdiv.classList.add('indcomment');
 				var username = document.createTextNode(comments[i].user);
 				var time = document.createTextNode(comments[i].time);
