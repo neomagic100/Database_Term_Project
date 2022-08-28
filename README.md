@@ -1,7 +1,8 @@
 # Database Term Project<br /><br />
 
 A full stack LAMP application to manage Universities, their students, RSOs, and manage their events.<br />
-<img src="https://img.shields.io/neomagic100/last-modified/Database_Term_Project" alt="Last Modified"><br />
+<img src="https://img.shields.io/neomagic100/last-modified/Database_Term_Project" alt="Last Modified">
+<img src="https://img.shields.io/github/license/neomagic100/Database_Term_Project" alt="License"><br />
 
 <h2>Prerequisites:</h2>
 <ul>
