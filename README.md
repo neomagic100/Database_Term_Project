@@ -1,6 +1,7 @@
 # Database Term Project<br /><br />
 
 A full stack LAMP application to manage Universities, their students, RSOs, and manage their events.<br />
+<img src="https://img.shields.io/aur/last-modified/Database_Term_Project" alt="Last Modified"><br />
 
 <h2>Prerequisites:</h2>
 <ul>
